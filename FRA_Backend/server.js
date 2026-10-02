@@ -82,14 +82,15 @@ app.get('/api', (req, res) => {
 
 // Import Routes
 const authRoutes = require('./routes/authRoutes');
+const recipeRoutes = require('./routes/recipeRoutes');
+const shoppingListRoutes = require('./routes/shoppingListRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 // Mount Routes
 app.use('/api/auth', authRoutes);
-// app.use('/api/recipes', recipeRoutes);
-// app.use('/api/users', userRoutes);
-// app.use('/api/shopping-list', shoppingListRoutes);
-// app.use('/api/upload', uploadRoutes);
-// app.use('/api/admin', adminRoutes);
+app.use('/api/recipes', recipeRoutes);
+app.use('/api/shopping-list', shoppingListRoutes);
+app.use('/api/admin', adminRoutes);
 
 // 404 & Centralized Error Handlers
 app.use(notFound);

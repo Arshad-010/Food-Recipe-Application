@@ -26,5 +26,8 @@
     "morgan": "^1.12.1",
     "multer": "^2.4.0",
     "slugify": "^1.6.9"
+  },
+  "devDependencies": {
+    "mongodb-memory-server": "^11.3.0"
   }
 }

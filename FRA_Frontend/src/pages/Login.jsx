@@ -41,7 +41,13 @@ export default function Login() {
 
   const handleFillDemoAdmin = () => {
     setEmail('admin@recipehaven.com');
-    setPassword('Password123!');
+    setPassword('Password@123');
+    setError('');
+  };
+
+  const handleFillDemoUser = () => {
+    setEmail('chef@recipehaven.com');
+    setPassword('Password@123');
     setError('');
   };
 
@@ -61,19 +67,28 @@ export default function Login() {
           </p>
         </div>
 
-        {/* Demo Fast Fill Button */}
-        <div className="p-3 rounded-2xl bg-amber-50/80 border border-amber-200/70 flex items-center justify-between text-xs">
-          <div className="flex items-center gap-2 text-amber-900 font-medium">
+        {/* Demo Fast Fill Buttons */}
+        <div className="p-3 rounded-2xl bg-amber-50/80 border border-amber-200/70 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+          <div className="flex items-center gap-1.5 text-amber-900 font-medium">
             <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
-            <span>Quick test credentials available</span>
+            <span>Test accounts:</span>
           </div>
-          <button
-            type="button"
-            onClick={handleFillDemoAdmin}
-            className="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-semibold shadow-xs transition-colors"
-          >
-            Fill Admin Demo
-          </button>
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={handleFillDemoAdmin}
+              className="px-2.5 py-1 rounded-lg bg-orange-600 hover:bg-orange-700 text-white font-semibold shadow-xs transition-colors cursor-pointer"
+            >
+              Admin Demo
+            </button>
+            <button
+              type="button"
+              onClick={handleFillDemoUser}
+              className="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-semibold shadow-xs transition-colors cursor-pointer"
+            >
+              Chef Demo
+            </button>
+          </div>
         </div>
 
         {/* Error Alert */}

@@ -6,7 +6,15 @@ import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+
+// Pages
 import Home from './pages/Home';
+import Recipes from './pages/Recipes';
+import RecipeDetail from './pages/RecipeDetail';
+import CreateEditRecipe from './pages/CreateEditRecipe';
+import Favorites from './pages/Favorites';
+import ShoppingList from './pages/ShoppingList';
+import AdminDashboard from './pages/AdminDashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
@@ -20,18 +28,82 @@ function App() {
             <Navbar />
             <main className="flex-1 flex flex-col">
               <Routes>
-                {/* Public Routes */}
+                {/* Public Discovery Routes */}
                 <Route path="/" element={<Home />} />
+                <Route path="/recipes" element={<Recipes />} />
+                <Route path="/recipes/:id" element={<RecipeDetail />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
 
                 {/* Protected User Routes */}
+                <Route
+                  path="/create-recipe"
+                  element={
+                    <ProtectedRoute>
+                      <CreateEditRecipe />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/edit-recipe/:id"
+                  element={
+                    <ProtectedRoute>
+                      <CreateEditRecipe />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/favorites"
+                  element={
+                    <ProtectedRoute>
+                      <Favorites />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/saved-recipes"
+                  element={
+                    <ProtectedRoute>
+                      <Favorites />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/my-recipes"
+                  element={
+                    <ProtectedRoute>
+                      <Favorites />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/shopping-list"
+                  element={
+                    <ProtectedRoute>
+                      <ShoppingList />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route
                   path="/profile"
                   element={
                     <ProtectedRoute>
                       <Profile />
                     </ProtectedRoute>
+                  }
+                />
+
+                {/* Admin Management Routes */}
+                <Route
+                  path="/admin"
+                  element={<Navigate to="/admin/dashboard" replace />}
+                />
+                <Route
+                  path="/admin/dashboard"
+                  element={
+                    <AdminRoute>
+                      <AdminDashboard />
+                    </AdminRoute>
                   }
                 />
 
