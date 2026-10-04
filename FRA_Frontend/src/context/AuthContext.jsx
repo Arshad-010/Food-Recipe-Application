@@ -132,6 +132,24 @@ export function AuthProvider({ children }) {
     }
   };
 
+  // Fast login helpers for User and Admin
+  const loginAsDemoUser = async () => {
+    return await login('chef@recipehaven.com', 'Password@123');
+  };
+
+  const loginAsDemoAdmin = async () => {
+    return await login('admin@recipehaven.com', 'Password@123');
+  };
+
+  // Switch between demo accounts seamlessly
+  const switchRole = async () => {
+    if (user?.role === 'admin') {
+      return await loginAsDemoUser();
+    } else {
+      return await loginAsDemoAdmin();
+    }
+  };
+
   const value = {
     user,
     token,
@@ -144,9 +162,13 @@ export function AuthProvider({ children }) {
     updateProfile,
     updatePreferences,
     changePassword,
+    loginAsDemoUser,
+    loginAsDemoAdmin,
+    switchRole,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+
 }
 
 export function useAuth() {

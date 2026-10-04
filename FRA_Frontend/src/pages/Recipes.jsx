@@ -10,15 +10,21 @@ import {
   UtensilsCrossed,
   ChefHat,
   Clock,
+  Layers,
+  CheckCircle,
 } from 'lucide-react';
 import api from '../api/axios';
 import RecipeCard from '../components/RecipeCard';
+import SearchAutocomplete from '../components/SearchAutocomplete';
 
 export default function Recipes() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // State initialized from URL query parameters
   const [searchTerm, setSearchTerm] = useState(searchParams.get('q') || '');
+  const [ingredientSearch, setIngredientSearch] = useState(searchParams.get('ingredients') || '');
+  const [showIngredientBox, setShowIngredientBox] = useState(Boolean(searchParams.get('ingredients')));
+
   const [selectedCuisine, setSelectedCuisine] = useState(searchParams.get('cuisine') || 'All');
   const [selectedMealType, setSelectedMealType] = useState(searchParams.get('mealType') || 'All');
   const [selectedDifficulty, setSelectedDifficulty] = useState(searchParams.get('difficulty') || 'All');
@@ -32,11 +38,12 @@ export default function Recipes() {
   const [totalCount, setTotalCount] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
 
   // Sync state when URL params change
   useEffect(() => {
     setSearchTerm(searchParams.get('q') || '');
+    setIngredientSearch(searchParams.get('ingredients') || '');
+    if (searchParams.get('ingredients')) setShowIngredientBox(true);
     setSelectedCuisine(searchParams.get('cuisine') || 'All');
     setSelectedMealType(searchParams.get('mealType') || 'All');
     setSelectedDifficulty(searchParams.get('difficulty') || 'All');
@@ -53,22 +60,38 @@ export default function Recipes() {
         setLoading(true);
         const params = new URLSearchParams();
 
-        if (searchTerm) params.append('q', searchTerm);
-        if (selectedCuisine && selectedCuisine !== 'All') params.append('cuisine', selectedCuisine);
-        if (selectedMealType && selectedMealType !== 'All') params.append('mealType', selectedMealType);
-        if (selectedDifficulty && selectedDifficulty !== 'All') params.append('difficulty', selectedDifficulty);
-        if (selectedMaxTime) params.append('maxTime', selectedMaxTime);
-        if (selectedDietaryTag && selectedDietaryTag !== 'All') params.append('dietaryTag', selectedDietaryTag);
-        if (selectedFoodType && selectedFoodType !== 'All') params.append('foodType', selectedFoodType);
-        if (selectedSort) params.append('sort', selectedSort);
-        params.append('page', currentPage);
-        params.append('limit', 12);
+        if (ingredientSearch.trim()) {
+          // If searching by ingredients, use dedicated search endpoint
+          params.append('ingredients', ingredientSearch.trim());
+          if (searchTerm) params.append('q', searchTerm.trim());
+          params.append('page', currentPage);
+          params.append('limit', 12);
 
-        const res = await api.get(`/recipes?${params.toString()}`);
-        if (res.success) {
-          setRecipes(res.recipes || []);
-          setTotalCount(res.total || 0);
-          setTotalPages(res.totalPages || 1);
+          const res = await api.get(`/recipes/search?${params.toString()}`);
+          if (res.success) {
+            setRecipes(res.recipes || []);
+            setTotalCount(res.total || 0);
+            setTotalPages(res.totalPages || 1);
+          }
+        } else {
+          // Standard filtered list
+          if (searchTerm) params.append('q', searchTerm);
+          if (selectedCuisine && selectedCuisine !== 'All') params.append('cuisine', selectedCuisine);
+          if (selectedMealType && selectedMealType !== 'All') params.append('mealType', selectedMealType);
+          if (selectedDifficulty && selectedDifficulty !== 'All') params.append('difficulty', selectedDifficulty);
+          if (selectedMaxTime) params.append('maxTime', selectedMaxTime);
+          if (selectedDietaryTag && selectedDietaryTag !== 'All') params.append('dietaryTag', selectedDietaryTag);
+          if (selectedFoodType && selectedFoodType !== 'All') params.append('foodType', selectedFoodType);
+          if (selectedSort) params.append('sort', selectedSort);
+          params.append('page', currentPage);
+          params.append('limit', 12);
+
+          const res = await api.get(`/recipes?${params.toString()}`);
+          if (res.success) {
+            setRecipes(res.recipes || []);
+            setTotalCount(res.total || 0);
+            setTotalPages(res.totalPages || 1);
+          }
         }
       } catch (err) {
         console.error('Failed to fetch recipes:', err);
@@ -80,6 +103,7 @@ export default function Recipes() {
     fetchRecipes();
   }, [
     searchTerm,
+    ingredientSearch,
     selectedCuisine,
     selectedMealType,
     selectedDifficulty,
@@ -104,12 +128,18 @@ export default function Recipes() {
   };
 
   const handleSearchSubmit = (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     updateFilterParam('q', searchTerm.trim());
+  };
+
+  const handleIngredientSearchSubmit = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    updateFilterParam('ingredients', ingredientSearch.trim());
   };
 
   const resetAllFilters = () => {
     setSearchTerm('');
+    setIngredientSearch('');
     setSelectedCuisine('All');
     setSelectedMealType('All');
     setSelectedDifficulty('All');
@@ -131,6 +161,8 @@ export default function Recipes() {
     'American',
     'French',
     'Thai',
+    'Chinese',
+    'Spanish',
   ];
 
   const mealTypesList = [
@@ -162,6 +194,7 @@ export default function Recipes() {
     selectedDietaryTag !== 'All',
     selectedFoodType !== 'All',
     Boolean(searchTerm),
+    Boolean(ingredientSearch),
   ].filter(Boolean).length;
 
   return (
@@ -178,36 +211,92 @@ export default function Recipes() {
 
       {/* Search and Top Controls */}
       <div className="bg-white rounded-3xl border border-stone-200/80 p-4 sm:p-5 shadow-xs mb-8 space-y-4">
+        {/* Keyword Search with Live Autocomplete Suggestions */}
         <form onSubmit={handleSearchSubmit} className="flex gap-2">
-          <div className="relative flex-1">
-            <Search className="w-5 h-5 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search recipes by name or ingredients (e.g., chicken, garlic, tomatoes)..."
-              className="w-full pl-11 pr-4 py-3 rounded-2xl bg-stone-50 border border-stone-200 text-stone-900 placeholder-stone-400 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:bg-white transition-all"
-            />
-            {searchTerm && (
-              <button
-                type="button"
-                onClick={() => {
-                  setSearchTerm('');
-                  updateFilterParam('q', '');
-                }}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 p-1"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            )}
-          </div>
+          <SearchAutocomplete
+            value={searchTerm}
+            onChange={setSearchTerm}
+            onSearch={handleSearchSubmit}
+            placeholder="Search recipes by name (e.g. Butter Chicken, Pasta, Ramen)..."
+            className="flex-1"
+          />
           <button
             type="submit"
-            className="px-6 py-3 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm shadow-xs transition-colors cursor-pointer"
+            className="px-6 py-3 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm shadow-xs transition-colors cursor-pointer shrink-0"
           >
             Search
           </button>
+          <button
+            type="button"
+            onClick={() => setShowIngredientBox(!showIngredientBox)}
+            className={`px-4 py-3 rounded-2xl font-bold text-xs transition-colors cursor-pointer shrink-0 flex items-center gap-1.5 border ${
+              showIngredientBox
+                ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
+                : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100'
+            }`}
+          >
+            <Sparkles className="w-4 h-4 text-emerald-600" />
+            <span>Search by Ingredients</span>
+          </button>
         </form>
+
+        {/* Dedicated "What's in your fridge?" Ingredient Search Box */}
+        {showIngredientBox && (
+          <div className="p-4 rounded-2xl bg-emerald-50/50 border border-emerald-200/80 space-y-2 animate-in fade-in duration-200">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold text-emerald-950 uppercase tracking-wider flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                Find Recipes with Your Available Ingredients (Ranked by Match):
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowIngredientBox(false);
+                  if (ingredientSearch) {
+                    setIngredientSearch('');
+                    updateFilterParam('ingredients', '');
+                  }
+                }}
+                className="text-xs text-stone-400 hover:text-stone-700"
+              >
+                Close
+              </button>
+            </div>
+
+            <form onSubmit={handleIngredientSearchSubmit} className="flex gap-2">
+              <input
+                type="text"
+                value={ingredientSearch}
+                onChange={(e) => setIngredientSearch(e.target.value)}
+                placeholder="Enter ingredients separated by commas (e.g. garlic, tomatoes, chicken, onion)..."
+                className="flex-1 px-4 py-2.5 rounded-xl bg-white border border-emerald-300 text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              />
+              <button
+                type="submit"
+                className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-xs transition-colors cursor-pointer"
+              >
+                Match Recipes
+              </button>
+            </form>
+
+            <div className="flex flex-wrap items-center gap-1.5 pt-1 text-xs text-stone-600">
+              <span className="font-semibold text-emerald-800 text-[11px]">Quick picks:</span>
+              {['garlic, tomato, pasta', 'chicken, ginger, garlic', 'potato, onion, cheese', 'egg, bread, milk'].map((quick) => (
+                <button
+                  key={quick}
+                  type="button"
+                  onClick={() => {
+                    setIngredientSearch(quick);
+                    updateFilterParam('ingredients', quick);
+                  }}
+                  className="px-2.5 py-0.5 rounded-lg bg-white border border-emerald-200 text-stone-700 hover:bg-emerald-100 text-[11px] font-medium transition-colors"
+                >
+                  +{quick}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Filter Toolbar */}
         <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-stone-100">
@@ -279,7 +368,11 @@ export default function Recipes() {
 
             {/* Veg / Non-Veg Filter */}
             <div className="flex items-center rounded-xl border border-stone-200 overflow-hidden text-xs font-semibold">
-              {[{ label: 'All Food', value: 'All' }, { label: '🥦 Veg', value: 'Veg' }, { label: '🍗 Non-Veg', value: 'Non-Veg' }].map((opt) => (
+              {[
+                { label: 'All Food', value: 'All' },
+                { label: '🥦 Veg', value: 'Veg' },
+                { label: '🍗 Non-Veg', value: 'Non-Veg' },
+              ].map((opt) => (
                 <button
                   key={opt.value}
                   type="button"
@@ -336,6 +429,11 @@ export default function Recipes() {
         <p className="text-sm font-semibold text-stone-600">
           Showing <span className="text-stone-900 font-bold">{recipes.length}</span> of{' '}
           <span className="text-stone-900 font-bold">{totalCount}</span> recipes
+          {ingredientSearch && (
+            <span className="ml-2 text-xs font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full">
+              Matched by: {ingredientSearch}
+            </span>
+          )}
         </p>
       </div>
 

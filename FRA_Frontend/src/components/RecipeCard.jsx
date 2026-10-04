@@ -119,6 +119,12 @@ export default function RecipeCard({ recipe, onFavoriteToggle, onBookmarkToggle 
               Featured
             </span>
           )}
+          {recipe.matchCount !== undefined && (
+            <span className="px-2 py-0.5 rounded-xl text-[10px] font-bold bg-emerald-600 text-white flex items-center gap-1 shadow-xs">
+              <Sparkles className="w-2.5 h-2.5" />
+              {recipe.matchCount} Match ({recipe.matchPercentage}%)
+            </span>
+          )}
         </div>
 
         {/* Action Buttons (Heart + Bookmark) */}

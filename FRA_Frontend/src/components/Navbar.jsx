@@ -17,15 +17,18 @@ import {
   Menu,
   X,
   ChevronDown,
+  Repeat,
+  Sparkles,
 } from 'lucide-react';
 
 export default function Navbar() {
-  const { user, isAuthenticated, isAdmin, logout } = useAuth();
+  const { user, isAuthenticated, isAdmin, logout, switchRole } = useAuth();
   const { showToast } = useToast();
   const navigate = useNavigate();
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [switching, setSwitching] = useState(false);
   const dropdownRef = useRef(null);
 
   // Close dropdown on click outside
@@ -44,6 +47,27 @@ export default function Navbar() {
     setDropdownOpen(false);
     showToast('You have been signed out successfully.', 'info');
     navigate('/');
+  };
+
+  const handleQuickRoleSwitch = async () => {
+    try {
+      setSwitching(true);
+      const res = await switchRole();
+      setSwitching(false);
+      if (res.success) {
+        setDropdownOpen(false);
+        const newRole = res.user.role === 'admin' ? 'Administrator' : 'Home Chef';
+        showToast(`Switched account to ${newRole} (${res.user.name})!`, 'success');
+        if (res.user.role === 'admin') {
+          navigate('/admin/dashboard');
+        } else {
+          navigate('/');
+        }
+      }
+    } catch (err) {
+      setSwitching(false);
+      showToast(err.message || 'Failed to switch role', 'error');
+    }
   };
 
   return (
@@ -130,13 +154,13 @@ export default function Navbar() {
               }
             >
               <Shield className="w-4 h-4 text-orange-600" />
-              Admin
+              Admin Dashboard
             </NavLink>
           )}
         </nav>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           {isAuthenticated ? (
             <>
               {/* Create Recipe Button */}
@@ -160,22 +184,61 @@ export default function Navbar() {
                     alt={user?.name}
                     className="w-8 h-8 rounded-xl object-cover"
                   />
-                  <span className="hidden sm:block text-xs font-semibold text-stone-800 max-w-[100px] truncate">
-                    {user?.name}
-                  </span>
+                  <div className="hidden sm:flex flex-col text-left">
+                    <span className="text-xs font-bold text-stone-800 max-w-[110px] truncate leading-tight">
+                      {user?.name}
+                    </span>
+                    <span
+                      className={`text-[10px] font-semibold leading-none ${
+                        isAdmin ? 'text-orange-700' : 'text-amber-700'
+                      }`}
+                    >
+                      {isAdmin ? '🛡️ Admin' : '👤 Home Chef'}
+                    </span>
+                  </div>
                   <ChevronDown className="w-3.5 h-3.5 text-stone-500" />
                 </button>
 
                 {/* Dropdown Menu */}
                 {dropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-stone-200/90 py-2 z-50 animate-fade-in text-stone-800 text-sm">
+                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-2xl shadow-xl border border-stone-200/90 py-2 z-50 animate-fade-in text-stone-800 text-sm">
                     {/* User header */}
                     <div className="px-4 py-2 border-b border-stone-100">
-                      <p className="font-bold text-stone-900 truncate">{user?.name}</p>
-                      <p className="text-xs text-stone-600 truncate">{user?.email}</p>
-                      <span className="inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] uppercase font-bold tracking-wider bg-amber-100 text-amber-900 border border-amber-200">
-                        {user?.role}
-                      </span>
+                      <div className="flex items-center justify-between">
+                        <p className="font-bold text-stone-900 truncate">{user?.name}</p>
+                        <span
+                          className={`px-2 py-0.5 rounded-full text-[10px] uppercase font-bold tracking-wider ${
+                            isAdmin
+                              ? 'bg-orange-100 text-orange-800 border border-orange-200'
+                              : 'bg-amber-100 text-amber-800 border border-amber-200'
+                          }`}
+                        >
+                          {user?.role}
+                        </span>
+                      </div>
+                      <p className="text-xs text-stone-500 truncate mt-0.5">{user?.email}</p>
+                    </div>
+
+                    {/* Instant 1-Click Role Switcher */}
+                    <div className="p-2 border-b border-stone-100 bg-stone-50/70">
+                      <button
+                        type="button"
+                        onClick={handleQuickRoleSwitch}
+                        disabled={switching}
+                        className={`w-full py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-between cursor-pointer border shadow-2xs ${
+                          isAdmin
+                            ? 'bg-amber-50 hover:bg-amber-100 text-amber-900 border-amber-200'
+                            : 'bg-orange-50 hover:bg-orange-100 text-orange-900 border-orange-200'
+                        }`}
+                      >
+                        <span className="flex items-center gap-1.5">
+                          <Repeat className="w-3.5 h-3.5" />
+                          <span>{isAdmin ? 'Switch to User (Chef Demo)' : 'Switch to Admin Demo'}</span>
+                        </span>
+                        <span className="text-[10px] bg-white px-1.5 py-0.5 rounded font-mono shadow-2xs">
+                          1-Click
+                        </span>
+                      </button>
                     </div>
 
                     <div className="py-1">
@@ -240,7 +303,7 @@ export default function Navbar() {
                       <button
                         type="button"
                         onClick={handleLogout}
-                        className="w-full flex items-center gap-2.5 px-4 py-2 text-rose-600 hover:bg-rose-50 transition-colors text-left"
+                        className="w-full flex items-center gap-2.5 px-4 py-2 text-rose-600 hover:bg-rose-50 transition-colors text-left cursor-pointer"
                       >
                         <LogOut className="w-4 h-4" />
                         <span>Sign Out</span>
@@ -251,22 +314,34 @@ export default function Navbar() {
               </div>
             </>
           ) : (
-            <>
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              {/* User Login Direct Link */}
               <Link
-                to="/login"
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-stone-300 hover:border-amber-500 text-stone-700 hover:text-amber-600 text-sm font-medium transition-all"
+                to="/login?role=user"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-200 hover:border-amber-400 text-stone-800 hover:text-amber-700 text-xs sm:text-sm font-semibold transition-all hover:bg-stone-50"
               >
-                <LogIn className="w-4 h-4" />
-                <span>Sign In</span>
+                <User className="w-3.5 h-3.5 text-amber-600" />
+                <span>User Login</span>
               </Link>
 
+              {/* Admin Login Direct Link */}
+              <Link
+                to="/login?role=admin"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-orange-200 bg-orange-50/70 hover:bg-orange-100 text-orange-800 text-xs sm:text-sm font-semibold transition-all"
+              >
+                <Shield className="w-3.5 h-3.5 text-orange-600" />
+                <span className="hidden sm:inline">Admin Login</span>
+                <span className="sm:hidden">Admin</span>
+              </Link>
+
+              {/* Sign Up */}
               <Link
                 to="/register"
-                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium shadow-xs transition-all hover:shadow"
+                className="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-semibold shadow-xs transition-all hover:shadow"
               >
                 <span>Sign Up</span>
               </Link>
-            </>
+            </div>
           )}
 
           {/* Mobile Menu Button */}
@@ -340,6 +415,17 @@ export default function Navbar() {
                 type="button"
                 onClick={() => {
                   setMobileMenuOpen(false);
+                  handleQuickRoleSwitch();
+                }}
+                className="w-full text-left px-3 py-2 rounded-lg text-base font-semibold text-amber-800 hover:bg-amber-50 flex items-center gap-2"
+              >
+                <Repeat className="w-4 h-4" />
+                <span>{isAdmin ? 'Switch to User (Chef Demo)' : 'Switch to Admin Demo'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
                   handleLogout();
                 }}
                 className="w-full text-left px-3 py-2 rounded-lg text-base font-medium text-rose-600 hover:bg-rose-50"
@@ -350,16 +436,25 @@ export default function Navbar() {
           ) : (
             <div className="pt-2 flex flex-col gap-2">
               <Link
-                to="/login"
+                to="/login?role=user"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full text-center py-2 rounded-xl border border-stone-300 text-stone-800 font-medium"
+                className="w-full text-center py-2.5 rounded-xl border border-stone-200 text-stone-800 font-bold text-sm flex items-center justify-center gap-2"
               >
-                Sign In
+                <User className="w-4 h-4 text-amber-600" />
+                <span>User / Chef Login</span>
+              </Link>
+              <Link
+                to="/login?role=admin"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full text-center py-2.5 rounded-xl bg-orange-50 border border-orange-200 text-orange-900 font-bold text-sm flex items-center justify-center gap-2"
+              >
+                <Shield className="w-4 h-4 text-orange-600" />
+                <span>Administrator Login</span>
               </Link>
               <Link
                 to="/register"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full text-center py-2 rounded-xl bg-amber-600 text-white font-medium"
+                className="w-full text-center py-2.5 rounded-xl bg-amber-600 text-white font-bold text-sm"
               >
                 Create Account
               </Link>

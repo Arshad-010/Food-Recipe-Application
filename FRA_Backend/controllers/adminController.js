@@ -247,6 +247,162 @@ const adminDeleteRecipe = async (req, res, next) => {
   }
 };
 
+/**
+ * @desc Get all reviews and comments across recipes for moderation
+ * @route GET /api/admin/moderation
+ * @access Private (Admin only)
+ */
+const getRecentFeedback = async (req, res, next) => {
+  try {
+    const recipes = await Recipe.find({}, 'title reviews comments image cuisine')
+      .sort({ updatedAt: -1 })
+      .lean();
+
+    const allReviews = [];
+    const allComments = [];
+
+    recipes.forEach((r) => {
+      if (Array.isArray(r.reviews)) {
+        r.reviews.forEach((rev) => {
+          allReviews.push({
+            ...rev,
+            recipeId: r._id,
+            recipeTitle: r.title,
+            recipeImage: r.image,
+          });
+        });
+      }
+      if (Array.isArray(r.comments)) {
+        r.comments.forEach((comm) => {
+          allComments.push({
+            ...comm,
+            recipeId: r._id,
+            recipeTitle: r.title,
+            recipeImage: r.image,
+          });
+        });
+      }
+    });
+
+    allReviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    allComments.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    res.status(200).json({
+      success: true,
+      reviews: allReviews.slice(0, 50),
+      comments: allComments.slice(0, 50),
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @desc Admin delete an inappropriate review
+ * @route DELETE /api/admin/reviews/:recipeId/:reviewId
+ * @access Private (Admin only)
+ */
+const moderateReview = async (req, res, next) => {
+  try {
+    const { recipeId, reviewId } = req.params;
+    const recipe = await Recipe.findById(recipeId);
+    if (!recipe) {
+      return res.status(404).json({ success: false, message: 'Recipe not found' });
+    }
+
+    const review = recipe.reviews.id(reviewId);
+    if (!review) {
+      return res.status(404).json({ success: false, message: 'Review not found' });
+    }
+
+    review.deleteOne();
+
+    if (recipe.reviews.length > 0) {
+      const sum = recipe.reviews.reduce((acc, r) => acc + r.rating, 0);
+      recipe.averageRating = Number((sum / recipe.reviews.length).toFixed(1));
+      recipe.ratingsCount = recipe.reviews.length;
+    } else {
+      recipe.averageRating = 0;
+      recipe.ratingsCount = 0;
+    }
+
+    await recipe.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Review removed by administrator',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @desc Admin delete an inappropriate comment
+ * @route DELETE /api/admin/comments/:recipeId/:commentId
+ * @access Private (Admin only)
+ */
+const moderateComment = async (req, res, next) => {
+  try {
+    const { recipeId, commentId } = req.params;
+    const recipe = await Recipe.findById(recipeId);
+    if (!recipe) {
+      return res.status(404).json({ success: false, message: 'Recipe not found' });
+    }
+
+    const comment = recipe.comments.id(commentId);
+    if (!comment) {
+      return res.status(404).json({ success: false, message: 'Comment not found' });
+    }
+
+    comment.deleteOne();
+    await recipe.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Comment removed by administrator',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @desc Update recipe approval status (pending, approved, rejected)
+ * @route PATCH /api/admin/recipes/:recipeId/status
+ * @access Private (Admin only)
+ */
+const updateRecipeStatus = async (req, res, next) => {
+  try {
+    const { status } = req.body;
+    if (!['pending', 'approved', 'rejected'].includes(status)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid status. Must be pending, approved, or rejected',
+      });
+    }
+
+    const recipe = await Recipe.findByIdAndUpdate(
+      req.params.recipeId,
+      { status },
+      { new: true }
+    );
+
+    if (!recipe) {
+      return res.status(404).json({ success: false, message: 'Recipe not found' });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: `Recipe status set to ${status}`,
+      status: recipe.status,
+      recipe,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getAdminStats,
   getAllUsers,
@@ -255,4 +411,9 @@ module.exports = {
   deleteUser,
   toggleFeatureRecipe,
   adminDeleteRecipe,
+  getRecentFeedback,
+  moderateReview,
+  moderateComment,
+  updateRecipeStatus,
 };
+

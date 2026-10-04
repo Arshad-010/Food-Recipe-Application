@@ -42,6 +42,10 @@ const InstructionSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  image: {
+    type: String,
+    default: '',
+  },
 });
 
 const ReviewSchema = new mongoose.Schema(
@@ -77,6 +81,33 @@ const ReviewSchema = new mongoose.Schema(
   }
 );
 
+const ReplySchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    userName: {
+      type: String,
+      required: true,
+    },
+    userAvatar: {
+      type: String,
+      default: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80',
+    },
+    text: {
+      type: String,
+      required: [true, 'Reply text is required'],
+      trim: true,
+      maxlength: 1000,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
 const CommentSchema = new mongoose.Schema(
   {
     user: {
@@ -98,6 +129,7 @@ const CommentSchema = new mongoose.Schema(
       trim: true,
       maxlength: 1000,
     },
+    replies: [ReplySchema],
   },
   {
     timestamps: true,
@@ -192,6 +224,10 @@ const RecipeSchema = new mongoose.Schema(
       type: String,
       default: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1200&q=80',
     },
+    images: {
+      type: [String],
+      default: [],
+    },
     videoUrl: {
       type: String,
       default: '',
@@ -239,6 +275,17 @@ const RecipeSchema = new mongoose.Schema(
     isPublished: {
       type: Boolean,
       default: true,
+      index: true,
+    },
+    isPublic: {
+      type: Boolean,
+      default: true,
+      index: true,
+    },
+    status: {
+      type: String,
+      enum: ['pending', 'approved', 'rejected'],
+      default: 'approved',
       index: true,
     },
   },

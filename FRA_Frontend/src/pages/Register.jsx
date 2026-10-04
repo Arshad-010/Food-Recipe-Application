@@ -195,8 +195,8 @@ export default function Register() {
         <div className="text-center pt-2 border-t border-stone-100">
           <p className="text-sm text-stone-500">
             Already have an account?{' '}
-            <Link to="/login" className="font-semibold text-amber-600 hover:text-amber-700 hover:underline">
-              Sign in here
+            <Link to="/login?role=user" className="font-semibold text-amber-600 hover:text-amber-700 hover:underline">
+              Sign in to your account
             </Link>
           </p>
         </div>

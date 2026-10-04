@@ -470,6 +470,56 @@ const addReview = async (req, res, next) => {
 };
 
 /**
+ * @desc Delete review and recalculate ratings
+ * @route DELETE /api/recipes/:id/reviews/:reviewId
+ * @access Private
+ */
+const deleteReview = async (req, res, next) => {
+  try {
+    const recipe = await Recipe.findById(req.params.id);
+    if (!recipe) {
+      return res.status(404).json({ success: false, message: 'Recipe not found' });
+    }
+
+    const review = recipe.reviews.id(req.params.reviewId);
+    if (!review) {
+      return res.status(404).json({ success: false, message: 'Review not found' });
+    }
+
+    // Must be review author or admin
+    const isAuthor = review.user.toString() === req.user._id.toString();
+    const isAdmin = req.user.role === 'admin';
+
+    if (!isAuthor && !isAdmin) {
+      return res.status(403).json({ success: false, message: 'Not authorized to delete this review' });
+    }
+
+    review.deleteOne();
+
+    if (recipe.reviews.length > 0) {
+      const totalRating = recipe.reviews.reduce((acc, item) => acc + item.rating, 0);
+      recipe.ratingsCount = recipe.reviews.length;
+      recipe.averageRating = Number((totalRating / recipe.ratingsCount).toFixed(1));
+    } else {
+      recipe.ratingsCount = 0;
+      recipe.averageRating = 0;
+    }
+
+    await recipe.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Review deleted successfully',
+      reviews: recipe.reviews,
+      averageRating: recipe.averageRating,
+      ratingsCount: recipe.ratingsCount,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
  * @desc Add comment to recipe discussion
  * @route POST /api/recipes/:id/comments
  * @access Private
@@ -552,6 +602,95 @@ const deleteComment = async (req, res, next) => {
 };
 
 /**
+ * @desc Add nested reply to comment
+ * @route POST /api/recipes/:id/comments/:commentId/replies
+ * @access Private
+ */
+const addCommentReply = async (req, res, next) => {
+  try {
+    const { text } = req.body;
+    if (!text || !text.trim()) {
+      return res.status(400).json({ success: false, message: 'Reply text cannot be empty' });
+    }
+
+    const recipe = await Recipe.findById(req.params.id);
+    if (!recipe) {
+      return res.status(404).json({ success: false, message: 'Recipe not found' });
+    }
+
+    const comment = recipe.comments.id(req.params.commentId);
+    if (!comment) {
+      return res.status(404).json({ success: false, message: 'Parent comment not found' });
+    }
+
+    if (!comment.replies) {
+      comment.replies = [];
+    }
+
+    comment.replies.push({
+      user: req.user._id,
+      userName: req.user.name,
+      userAvatar: req.user.avatar,
+      text: text.trim(),
+    });
+
+    await recipe.save();
+
+    res.status(201).json({
+      success: true,
+      message: 'Reply posted',
+      comments: recipe.comments,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @desc Delete reply from comment
+ * @route DELETE /api/recipes/:id/comments/:commentId/replies/:replyId
+ * @access Private
+ */
+const deleteCommentReply = async (req, res, next) => {
+  try {
+    const recipe = await Recipe.findById(req.params.id);
+    if (!recipe) {
+      return res.status(404).json({ success: false, message: 'Recipe not found' });
+    }
+
+    const comment = recipe.comments.id(req.params.commentId);
+    if (!comment) {
+      return res.status(404).json({ success: false, message: 'Parent comment not found' });
+    }
+
+    const reply = comment.replies.id(req.params.replyId);
+    if (!reply) {
+      return res.status(404).json({ success: false, message: 'Reply not found' });
+    }
+
+    const isReplyAuthor = reply.user.toString() === req.user._id.toString();
+    const isRecipeAuthor = recipe.author.toString() === req.user._id.toString();
+    const isAdmin = req.user.role === 'admin';
+
+    if (!isReplyAuthor && !isRecipeAuthor && !isAdmin) {
+      return res.status(403).json({ success: false, message: 'Not authorized to delete this reply' });
+    }
+
+    reply.deleteOne();
+    await recipe.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Reply deleted',
+      comments: recipe.comments,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+/**
  * @desc Get personalized recipe recommendations
  * @route GET /api/recipes/recommendations
  * @access Public (Personalized if authenticated)
@@ -605,6 +744,176 @@ const getRecommendations = async (req, res, next) => {
   }
 };
 
+/**
+ * @desc Get similar recipes for detail page
+ * @route GET /api/recipes/:id/similar
+ * @access Public
+ */
+const getSimilarRecipes = async (req, res, next) => {
+  try {
+    const recipe = await Recipe.findById(req.params.id);
+    if (!recipe) {
+      return res.status(404).json({ success: false, message: 'Recipe not found' });
+    }
+
+    // Match by cuisine or mealType, excluding current recipe
+    let similar = await Recipe.find({
+      _id: { $ne: recipe._id },
+      isPublished: true,
+      $or: [
+        { cuisine: recipe.cuisine },
+        { mealType: recipe.mealType },
+        { dietaryTags: { $in: recipe.dietaryTags || [] } },
+      ],
+    })
+      .sort({ averageRating: -1, favoritesCount: -1 })
+      .limit(4)
+      .populate('author', 'name avatar');
+
+    // Fallback if fewer than 4 matches
+    if (similar.length < 4) {
+      const existingIds = new Set([recipe._id.toString(), ...similar.map((s) => s._id.toString())]);
+      const fallback = await Recipe.find({
+        _id: { $nin: Array.from(existingIds) },
+        isPublished: true,
+      })
+        .sort({ averageRating: -1, favoritesCount: -1 })
+        .limit(4 - similar.length)
+        .populate('author', 'name avatar');
+
+      similar = [...similar, ...fallback];
+    }
+
+    res.status(200).json({
+      success: true,
+      count: similar.length,
+      similar,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @desc Search recipes by name or multiple ingredients with match ranking & autocomplete suggestions
+ * @route GET /api/recipes/search
+ * @access Public
+ */
+const searchRecipes = async (req, res, next) => {
+  try {
+    const { q, ingredients, suggest, page = 1, limit = 12 } = req.query;
+
+    // Autocomplete suggestions mode
+    if (suggest === 'true' || suggest === '1') {
+      const searchTerm = (q || '').trim();
+      if (!searchTerm) {
+        return res.status(200).json({ success: true, suggestions: [] });
+      }
+
+      const regex = new RegExp(searchTerm, 'i');
+      const matches = await Recipe.find(
+        { isPublished: true, title: regex },
+        'title cuisine image averageRating cookTime difficulty'
+      ).limit(6);
+
+      const suggestions = matches.map((m) => ({
+        id: m._id,
+        title: m.title,
+        cuisine: m.cuisine,
+        image: m.image,
+        rating: m.averageRating,
+        cookTime: m.cookTime,
+        difficulty: m.difficulty,
+      }));
+
+      return res.status(200).json({
+        success: true,
+        suggestions,
+      });
+    }
+
+    // Multi-ingredient and keyword search
+    const query = { isPublished: true };
+    let ingList = [];
+
+    if (ingredients && typeof ingredients === 'string') {
+      ingList = ingredients
+        .split(',')
+        .map((s) => s.trim().toLowerCase())
+        .filter(Boolean);
+    }
+
+    if (q && q.trim()) {
+      const regex = new RegExp(q.trim(), 'i');
+      query.$or = [
+        { title: regex },
+        { description: regex },
+        { cuisine: regex },
+        { dietaryTags: regex },
+        { 'ingredients.name': regex },
+      ];
+    }
+
+    // If ingredients provided, query for recipes containing at least one
+    if (ingList.length > 0) {
+      const ingRegexes = ingList.map((ing) => new RegExp(ing, 'i'));
+      query['ingredients.name'] = { $in: ingRegexes };
+    }
+
+    let results = await Recipe.find(query)
+      .populate('author', 'name avatar')
+      .lean();
+
+    // If searched by ingredients, calculate match rank for each recipe
+    if (ingList.length > 0) {
+      results = results.map((recipe) => {
+        const recipeIngNames = (recipe.ingredients || []).map((i) => (i.name || '').toLowerCase());
+        const matched = [];
+        ingList.forEach((searchIng) => {
+          if (recipeIngNames.some((rName) => rName.includes(searchIng))) {
+            matched.push(searchIng);
+          }
+        });
+
+        return {
+          ...recipe,
+          matchCount: matched.length,
+          matchedIngredients: matched,
+          matchPercentage: recipe.ingredients?.length
+            ? Math.round((matched.length / recipe.ingredients.length) * 100)
+            : 0,
+        };
+      });
+
+      // Sort descending by number of matched ingredients, then by average rating
+      results.sort((a, b) => {
+        if (b.matchCount !== a.matchCount) {
+          return b.matchCount - a.matchCount;
+        }
+        return (b.averageRating || 0) - (a.averageRating || 0);
+      });
+    }
+
+    // Pagination
+    const pageNum = Math.max(1, parseInt(page, 10) || 1);
+    const pageSize = Math.min(50, Math.max(1, parseInt(limit, 10) || 12));
+    const total = results.length;
+    const paginated = results.slice((pageNum - 1) * pageSize, pageNum * pageSize);
+
+    res.status(200).json({
+      success: true,
+      count: paginated.length,
+      total,
+      totalPages: Math.ceil(total / pageSize) || 1,
+      currentPage: pageNum,
+      recipes: paginated,
+      searchedIngredients: ingList,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getRecipes,
   getRecipeById,
@@ -615,7 +924,13 @@ module.exports = {
   toggleBookmark,
   getUserCollections,
   addReview,
+  deleteReview,
   addComment,
   deleteComment,
+  addCommentReply,
+  deleteCommentReply,
   getRecommendations,
+  getSimilarRecipes,
+  searchRecipes,
 };
+

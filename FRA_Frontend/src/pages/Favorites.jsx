@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams, useLocation } from 'react-router-dom';
 import { Heart, Bookmark, Utensils, Plus, ChefHat, Trash2, Edit } from 'lucide-react';
 import api from '../api/axios';
 import { useToast } from '../context/ToastContext';
@@ -7,8 +7,19 @@ import RecipeCard from '../components/RecipeCard';
 
 export default function Favorites() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const initialTab = searchParams.get('tab') || 'favorites';
-  const [activeTab, setActiveTab] = useState(initialTab);
+  const location = useLocation();
+
+  const getTabFromPath = () => {
+    if (location.pathname.includes('my-recipes')) return 'myRecipes';
+    if (location.pathname.includes('saved-recipes')) return 'bookmarks';
+    return searchParams.get('tab') || 'favorites';
+  };
+
+  const [activeTab, setActiveTab] = useState(getTabFromPath);
+
+  useEffect(() => {
+    setActiveTab(getTabFromPath());
+  }, [location.pathname, searchParams]);
 
   const { showToast } = useToast();
   const [favorites, setFavorites] = useState([]);

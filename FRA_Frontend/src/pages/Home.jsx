@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import api from '../api/axios';
 import RecipeCard from '../components/RecipeCard';
+import SearchAutocomplete from '../components/SearchAutocomplete';
+
 
 export default function Home() {
   const navigate = useNavigate();
@@ -91,22 +93,22 @@ export default function Home() {
             Discover mouthwatering dishes, search recipes by available ingredients, adjust servings dynamically, and follow interactive step-by-step cooking timers.
           </p>
 
-          {/* Interactive Search Bar in Hero */}
+          {/* Interactive Search Bar in Hero with Live Autocomplete Suggestions */}
           <form
             onSubmit={handleSearchSubmit}
-            className="max-w-2xl mx-auto relative flex items-center bg-white rounded-2xl shadow-xl border border-stone-200/80 p-2 sm:p-2.5 transition-all focus-within:ring-4 focus-within:ring-amber-500/20 focus-within:border-amber-500"
+            className="max-w-2xl mx-auto flex items-center gap-2 p-1.5 sm:p-2 bg-white rounded-3xl shadow-xl border border-stone-200/90"
           >
-            <Search className="w-5 h-5 text-amber-600 ml-2 sm:ml-3 shrink-0" />
-            <input
-              type="text"
+            <SearchAutocomplete
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search recipes, dishes, or ingredients (e.g., chicken, garlic, pasta)..."
-              className="w-full px-3 py-2 sm:py-2.5 text-sm sm:text-base text-stone-900 placeholder-stone-400 bg-transparent focus:outline-none"
+              onChange={setSearchQuery}
+              onSearch={handleSearchSubmit}
+              placeholder="Search recipes, dishes, or ingredients (e.g. butter chicken, pasta, garlic)..."
+              className="flex-1"
+              inputClassName="border-0 bg-transparent py-3 sm:py-3.5 focus:ring-0 text-base"
             />
             <button
               type="submit"
-              className="px-5 py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-700 hover:to-orange-600 text-white font-bold text-sm shadow-md shadow-orange-500/20 transition-all hover:shadow-lg cursor-pointer shrink-0 flex items-center gap-1.5"
+              className="px-6 py-3 sm:py-3.5 rounded-2xl bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-700 hover:to-orange-600 text-white font-bold text-sm shadow-md shadow-orange-500/20 transition-all hover:shadow-lg cursor-pointer shrink-0 flex items-center gap-1.5"
             >
               <span>Search</span>
               <ArrowRight className="w-4 h-4 hidden sm:block" />

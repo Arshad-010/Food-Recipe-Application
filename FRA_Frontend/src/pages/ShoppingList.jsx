@@ -80,6 +80,18 @@ export default function ShoppingList() {
     }
   };
 
+  const handleMergeDuplicates = async () => {
+    try {
+      const res = await api.post('/shopping-list/merge');
+      if (res.success) {
+        setItems(res.items || []);
+        showToast(res.message || 'Duplicate items merged', 'success');
+      }
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  };
+
   const handleClearAll = async () => {
     if (!window.confirm('Clear all items from your shopping list?')) return;
     try {
@@ -165,7 +177,16 @@ export default function ShoppingList() {
         </div>
 
         {items.length > 0 && (
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={handleMergeDuplicates}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-stone-200 bg-white hover:bg-stone-50 text-stone-700 font-bold text-xs transition-colors cursor-pointer shadow-2xs"
+              title="Combine repeated ingredients by quantity"
+            >
+              <ListFilter className="w-3.5 h-3.5 text-amber-600" />
+              <span>Merge Duplicates</span>
+            </button>
             <button
               type="button"
               onClick={copyListToClipboard}

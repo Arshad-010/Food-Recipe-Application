@@ -24,6 +24,7 @@ import {
   Timer as TimerIcon,
   Utensils,
   ArrowLeft,
+  CornerDownRight,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
@@ -39,6 +40,7 @@ export default function RecipeDetail() {
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
   const [recommended, setRecommended] = useState([]);
+  const [similarRecipes, setSimilarRecipes] = useState([]);
 
   // Interactive Servings Scaler state
   const [servings, setServings] = useState(4);
@@ -62,6 +64,11 @@ export default function RecipeDetail() {
   // Comment Form state
   const [commentText, setCommentText] = useState('');
   const [submittingComment, setSubmittingComment] = useState(false);
+
+  // Nested Reply state
+  const [activeReplyId, setActiveReplyId] = useState(null);
+  const [replyText, setReplyText] = useState('');
+  const [submittingReply, setSubmittingReply] = useState(false);
 
   // Share Modal state
   const [shareModalOpen, setShareModalOpen] = useState(false);
@@ -93,11 +100,21 @@ export default function RecipeDetail() {
             );
           }
 
-          // Fetch recommendations
-          const recsRes = await api.get('/recipes/recommendations');
+          // Fetch recommendations and similar recipes in parallel
+          const [recsRes, similarRes] = await Promise.all([
+            api.get('/recipes/recommendations'),
+            api.get(`/recipes/${id}/similar`),
+          ]);
+
           if (recsRes.success) {
             setRecommended(
               (recsRes.recommendations || []).filter((r) => r._id !== rec._id).slice(0, 4)
+            );
+          }
+
+          if (similarRes.success) {
+            setSimilarRecipes(
+              (similarRes.similar || []).filter((r) => r._id !== rec._id).slice(0, 4)
             );
           }
         }
@@ -327,6 +344,24 @@ export default function RecipeDetail() {
     }
   };
 
+  const handleDeleteReview = async (reviewId) => {
+    if (!window.confirm('Delete your review for this recipe?')) return;
+    try {
+      const res = await api.delete(`/recipes/${recipe._id}/reviews/${reviewId}`);
+      if (res.success) {
+        showToast('Review removed', 'success');
+        setRecipe((prev) => ({
+          ...prev,
+          reviews: res.reviews,
+          averageRating: res.averageRating,
+          ratingsCount: res.ratingsCount,
+        }));
+      }
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  };
+
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     if (!isAuthenticated) {
@@ -372,6 +407,45 @@ export default function RecipeDetail() {
       showToast(err.message, 'error');
     }
   };
+
+  const handleReplySubmit = async (commentId) => {
+    if (!isAuthenticated) {
+      showToast('Please sign in to reply', 'info');
+      navigate('/login');
+      return;
+    }
+    if (!replyText.trim()) return;
+
+    try {
+      setSubmittingReply(true);
+      const res = await api.post(`/recipes/${recipe._id}/comments/${commentId}/replies`, {
+        text: replyText.trim(),
+      });
+      if (res.success) {
+        showToast('Reply posted', 'success');
+        setRecipe((prev) => ({ ...prev, comments: res.comments }));
+        setReplyText('');
+        setActiveReplyId(null);
+      }
+    } catch (err) {
+      showToast(err.message, 'error');
+    } finally {
+      setSubmittingReply(false);
+    }
+  };
+
+  const handleDeleteReply = async (commentId, replyId) => {
+    try {
+      const res = await api.delete(`/recipes/${recipe._id}/comments/${commentId}/replies/${replyId}`);
+      if (res.success) {
+        showToast('Reply deleted', 'success');
+        setRecipe((prev) => ({ ...prev, comments: res.comments }));
+      }
+    } catch (err) {
+      showToast(err.message, 'error');
+    }
+  };
+
 
   const handleDeleteRecipe = async () => {
     if (!window.confirm('Are you sure you want to delete this recipe? This action cannot be undone.')) {
@@ -610,13 +684,23 @@ export default function RecipeDetail() {
                 <h3 className="font-bold text-lg">Watch Step-by-Step Cooking Video</h3>
               </div>
               <div className="aspect-video w-full rounded-2xl overflow-hidden bg-stone-900">
-                <iframe
-                  src={embedVideo}
-                  title="Recipe Cooking Video"
-                  className="w-full h-full border-0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
+                {embedVideo && (embedVideo.includes('youtube.com/embed') || embedVideo.includes('player.vimeo.com')) ? (
+                  <iframe
+                    src={embedVideo}
+                    title="Recipe Cooking Video"
+                    className="w-full h-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <video
+                    controls
+                    src={recipe.videoUrl}
+                    className="w-full h-full object-cover"
+                  >
+                    Your browser does not support HTML5 video streaming.
+                  </video>
+                )}
               </div>
             </div>
           )}
@@ -910,17 +994,29 @@ export default function RecipeDetail() {
                           </p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-0.5">
-                        {[1, 2, 3, 4, 5].map((s) => (
-                          <Star
-                            key={s}
-                            className={`w-3.5 h-3.5 ${
-                              s <= rev.rating
-                                ? 'fill-amber-400 text-amber-400'
-                                : 'text-stone-200'
-                            }`}
-                          />
-                        ))}
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-0.5">
+                          {[1, 2, 3, 4, 5].map((s) => (
+                            <Star
+                              key={s}
+                              className={`w-3.5 h-3.5 ${
+                                s <= rev.rating
+                                  ? 'fill-amber-400 text-amber-400'
+                                  : 'text-stone-200'
+                              }`}
+                            />
+                          ))}
+                        </div>
+                        {(user && (user._id === rev.user || isAdmin)) && (
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteReview(rev._id)}
+                            className="p-1 text-stone-400 hover:text-rose-600 rounded transition-colors cursor-pointer"
+                            title="Delete your review"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        )}
                       </div>
                     </div>
                     <p className="text-sm text-stone-700 leading-relaxed font-normal">
@@ -934,7 +1030,7 @@ export default function RecipeDetail() {
             </div>
           </div>
 
-          {/* Comments & Discussions */}
+          {/* Comments & Discussions with Nested Replies */}
           <div className="pt-8 border-t border-stone-200/80 space-y-6">
             <div className="flex items-center gap-2">
               <MessageSquare className="w-5 h-5 text-amber-600" />
@@ -958,37 +1054,119 @@ export default function RecipeDetail() {
               </button>
             </form>
 
-            <div className="space-y-3">
+            <div className="space-y-4">
               {recipe.comments && recipe.comments.length > 0 ? (
                 recipe.comments.map((comm) => (
                   <div
                     key={comm._id}
-                    className="p-4 rounded-2xl bg-stone-50 border border-stone-200 flex items-start justify-between gap-3"
+                    className="p-4 rounded-2xl bg-stone-50 border border-stone-200 space-y-3"
                   >
-                    <div className="flex items-start gap-2.5">
-                      <img
-                        src={comm.userAvatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'}
-                        alt={comm.userName}
-                        className="w-7 h-7 rounded-full object-cover shrink-0 mt-0.5"
-                      />
-                      <div>
-                        <span className="font-bold text-xs text-stone-900 mr-2">{comm.userName}</span>
-                        <span className="text-[10px] text-stone-400">
-                          {new Date(comm.createdAt).toLocaleDateString()}
-                        </span>
-                        <p className="text-xs text-stone-700 mt-1">{comm.text}</p>
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-start gap-2.5">
+                        <img
+                          src={comm.userAvatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'}
+                          alt={comm.userName}
+                          className="w-7 h-7 rounded-full object-cover shrink-0 mt-0.5"
+                        />
+                        <div>
+                          <span className="font-bold text-xs text-stone-900 mr-2">{comm.userName}</span>
+                          <span className="text-[10px] text-stone-400">
+                            {new Date(comm.createdAt).toLocaleDateString()}
+                          </span>
+                          <p className="text-xs text-stone-700 mt-1">{comm.text}</p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => setActiveReplyId(activeReplyId === comm._id ? null : comm._id)}
+                          className="text-xs text-amber-700 hover:text-amber-900 font-bold px-2 py-1 rounded-lg hover:bg-amber-100/60 transition-colors cursor-pointer"
+                        >
+                          Reply
+                        </button>
+                        {(user?._id === comm.user || isAdmin) && (
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteComment(comm._id)}
+                            className="text-stone-400 hover:text-rose-600 p-1 cursor-pointer"
+                            title="Delete comment"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        )}
                       </div>
                     </div>
 
-                    {(user?._id === comm.user || isAdmin) && (
-                      <button
-                        type="button"
-                        onClick={() => handleDeleteComment(comm._id)}
-                        className="text-stone-400 hover:text-rose-600 p-1 cursor-pointer"
-                        title="Delete comment"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
+                    {/* Inline Reply Form */}
+                    {activeReplyId === comm._id && (
+                      <div className="pl-6 sm:pl-8 flex items-center gap-2 pt-2 border-t border-stone-200">
+                        <input
+                          type="text"
+                          value={replyText}
+                          onChange={(e) => setReplyText(e.target.value)}
+                          placeholder={`Reply to ${comm.userName}...`}
+                          className="flex-1 px-3 py-1.5 rounded-xl bg-white border border-stone-200 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                          autoFocus
+                        />
+                        <button
+                          type="button"
+                          disabled={submittingReply}
+                          onClick={() => handleReplySubmit(comm._id)}
+                          className="px-3.5 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold transition-colors cursor-pointer"
+                        >
+                          Reply
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setActiveReplyId(null);
+                            setReplyText('');
+                          }}
+                          className="px-2 py-1.5 text-stone-400 hover:text-stone-600 text-xs font-medium cursor-pointer"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Nested Replies List */}
+                    {comm.replies && comm.replies.length > 0 && (
+                      <div className="pl-6 sm:pl-9 space-y-2 pt-1 border-t border-stone-150">
+                        {comm.replies.map((rep) => (
+                          <div
+                            key={rep._id}
+                            className="p-2.5 rounded-xl bg-white border border-stone-200 flex items-start justify-between gap-2 shadow-2xs"
+                          >
+                            <div className="flex items-start gap-2">
+                              <CornerDownRight className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+                              <img
+                                src={rep.userAvatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'}
+                                alt={rep.userName}
+                                className="w-5 h-5 rounded-full object-cover shrink-0 mt-0.5"
+                              />
+                              <div>
+                                <span className="font-bold text-[11px] text-stone-900 mr-2">{rep.userName}</span>
+                                <span className="text-[9px] text-stone-400">
+                                  {new Date(rep.createdAt).toLocaleDateString()}
+                                </span>
+                                <p className="text-xs text-stone-700 mt-0.5">{rep.text}</p>
+                              </div>
+                            </div>
+
+                            {(user?._id === rep.user || isAdmin) && (
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteReply(comm._id, rep._id)}
+                                className="text-stone-400 hover:text-rose-600 p-1 cursor-pointer"
+                                title="Delete reply"
+                              >
+                                <Trash2 className="w-3 h-3" />
+                              </button>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     )}
                   </div>
                 ))
@@ -1000,11 +1178,37 @@ export default function RecipeDetail() {
         </div>
       </div>
 
+      {/* Similar Recipes Grid */}
+      {similarRecipes.length > 0 && (
+        <div className="space-y-6 pt-4 mb-10">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-2xl font-extrabold text-stone-900">Similar Recipes You'll Love</h3>
+              <p className="text-xs text-stone-500 mt-0.5">Dishes matching this cuisine, meal type, and dietary profile.</p>
+            </div>
+            <Link
+              to="/recipes"
+              className="text-sm font-bold text-amber-700 hover:text-amber-800"
+            >
+              Explore All &rarr;
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {similarRecipes.map((rec) => (
+              <RecipeCard key={rec._id} recipe={rec} />
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Recommended Recipes Grid at Bottom */}
       {recommended.length > 0 && (
-        <div className="space-y-6 pt-6">
+        <div className="space-y-6 pt-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-2xl font-extrabold text-stone-900">You Might Also Like</h3>
+            <div>
+              <h3 className="text-2xl font-extrabold text-stone-900">Recommended for You</h3>
+              <p className="text-xs text-stone-500 mt-0.5">Handpicked chef creations based on community ratings.</p>
+            </div>
             <Link
               to="/recipes"
               className="text-sm font-bold text-amber-700 hover:text-amber-800"
@@ -1039,7 +1243,7 @@ export default function RecipeDetail() {
               Share "{recipe.title}" with your friends, family, or social media!
             </p>
 
-            <div className="grid grid-cols-2 gap-2 text-xs font-bold">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-bold">
               <a
                 href={`https://wa.me/?text=${encodeURIComponent(
                   `Check out this delicious recipe for ${recipe.title}: ${window.location.href}`
@@ -1059,6 +1263,26 @@ export default function RecipeDetail() {
                 className="p-3 rounded-2xl bg-sky-50 text-sky-800 hover:bg-sky-100 flex items-center justify-center gap-2 transition-colors"
               >
                 Twitter / X
+              </a>
+              <a
+                href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                  window.location.href
+                )}`}
+                target="_blank"
+                rel="noreferrer"
+                className="p-3 rounded-2xl bg-blue-50 text-blue-800 hover:bg-blue-100 flex items-center justify-center gap-2 transition-colors"
+              >
+                Facebook
+              </a>
+              <a
+                href={`mailto:?subject=${encodeURIComponent(
+                  `Delicious Recipe: ${recipe.title}`
+                )}&body=${encodeURIComponent(
+                  `Hey, check out this great recipe for ${recipe.title} on RecipeHaven:\n\n${window.location.href}`
+                )}`}
+                className="p-3 rounded-2xl bg-amber-50 text-amber-900 hover:bg-amber-100 flex items-center justify-center gap-2 transition-colors"
+              >
+                Email
               </a>
             </div>
 

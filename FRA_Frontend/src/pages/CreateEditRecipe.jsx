@@ -12,6 +12,8 @@ import {
   Sparkles,
   Save,
   Check,
+  Upload,
+  Loader2,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
@@ -62,6 +64,55 @@ export default function CreateEditRecipe() {
       { stepNumber: 2, title: 'Cooking', instruction: '', timerMinutes: 15 },
     ],
   });
+
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadingVideo, setUploadingVideo] = useState(false);
+
+  const handleImageFileUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const data = new FormData();
+    data.append('image', file);
+
+    setUploadingImage(true);
+    try {
+      const res = await api.post('/upload/image', data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      if (res.success && res.url) {
+        setFormData((prev) => ({ ...prev, image: res.url }));
+        showToast('Image uploaded successfully!', 'success');
+      }
+    } catch (err) {
+      showToast(err.message || 'Failed to upload image', 'error');
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const handleVideoFileUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const data = new FormData();
+    data.append('video', file);
+
+    setUploadingVideo(true);
+    try {
+      const res = await api.post('/upload/video', data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      if (res.success && res.url) {
+        setFormData((prev) => ({ ...prev, videoUrl: res.url }));
+        showToast('Video uploaded successfully!', 'success');
+      }
+    } catch (err) {
+      showToast(err.message || 'Failed to upload video', 'error');
+    } finally {
+      setUploadingVideo(false);
+    }
+  };
 
   // If editing, load recipe data
   useEffect(() => {
@@ -455,7 +506,7 @@ export default function CreateEditRecipe() {
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
                 Food Image URL *
               </label>
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="url"
                   name="image"
@@ -465,6 +516,26 @@ export default function CreateEditRecipe() {
                   placeholder="https://images.unsplash.com/..."
                   className="flex-1 px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-sm font-mono text-stone-800 focus:outline-none"
                 />
+                <label className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-semibold shadow-xs cursor-pointer transition-colors shrink-0">
+                  {uploadingImage ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Uploading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="w-4 h-4" />
+                      <span>Upload File</span>
+                    </>
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleImageFileUpload}
+                    disabled={uploadingImage}
+                  />
+                </label>
               </div>
 
               {/* Presets Gallery Picker */}
@@ -510,14 +581,36 @@ export default function CreateEditRecipe() {
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
                 Recipe Video URL (Optional - YouTube or MP4)
               </label>
-              <input
-                type="url"
-                name="videoUrl"
-                value={formData.videoUrl}
-                onChange={handleChange}
-                placeholder="e.g., https://www.youtube.com/watch?v=..."
-                className="w-full px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-sm text-stone-800 focus:outline-none"
-              />
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="url"
+                  name="videoUrl"
+                  value={formData.videoUrl}
+                  onChange={handleChange}
+                  placeholder="e.g., https://www.youtube.com/watch?v=... or upload video"
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-sm text-stone-800 focus:outline-none"
+                />
+                <label className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-stone-800 hover:bg-stone-900 text-white rounded-xl text-xs font-semibold shadow-xs cursor-pointer transition-colors shrink-0">
+                  {uploadingVideo ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Uploading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="w-4 h-4" />
+                      <span>Upload Video</span>
+                    </>
+                  )}
+                  <input
+                    type="file"
+                    accept="video/*"
+                    className="hidden"
+                    onChange={handleVideoFileUpload}
+                    disabled={uploadingVideo}
+                  />
+                </label>
+              </div>
             </div>
           </div>
 
