@@ -132,6 +132,73 @@ export function AuthProvider({ children }) {
     }
   };
 
+  // Google OAuth Login handler
+  const loginWithGoogle = async (googlePayload) => {
+    try {
+      const res = await api.post('/auth/google', googlePayload);
+      if (res.success && res.token) {
+        setAuthSession(res.token, res.user);
+        return { success: true, user: res.user };
+      }
+      throw new Error(res.message || 'Google sign-in failed');
+    } catch (err) {
+      return { success: false, error: err.message };
+    }
+  };
+
+  // Forgot password request (sends 6-digit email OTP)
+  const forgotPassword = async (email) => {
+    try {
+      const res = await api.post('/auth/forgot-password', { email });
+      return {
+        success: true,
+        message: res.message,
+        devOtp: res.devOtp,
+        retryAfter: res.retryAfter,
+      };
+    } catch (err) {
+      return { success: false, error: err.message };
+    }
+  };
+
+  // Verify 6-digit OTP code and retrieve resetToken
+  const verifyOtp = async (email, otp) => {
+    try {
+      const res = await api.post('/auth/verify-otp', { email, otp });
+      return {
+        success: true,
+        message: res.message,
+        resetToken: res.resetToken,
+      };
+    } catch (err) {
+      return { success: false, error: err.message };
+    }
+  };
+
+  // Reset password using resetToken from OTP verification
+  const resetPasswordWithOtp = async (resetData) => {
+    try {
+      const res = await api.post('/auth/reset-password', resetData);
+      return { success: true, message: res.message };
+    } catch (err) {
+      return { success: false, error: err.message };
+    }
+  };
+
+  // Legacy URL token reset password handler
+  const resetPassword = async (token, passwordData) => {
+    try {
+      const res = await api.post(`/auth/reset-password/${token}`, passwordData);
+      if (res.success && res.token) {
+        setAuthSession(res.token, res.user);
+        return { success: true, message: res.message, user: res.user };
+      }
+      return { success: true, message: res.message };
+    } catch (err) {
+      return { success: false, error: err.message };
+    }
+  };
+
   // Fast login helpers for User and Admin
   const loginAsDemoUser = async () => {
     return await login('chef@recipehaven.com', 'Password@123');
@@ -162,6 +229,11 @@ export function AuthProvider({ children }) {
     updateProfile,
     updatePreferences,
     changePassword,
+    loginWithGoogle,
+    forgotPassword,
+    verifyOtp,
+    resetPasswordWithOtp,
+    resetPassword,
     loginAsDemoUser,
     loginAsDemoAdmin,
     switchRole,

@@ -243,9 +243,13 @@ export default function Profile() {
               <span>{user?.email}</span>
             </p>
 
-            {user?.bio && (
+            {user?.bio ? (
               <p className="text-sm text-stone-700 italic max-w-xl pt-1">
                 "{user.bio}"
+              </p>
+            ) : (
+              <p className="text-xs text-stone-400 italic pt-1">
+                No bio added yet. Click edit below to share your culinary story and cooking philosophy.
               </p>
             )}
 
@@ -261,7 +265,7 @@ export default function Profile() {
               </div>
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-100 border border-stone-200 text-xs text-stone-600">
                 <Calendar className="w-3.5 h-3.5 text-stone-500" />
-                <span>Joined {new Date(user?.createdAt || Date.now()).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+                <span>Joined {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Recently'}</span>
               </div>
             </div>
           </div>
@@ -441,9 +445,21 @@ export default function Profile() {
 
             {/* Cuisines */}
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-2.5">
-                Favorite Cuisines (Select all you enjoy)
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700">
+                  Favorite Cuisines (Select all you enjoy)
+                </label>
+                <span className="text-xs font-semibold text-amber-700">
+                  {preferences.cuisines.length} selected
+                </span>
+              </div>
+
+              {preferences.cuisines.length === 0 && (
+                <div className="p-3 rounded-2xl bg-amber-50/70 border border-amber-200/80 text-xs text-amber-800 flex items-center gap-2 mb-3">
+                  <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
+                  <span>No favorite cuisines selected yet. Choose any cuisines you enjoy below to receive tailored recipe recommendations.</span>
+                </div>
+              )}
               <div className="flex flex-wrap gap-2.5">
                 {AVAILABLE_CUISINES.map((cuisine) => {
                   const isSelected = preferences.cuisines.includes(cuisine);
@@ -494,9 +510,14 @@ export default function Profile() {
 
             {/* Preferred Meal Types */}
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-2.5">
-                Preferred Meal Types
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700">
+                  Preferred Meal Types
+                </label>
+                <span className="text-xs font-semibold text-orange-700">
+                  {preferences.mealTypes.length} selected
+                </span>
+              </div>
               <div className="flex flex-wrap gap-2.5">
                 {MEAL_TYPES.map((meal) => {
                   const isSelected = preferences.mealTypes.includes(meal);

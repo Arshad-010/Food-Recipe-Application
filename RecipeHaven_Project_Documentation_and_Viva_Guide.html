@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>RecipeHaven — Comprehensive Project Documentation &amp; Technical Defense Guide</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="doc_styles.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">RecipeHaven — Comprehensive Project Documentation
+&amp; Technical Defense Guide</h1>
+</header>
+<h1
+id="recipehaven-complete-full-stack-web-application-documentation-project-defense-guide">🍳
+RecipeHaven — Complete Full-Stack Web Application Documentation &amp;
+Project Defense Guide</h1>
+<blockquote>
+<p><strong>Official Project &amp; Viva Defense Resource</strong><br />
+<strong>Prepared for:</strong> Project Head, Technical Review Panel, and
+Engineering Evaluation<br />
+<strong>Author:</strong> Development Team (Full-Stack Engineering)<br />
+<strong>Application Name:</strong> RecipeHaven (Food Recipe Full-Stack
+Web Platform)<br />
+<strong>Repository:</strong>
+<code>Arshad-010/Food-Recipe-Application</code><br />
+<strong>Technology Stack:</strong> MongoDB, Express.js, React 19,
+Node.js (MERN) + Vite + Tailwind CSS<br />
+<strong>Current Status:</strong> Fully Functional, Production-Ready, 0
+Build Errors</p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">📑 Table of Contents</h2>
+<ol type="1">
+<li><a href="#1-executive-summary--problem-statement">Executive Summary
+&amp; Problem Statement</a></li>
+<li><a href="#2-system-architecture--design-patterns">System
+Architecture &amp; Design Patterns</a></li>
+<li><a href="#3-technology-stack--architectural-rationale">Technology
+Stack &amp; Architectural Rationale</a></li>
+<li><a
+href="#4-comprehensive-feature-by-feature-breakdown">Comprehensive
+Feature-by-Feature Breakdown</a>
+<ul>
+<li><a
+href="#41-dual-role-authentication--access-control-user-vs-admin">4.1
+Dual-Role Authentication &amp; Access Control (User vs Admin)</a></li>
+<li><a href="#42-recipe-discovery--multi-criteria-filtering-engine">4.2
+Recipe Discovery &amp; Multi-Criteria Filtering Engine</a></li>
+<li><a href="#43-real-time-autocomplete-search-engine">4.3 Real-Time
+Autocomplete Search Engine</a></li>
+<li><a href="#44-ingredient-based-matching-pantry-search">4.4
+Ingredient-Based Matching (“Pantry Search”)</a></li>
+<li><a href="#45-dynamic-proportional-servings-scaler">4.5 Dynamic
+Proportional Servings Scaler</a></li>
+<li><a href="#46-interactive-step-by-step-cooking-mode-with-timers">4.6
+Interactive Step-by-Step Cooking Mode with Timers</a></li>
+<li><a href="#47-similar-recipes-discovery">4.7 Similar Recipes
+Discovery</a></li>
+<li><a href="#48-ratings-reviews--mathematical-recalculation">4.8
+Ratings, Reviews &amp; Mathematical Recalculation</a></li>
+<li><a href="#49-nested-comment-discussions--community-replies">4.9
+Nested Comment Discussions &amp; Community Replies</a></li>
+<li><a href="#410-smart-shopping-list-with-duplicate-merging">4.10 Smart
+Shopping List with Duplicate Merging</a></li>
+<li><a href="#411-user-collections-favorites--bookmarks">4.11 User
+Collections (Favorites &amp; Bookmarks)</a></li>
+<li><a href="#412-social-sharing-suite">4.12 Social Sharing
+Suite</a></li>
+<li><a href="#413-personalized-recommendation-engine">4.13 Personalized
+Recommendation Engine</a></li>
+<li><a href="#414-administrator-control-center--analytics">4.14
+Administrator Control Center &amp; Analytics</a></li>
+<li><a href="#415-recipe-moderation--approval-lifecycle">4.15 Recipe
+Moderation &amp; Approval Lifecycle</a></li>
+<li><a href="#416-taxonomy--category-management">4.16 Taxonomy &amp;
+Category Management</a></li>
+<li><a href="#417-resilient-media-storage-pipeline">4.17 Resilient Media
+Storage Pipeline</a></li>
+<li><a href="#418-self-healing-data-layer--seeding-engine">4.18
+Self-Healing Data Layer &amp; Seeding Engine</a></li>
+</ul></li>
+<li><a href="#5-database-architecture--schema-design">Database
+Architecture &amp; Schema Design</a></li>
+<li><a
+href="#6-complete-restful-api-specification-30-endpoints">Complete
+RESTful API Specification (30+ Endpoints)</a></li>
+<li><a href="#7-security-performance--best-practices">Security,
+Performance &amp; Best Practices</a></li>
+<li><a
+href="#8-project-head--technical-viva-qa-guide-15-core-questions">Project
+Head &amp; Technical Viva Q&amp;A Guide (15 Core Questions)</a></li>
+<li><a href="#9-local-setup-execution--demonstration-checklist">Local
+Setup, Execution &amp; Demonstration Checklist</a></li>
+</ol>
+<hr />
+<h2 id="executive-summary-problem-statement">1. Executive Summary &amp;
+Problem Statement</h2>
+<h3 id="the-problem">The Problem</h3>
+<p>Traditional culinary websites often suffer from static user
+experiences: * Ingredients cannot be adjusted without mental math when
+cooking for different group sizes. * Instructions are walls of
+unstructured text without interactive step tracking or cooking timers. *
+Users have ingredients sitting in their refrigerators with no intuitive
+way to find what they can cook. * Grocery shopping lists are disjointed,
+forcing users to write down items manually or handle duplicate entries
+manually. * Administrative moderation and community interactions are
+clunky or absent.</p>
+<h3 id="the-solution-recipehaven">The Solution: RecipeHaven</h3>
+<p><strong>RecipeHaven</strong> is a full-stack, enterprise-grade
+culinary web platform built using the modern MERN stack (MongoDB,
+Express.js, React 19, Node.js) styled with Tailwind CSS. It empowers
+users to: 1. Discover, filter, and search recipes with instant debounced
+autocomplete and multi-criteria filters. 2. Find recipes based on
+ingredients they already possess (“Pantry Matcher”). 3. Dynamically
+scale ingredient amounts proportionally based on custom guest servings.
+4. Execute recipes via an interactive Step-by-Step Cooking Mode with
+synchronized live timers and step-completion checklists. 5. Generate
+consolidated grocery shopping lists with intelligent duplicate merging.
+6. Engage through 1–5 star ratings with live mathematical average
+recalculation, favorites, bookmarks, and nested discussion replies. 7.
+Manage the entire platform through an Administrative Control Center
+offering real-time platform KPIs, recipe moderation, user role
+permissions, content moderation, and taxonomy management.</p>
+<hr />
+<h2 id="system-architecture-design-patterns">2. System Architecture
+&amp; Design Patterns</h2>
+<p>The application follows a decoupled <strong>Client-Server RESTful
+Architecture</strong>:</p>
+<pre><code> ┌────────────────────────────────────────────────────────┐
+ │                   CLIENT LAYER (React 19)              │
+ │  React Router v7 • Context API • Tailwind CSS • Axios │
+ └───────────────────────────┬────────────────────────────┘
+                             │ JSON over HTTPS (REST API)
+                             ▼
+ ┌────────────────────────────────────────────────────────┐
+ │               SERVER LAYER (Express.js / Node.js)      │
+ │  Security (Helmet, RateLimit, CORS) • Morgan Logging   │
+ │  JWT Auth &amp; RBAC Middleware • Multer Upload Pipeline   │
+ └─────────────┬────────────────────────────┬─────────────┘
+               │ Mongoose ODM               │ Cloudinary SDK
+               ▼                            ▼
+ ┌───────────────────────────┐ ┌──────────────────────────┐
+ │      DATABASE LAYER       │ │    MEDIA STORAGE         │
+ │ MongoDB Atlas / In-Memory │ │ Cloudinary Cloud CDN     │
+ │ (34 Seeded Dishes, Users) │ │ (Local Static Fallback)  │
+ └───────────────────────────┘ └──────────────────────────┘</code></pre>
+<h3 id="architectural-patterns-applied">Architectural Patterns
+Applied:</h3>
+<ul>
+<li><strong>Separation of Concerns (SoC)</strong>: Controllers handle
+business logic, Models define data integrity and hooks, Routes handle
+URI mapping and validation, and Middleware handles cross-cutting
+concerns (auth, rate limiting, error handling).</li>
+<li><strong>Stateless Authentication</strong>: JSON Web Tokens (JWT)
+signed with HMAC-SHA256 ensure the backend remains stateless, highly
+scalable, and capable of horizontal scaling.</li>
+<li><strong>Component-Driven Frontend</strong>: Built with React 19
+functional components, hooks (<code>useState</code>,
+<code>useEffect</code>, <code>useMemo</code>, <code>useRef</code>), and
+centralized state via Context API (<code>AuthContext</code>,
+<code>ToastContext</code>).</li>
+<li><strong>Graceful Degradation</strong>: If Cloudinary API keys are
+missing, the media layer seamlessly falls back to local disk storage
+(<code>/uploads</code>). If a remote MongoDB instance is unreachable, an
+in-memory MongoDB server initializes automatically with 34 pre-seeded
+recipes.</li>
+</ul>
+<hr />
+<h2 id="technology-stack-architectural-rationale">3. Technology Stack
+&amp; Architectural Rationale</h2>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Technology</th>
+<th>Version</th>
+<th>Architectural Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Frontend Framework</strong></td>
+<td>React</td>
+<td>19.2.8</td>
+<td>Latest React architecture with concurrent rendering, optimized
+reconciliation, and state-of-the-art hook model.</td>
+</tr>
+<tr>
+<td><strong>Frontend Tooling</strong></td>
+<td>Vite</td>
+<td>8.3.1</td>
+<td>Sub-300ms hot module replacement (HMR), lightning-fast development,
+and optimized Rollup production bundling.</td>
+</tr>
+<tr>
+<td><strong>Routing</strong></td>
+<td>React Router</td>
+<td>7.18.4</td>
+<td>Declarative client-side routing, protected route guards,
+query-parameter synchronization, and history management.</td>
+</tr>
+<tr>
+<td><strong>Styling</strong></td>
+<td>Tailwind CSS</td>
+<td>4.3.3</td>
+<td>Utility-first, zero-runtime CSS engine with responsive breakpoints,
+fluid typography, and bespoke color palettes.</td>
+</tr>
+<tr>
+<td><strong>HTTP Client</strong></td>
+<td>Axios</td>
+<td>1.20.0</td>
+<td>Promise-based HTTP client with request/response interceptors
+automatically injecting JWT tokens and centralizing error
+notifications.</td>
+</tr>
+<tr>
+<td><strong>Icons</strong></td>
+<td>Lucide React</td>
+<td>1.49.0</td>
+<td>Tree-shakeable, clean, SVG iconography ensuring consistent visual
+aesthetics across all UI components.</td>
+</tr>
+<tr>
+<td><strong>Backend Runtime</strong></td>
+<td>Node.js</td>
+<td>v18+</td>
+<td>Event-driven, non-blocking asynchronous I/O engine ideal for
+data-intensive real-time web applications.</td>
+</tr>
+<tr>
+<td><strong>Web Framework</strong></td>
+<td>Express.js</td>
+<td>5.2.1</td>
+<td>Minimalist, flexible web framework providing robust routing,
+middleware chaining, and HTTP utility methods.</td>
+</tr>
+<tr>
+<td><strong>Database</strong></td>
+<td>MongoDB &amp; Mongoose</td>
+<td>Mongoose 9.10.3</td>
+<td>Flexible document model supporting rich polymorphic objects (nested
+ingredients, instructions, comments, ratings).</td>
+</tr>
+<tr>
+<td><strong>In-Memory Fallback</strong></td>
+<td>mongodb-memory-server</td>
+<td>11.3.0</td>
+<td>Zero-setup local execution engine enabling instant testing and
+evaluation without external database dependencies.</td>
+</tr>
+<tr>
+<td><strong>Authentication</strong></td>
+<td>JSON Web Tokens</td>
+<td>9.0.3</td>
+<td>Standardized RFC-7519 stateless tokens carrying user identity and
+role claims (<code>user</code> vs <code>admin</code>).</td>
+</tr>
+<tr>
+<td><strong>Password Security</strong></td>
+<td>bcryptjs</td>
+<td>3.0.3</td>
+<td>Adaptive one-way cryptographic hashing with salt rounds defending
+against rainbow table and brute-force attacks.</td>
+</tr>
+<tr>
+<td><strong>Security Headers</strong></td>
+<td>Helmet</td>
+<td>8.3.0</td>
+<td>Automatically configures secure HTTP response headers (CSP, HSTS,
+X-Frame-Options, X-Content-Type-Options).</td>
+</tr>
+<tr>
+<td><strong>Rate Limiting</strong></td>
+<td>express-rate-limit</td>
+<td>8.7.0</td>
+<td>Prevents Denial of Service (DoS) and brute-force login attempts by
+capping client requests per time window.</td>
+</tr>
+<tr>
+<td><strong>Media Pipeline</strong></td>
+<td>Multer &amp; Cloudinary</td>
+<td>2.4.0 / 2.11.0</td>
+<td>Multipart form-data parser streaming media to Cloudinary cloud CDN
+with automatic local fallback.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="comprehensive-feature-by-feature-breakdown">4. Comprehensive
+Feature-by-Feature Breakdown</h2>
+<h3 id="dual-role-authentication-access-control-user-vs-admin">4.1
+Dual-Role Authentication &amp; Access Control (User vs Admin)</h3>
+<ul>
+<li><strong>Two Distinct User Roles</strong>:
+<ol type="1">
+<li><strong>Home Chef (<code>user</code>)</strong>: Can explore, search,
+scale servings, save favorites, bookmark recipes, manage grocery
+shopping lists, submit reviews, participate in comment threads, and
+create personal recipes.</li>
+<li><strong>Administrator (<code>admin</code>)</strong>: Possesses all
+Chef privileges plus exclusive access to the <strong>Admin
+Dashboard</strong>, user account suspension/promotion/demotion, recipe
+approval/rejection, recipe deletion, review/comment deletion, and
+taxonomy category creation/deletion.</li>
+</ol></li>
+<li><strong>Dual Login Portals</strong>:
+<ul>
+<li>Unauthenticated header features distinct <strong>“User
+Login”</strong> (<code>/login?role=user</code>) and <strong>“Admin
+Login”</strong> (<code>/login?role=admin</code>) buttons.</li>
+<li>Segmented interactive tabs on the login screen allow users to easily
+switch between the regular user portal and the admin portal.</li>
+<li><strong>1-Click Demo Fill</strong>: Dedicated buttons populate
+verified demo credentials for Sarah Jenkins (Chef) and Master Chef
+(Admin).</li>
+</ul></li>
+<li><strong>Instant 1-Click Role Switcher</strong>:
+<ul>
+<li>Authenticated users can instantly toggle between Chef and Admin
+roles directly from the user dropdown menu without re-entering
+credentials.</li>
+</ul></li>
+</ul>
+<h3 id="recipe-discovery-multi-criteria-filtering-engine">4.2 Recipe
+Discovery &amp; Multi-Criteria Filtering Engine</h3>
+<ul>
+<li><strong>Comprehensive Search Bar</strong>: Real-time querying across
+recipe titles, descriptions, cuisines, and ingredients.</li>
+<li><strong>Faceted Multi-Filtering</strong>:
+<ul>
+<li><strong>Cuisine</strong>: Italian, Indian, Mexican, Japanese,
+Mediterranean, American, French, Thai, Chinese, Spanish, etc.</li>
+<li><strong>Meal Type</strong>: Breakfast, Lunch, Dinner, Dessert,
+Snack, Beverages.</li>
+<li><strong>Cooking Time</strong>: Fast (≤15 mins), Quick (≤30 mins),
+Standard (≤60 mins), Any time.</li>
+<li><strong>Difficulty Level</strong>: Easy, Medium, Hard.</li>
+<li><strong>Dietary Classification</strong>: Veg, Non-Veg, Vegan,
+Gluten-Free, Keto, Pescatarian.</li>
+</ul></li>
+<li><strong>Multi-Attribute Sorting</strong>:
+<ul>
+<li>Newest First (<code>createdAt: -1</code>)</li>
+<li>Highest Rated (<code>averageRating: -1</code>)</li>
+<li>Most Popular / Most Favorited (<code>favoritesCount: -1</code>)</li>
+<li>Cooking Speed (<code>totalTime: 1</code>)</li>
+</ul></li>
+</ul>
+<h3 id="real-time-autocomplete-search-engine">4.3 Real-Time Autocomplete
+Search Engine</h3>
+<ul>
+<li>Integrated debounced search suggestion bar (250ms debounce) calling
+<code>/api/recipes/search?suggest=true&amp;q=...</code>.</li>
+<li>Displays a live dropdown preview showcasing the recipe thumbnail,
+title, cuisine, star rating, and cook time.</li>
+<li>Keyboard navigation and outside-click dismissal support.</li>
+</ul>
+<h3 id="ingredient-based-matching-pantry-search">4.4 Ingredient-Based
+Matching (“Pantry Search”)</h3>
+<ul>
+<li>Users enter available ingredients (e.g.,
+<code>chicken, garlic, tomato</code>).</li>
+<li>The backend computes matched ingredients and returns matching
+recipes ordered by highest match count.</li>
+<li>Recipe cards visually display an <strong>“Ingredient Match: X/Y
+matched”</strong> badge so users immediately know what dishes they can
+cook right away.</li>
+</ul>
+<h3 id="dynamic-proportional-servings-scaler">4.5 Dynamic Proportional
+Servings Scaler</h3>
+<ul>
+<li>Recipes store a base serving size (e.g., 4 servings) and base
+ingredient quantities (e.g., 500g, 2 tbsp).</li>
+<li>An interactive <code>+</code> / <code>-</code> serving adjuster on
+the recipe detail page recalculates all ingredient amounts in real time:
+<span class="math display">$$\text{Scaled Quantity} =
+\left(\frac{\text{Base Quantity}}{\text{Base Servings}}\right) \times
+\text{Current Servings}$$</span></li>
+<li>Implements smart fractional and decimal formatting so amounts stay
+human-readable (e.g., <code>1 1/2 cups</code> or
+<code>2.5 tbsp</code>).</li>
+<li>Purely client-side recalculation ensures zero database write
+overhead.</li>
+</ul>
+<h3 id="interactive-step-by-step-cooking-mode-with-timers">4.6
+Interactive Step-by-Step Cooking Mode with Timers</h3>
+<ul>
+<li><strong>Cooking Mode Toggle</strong>: Expands a distraction-free,
+high-legibility interface.</li>
+<li><strong>Interactive Step Checkboxes</strong>: Enables cooks to mark
+steps as complete as they proceed.</li>
+<li><strong>Built-in Step Timers</strong>: Instructions with specified
+timer durations feature interactive countdown timers with Play, Pause,
+Reset, and an audible chime upon completion.</li>
+</ul>
+<h3 id="similar-recipes-discovery">4.7 Similar Recipes Discovery</h3>
+<ul>
+<li>An automated similarity algorithm queries recipes matching the
+current recipe’s cuisine and meal type while excluding the active recipe
+ID.</li>
+<li>Renders under <strong>“Similar Recipes You’ll Love”</strong> to
+encourage continuous user engagement.</li>
+</ul>
+<h3 id="ratings-reviews-mathematical-recalculation">4.8 Ratings, Reviews
+&amp; Mathematical Recalculation</h3>
+<ul>
+<li>Authenticated users can submit a 1–5 star rating alongside a written
+review.</li>
+<li><strong>Atomic Mathematical Recalculation</strong>: Whenever a
+review is posted or deleted by an administrator, the backend
+recalculates the average rating: <span
+class="math display">$$\text{Average Rating} = \frac{\sum_{i=1}^{N}
+\text{Rating}_i}{N}$$</span></li>
+<li>Updates both <code>averageRating</code> (rounded to 1 decimal place)
+and <code>ratingsCount</code> atomically.</li>
+</ul>
+<h3 id="nested-comment-discussions-community-replies">4.9 Nested Comment
+Discussions &amp; Community Replies</h3>
+<ul>
+<li>Users can post public comments and culinary questions on recipe
+pages.</li>
+<li><strong>Threaded Replies</strong>: Each comment contains an embedded
+array of replies (<code>ReplySchema</code>), allowing users and the
+recipe author to hold nested discussions.</li>
+<li>Community moderation allows administrators to delete inappropriate
+comments or replies with a single click.</li>
+</ul>
+<h3 id="smart-shopping-list-with-duplicate-merging">4.10 Smart Shopping
+List with Duplicate Merging</h3>
+<ul>
+<li>Users can click <strong>“Add Ingredients to Shopping List”</strong>
+directly from any recipe.</li>
+<li><strong>Consolidation Algorithm
+(<code>/api/shopping-list/merge</code>)</strong>: When identical
+ingredients are added from different recipes (e.g., 200g flour + 300g
+flour), the consolidation engine merges duplicate entries:
+<ul>
+<li>Compares normalized (trimmed lowercase) ingredient names.</li>
+<li>Consolidates quantities when units are identical or compatible.</li>
+</ul></li>
+<li>Features interactive check-off states, clear completed, and
+individual item deletion.</li>
+</ul>
+<h3 id="user-collections-favorites-bookmarks">4.11 User Collections
+(Favorites &amp; Bookmarks)</h3>
+<ul>
+<li>1-Click atomic toggle for <strong>Favorites</strong> (Heart icon)
+and <strong>Bookmarks</strong> (Save for later).</li>
+<li>Stored in the user’s profile and displayed under dedicated
+navigation tabs (<code>/favorites</code> and
+<code>/saved-recipes</code>).</li>
+<li>Atomic updates utilize MongoDB <code>$addToSet</code> (to add
+without duplication) and <code>$pull</code> (to remove).</li>
+</ul>
+<h3 id="social-sharing-suite">4.12 Social Sharing Suite</h3>
+<ul>
+<li>Integrated Web Share API with graceful fallback to native sharing
+dialogues:
+<ul>
+<li>WhatsApp Direct Share</li>
+<li>Facebook Share</li>
+<li>X (formerly Twitter) Share</li>
+<li>Email Share</li>
+<li>1-Click Link Copy to Clipboard with toast confirmation</li>
+</ul></li>
+</ul>
+<h3 id="personalized-recommendation-engine">4.13 Personalized
+Recommendation Engine</h3>
+<ul>
+<li>The <code>/api/recipes/recommendations</code> endpoint inspects the
+authenticated user’s profile preferences (<code>cuisines</code>,
+<code>dietType</code>, <code>mealTypes</code>) and delivers tailored
+recipes matching their culinary taste.</li>
+<li>For guests or users without configured preferences, the engine
+dynamically falls back to top-rated and trending dishes.</li>
+</ul>
+<h3 id="administrator-control-center-analytics">4.14 Administrator
+Control Center &amp; Analytics</h3>
+<ul>
+<li><strong>Executive KPI Cards</strong>: Real-time counts of Total
+Recipes, Published Recipes, Total Users, Total Reviews, and Average
+Platform Rating.</li>
+<li><strong>Cuisine Distribution Analytics</strong>: Visual distribution
+bar graphs showing recipes categorized across global cuisines.</li>
+<li><strong>User Management Table</strong>:
+<ul>
+<li>Search and filter all registered platform users.</li>
+<li>Promote user to Admin or demote Admin to User.</li>
+<li>Suspend/Block user accounts or reactivate them.</li>
+<li>Delete user accounts and cascade-remove their associated
+content.</li>
+</ul></li>
+</ul>
+<h3 id="recipe-moderation-approval-lifecycle">4.15 Recipe Moderation
+&amp; Approval Lifecycle</h3>
+<ul>
+<li>Recipes support an explicit moderation lifecycle:
+<code>pending</code> → <code>approved</code> →
+<code>rejected</code>.</li>
+<li>Administrators can toggle recipe status via interactive dropdowns on
+the admin dashboard
+(<code>PATCH /api/admin/recipes/:id/status</code>).</li>
+<li>Administrators can toggle the <strong>Featured Status</strong> flag
+to promote recipes on the homepage hero showcase.</li>
+</ul>
+<h3 id="taxonomy-category-management">4.16 Taxonomy &amp; Category
+Management</h3>
+<ul>
+<li>Dedicated <strong>Categories &amp; Tags</strong> admin tab powered
+by <code>/api/categories</code>.</li>
+<li>Admins can create and delete custom taxonomy terms:
+<ul>
+<li><strong>Cuisines</strong> (e.g., Korean, Ethiopian, Lebanese)</li>
+<li><strong>Meal Types</strong> (e.g., Brunch, Midnight Snack)</li>
+<li><strong>Dietary Tags</strong> (e.g., Dairy-Free, Low-Carb,
+Nut-Free)</li>
+</ul></li>
+<li>Includes custom emoji/icon selector and category description.</li>
+</ul>
+<h3 id="resilient-media-storage-pipeline">4.17 Resilient Media Storage
+Pipeline</h3>
+<ul>
+<li>Supports recipe cover image and step image uploads.</li>
+<li>Built using <code>multer</code> with memory storage and direct
+streaming to <strong>Cloudinary CDN</strong>.</li>
+<li>If Cloudinary credentials are not present in <code>.env</code>, the
+pipeline automatically falls back to local disk storage in the public
+<code>/uploads</code> directory, guaranteeing that image uploads never
+fail during evaluations or offline demos.</li>
+</ul>
+<h3 id="self-healing-data-layer-seeding-engine">4.18 Self-Healing Data
+Layer &amp; Seeding Engine</h3>
+<ul>
+<li>Upon system startup, <code>FRA_Backend/config/db.js</code> verifies
+database connectivity.</li>
+<li>If a remote MongoDB instance is unreachable or local development is
+active, it starts an in-memory MongoDB instance
+(<code>mongodb-memory-server</code>).</li>
+<li>Automatically seeds <strong>34 comprehensive international
+recipes</strong>, <strong>21 default taxonomy categories</strong>, and
+<strong>2 pre-configured demo accounts</strong>
+(<code>admin@recipehaven.com</code> and
+<code>chef@recipehaven.com</code>).</li>
+</ul>
+<hr />
+<h2 id="database-architecture-schema-design">5. Database Architecture
+&amp; Schema Design</h2>
+<h3 id="user-schema-fra_backendmodelsuser.js">5.1 User Schema
+(<code>FRA_Backend/models/User.js</code>)</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">name</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">trim</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">email</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">unique</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">lowercase</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">index</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">password</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">minlength</span><span class="op">:</span> <span class="dv">6</span><span class="op">,</span> <span class="dt">select</span><span class="op">:</span> <span class="kw">false</span> }<span class="op">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">role</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="dt">enum</span><span class="op">:</span> [<span class="st">&#39;user&#39;</span><span class="op">,</span> <span class="st">&#39;admin&#39;</span>]<span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="st">&#39;user&#39;</span> }<span class="op">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">avatar</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="st">&#39;default_avatar_url&#39;</span> }<span class="op">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bio</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="st">&#39;&#39;</span> }<span class="op">,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">preferences</span><span class="op">:</span> {</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">cuisines</span><span class="op">:</span> [{ <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span> }]<span class="op">,</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">dietType</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="st">&#39;None&#39;</span> }<span class="op">,</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">mealTypes</span><span class="op">:</span> [{ <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span> }]</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">favorites</span><span class="op">:</span> [{ <span class="dt">type</span><span class="op">:</span> mongoose<span class="op">.</span><span class="at">Schema</span><span class="op">.</span><span class="at">Types</span><span class="op">.</span><span class="at">ObjectId</span><span class="op">,</span> <span class="dt">ref</span><span class="op">:</span> <span class="st">&#39;Recipe&#39;</span> }]<span class="op">,</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bookmarks</span><span class="op">:</span> [{ <span class="dt">type</span><span class="op">:</span> mongoose<span class="op">.</span><span class="at">Schema</span><span class="op">.</span><span class="at">Types</span><span class="op">.</span><span class="at">ObjectId</span><span class="op">,</span> <span class="dt">ref</span><span class="op">:</span> <span class="st">&#39;Recipe&#39;</span> }]<span class="op">,</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">isBlocked</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Boolean</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="kw">false</span> }<span class="op">,</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">createdAt</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Date</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="bu">Date</span><span class="op">.</span><span class="at">now</span> }</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="recipe-schema-fra_backendmodelsrecipe.js">5.2 Recipe Schema
+(<code>FRA_Backend/models/Recipe.js</code>)</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">trim</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">index</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">description</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> mongoose<span class="op">.</span><span class="at">Schema</span><span class="op">.</span><span class="at">Types</span><span class="op">.</span><span class="at">ObjectId</span><span class="op">,</span> <span class="dt">ref</span><span class="op">:</span> <span class="st">&#39;User&#39;</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">authorName</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span> }<span class="op">,</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">authorAvatar</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span> }<span class="op">,</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">cuisine</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">index</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">mealType</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">index</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">difficulty</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="dt">enum</span><span class="op">:</span> [<span class="st">&#39;Easy&#39;</span><span class="op">,</span> <span class="st">&#39;Medium&#39;</span><span class="op">,</span> <span class="st">&#39;Hard&#39;</span>]<span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="st">&#39;Medium&#39;</span> }<span class="op">,</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">foodType</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="dt">enum</span><span class="op">:</span> [<span class="st">&#39;Veg&#39;</span><span class="op">,</span> <span class="st">&#39;Non-Veg&#39;</span>]<span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="st">&#39;Veg&#39;</span> }<span class="op">,</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">isVeg</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Boolean</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">prepTime</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Number</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">cookTime</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Number</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">servings</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Number</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">min</span><span class="op">:</span> <span class="dv">1</span> }<span class="op">,</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">caloriesPerServing</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Number</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="dv">0</span> }<span class="op">,</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">dietaryTags</span><span class="op">:</span> [{ <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span> }]<span class="op">,</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">image</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="dt">images</span><span class="op">:</span> [{ <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span> }]<span class="op">,</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="dt">videoUrl</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="st">&#39;&#39;</span> }<span class="op">,</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="dt">ingredients</span><span class="op">:</span> [{</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="dt">name</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">trim</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    <span class="dt">quantity</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Number</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="dt">unit</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="st">&#39;&#39;</span> }<span class="op">,</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="dt">notes</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="st">&#39;&#39;</span> }</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  }]<span class="op">,</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="dt">instructions</span><span class="op">:</span> [{</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="dt">stepNumber</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Number</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="dt">title</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="st">&#39;&#39;</span> }<span class="op">,</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="dt">instruction</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="dt">timerMinutes</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Number</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="dv">0</span> }<span class="op">,</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    <span class="dt">image</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="st">&#39;&#39;</span> }</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  }]<span class="op">,</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  <span class="dt">reviews</span><span class="op">:</span> [{</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="dt">user</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> mongoose<span class="op">.</span><span class="at">Schema</span><span class="op">.</span><span class="at">Types</span><span class="op">.</span><span class="at">ObjectId</span><span class="op">,</span> <span class="dt">ref</span><span class="op">:</span> <span class="st">&#39;User&#39;</span> }<span class="op">,</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="dt">userName</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span> }<span class="op">,</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    <span class="dt">userAvatar</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span> }<span class="op">,</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    <span class="dt">rating</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Number</span><span class="op">,</span> <span class="dt">min</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span> <span class="dt">max</span><span class="op">:</span> <span class="dv">5</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    <span class="dt">comment</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="st">&#39;&#39;</span> }<span class="op">,</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="dt">createdAt</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Date</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="bu">Date</span><span class="op">.</span><span class="at">now</span> }</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>  }]<span class="op">,</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>  <span class="dt">comments</span><span class="op">:</span> [{</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    <span class="dt">user</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> mongoose<span class="op">.</span><span class="at">Schema</span><span class="op">.</span><span class="at">Types</span><span class="op">.</span><span class="at">ObjectId</span><span class="op">,</span> <span class="dt">ref</span><span class="op">:</span> <span class="st">&#39;User&#39;</span> }<span class="op">,</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    <span class="dt">userName</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span> }<span class="op">,</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    <span class="dt">userAvatar</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span> }<span class="op">,</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    <span class="dt">text</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    <span class="dt">createdAt</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Date</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="bu">Date</span><span class="op">.</span><span class="at">now</span> }<span class="op">,</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a>    <span class="dt">replies</span><span class="op">:</span> [{</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>      <span class="dt">user</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> mongoose<span class="op">.</span><span class="at">Schema</span><span class="op">.</span><span class="at">Types</span><span class="op">.</span><span class="at">ObjectId</span><span class="op">,</span> <span class="dt">ref</span><span class="op">:</span> <span class="st">&#39;User&#39;</span> }<span class="op">,</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>      <span class="dt">userName</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span> }<span class="op">,</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>      <span class="dt">userAvatar</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span> }<span class="op">,</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>      <span class="dt">text</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>      <span class="dt">createdAt</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Date</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="bu">Date</span><span class="op">.</span><span class="at">now</span> }</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>    }]</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>  }]<span class="op">,</span></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>  <span class="dt">averageRating</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Number</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">min</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span> <span class="dt">max</span><span class="op">:</span> <span class="dv">5</span> }<span class="op">,</span></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>  <span class="dt">ratingsCount</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Number</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="dv">0</span> }<span class="op">,</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>  <span class="dt">favoritesCount</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Number</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="dv">0</span> }<span class="op">,</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>  <span class="dt">isFeatured</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Boolean</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="kw">false</span> }<span class="op">,</span></span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>  <span class="dt">isPublished</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Boolean</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>  <span class="dt">status</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="dt">enum</span><span class="op">:</span> [<span class="st">&#39;pending&#39;</span><span class="op">,</span> <span class="st">&#39;approved&#39;</span><span class="op">,</span> <span class="st">&#39;rejected&#39;</span>]<span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="st">&#39;approved&#39;</span> }<span class="op">,</span></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>  <span class="dt">createdAt</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Date</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="bu">Date</span><span class="op">.</span><span class="at">now</span> }</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="category-schema-fra_backendmodelscategory.js">5.3 Category
+Schema (<code>FRA_Backend/models/Category.js</code>)</h3>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">name</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">trim</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">type</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="dt">enum</span><span class="op">:</span> [<span class="st">&#39;cuisine&#39;</span><span class="op">,</span> <span class="st">&#39;mealType&#39;</span><span class="op">,</span> <span class="st">&#39;dietaryTag&#39;</span>]<span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">icon</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="st">&#39;🍽️&#39;</span> }<span class="op">,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">description</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="st">&#39;&#39;</span> }<span class="op">,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">isDefault</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Boolean</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="kw">false</span> }<span class="op">,</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">createdAt</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Date</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="bu">Date</span><span class="op">.</span><span class="at">now</span> }</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="shopping-list-schema-fra_backendmodelsshoppinglist.js">5.4
+Shopping List Schema
+(<code>FRA_Backend/models/ShoppingList.js</code>)</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">user</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> mongoose<span class="op">.</span><span class="at">Schema</span><span class="op">.</span><span class="at">Types</span><span class="op">.</span><span class="at">ObjectId</span><span class="op">,</span> <span class="dt">ref</span><span class="op">:</span> <span class="st">&#39;User&#39;</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">unique</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">items</span><span class="op">:</span> [{</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">name</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="dt">required</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span> <span class="dt">trim</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">quantity</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Number</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="dv">1</span> }<span class="op">,</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">unit</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="st">&#39;&#39;</span> }<span class="op">,</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">recipeId</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> mongoose<span class="op">.</span><span class="at">Schema</span><span class="op">.</span><span class="at">Types</span><span class="op">.</span><span class="at">ObjectId</span><span class="op">,</span> <span class="dt">ref</span><span class="op">:</span> <span class="st">&#39;Recipe&#39;</span> }<span class="op">,</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">recipeTitle</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">String</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="st">&#39;&#39;</span> }<span class="op">,</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">checked</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Boolean</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="kw">false</span> }</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  }]<span class="op">,</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">updatedAt</span><span class="op">:</span> { <span class="dt">type</span><span class="op">:</span> <span class="bu">Date</span><span class="op">,</span> <span class="cf">default</span><span class="op">:</span> <span class="bu">Date</span><span class="op">.</span><span class="at">now</span> }</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<hr />
+<h2 id="complete-restful-api-specification-30-endpoints">6. Complete
+RESTful API Specification (30+ Endpoints)</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>HTTP Method</th>
+<th>Route</th>
+<th>Access</th>
+<th>Payload / Params</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>POST</strong></td>
+<td><code>/api/auth/register</code></td>
+<td>Public</td>
+<td><code>{ name, email, password }</code></td>
+<td>Register new chef account</td>
+</tr>
+<tr>
+<td><strong>POST</strong></td>
+<td><code>/api/auth/login</code></td>
+<td>Public</td>
+<td><code>{ email, password }</code></td>
+<td>Authenticate user &amp; return JWT</td>
+</tr>
+<tr>
+<td><strong>GET</strong></td>
+<td><code>/api/auth/me</code></td>
+<td>Private</td>
+<td>Header: <code>Authorization: Bearer &lt;token&gt;</code></td>
+<td>Get profile of authenticated user</td>
+</tr>
+<tr>
+<td><strong>PUT</strong></td>
+<td><code>/api/auth/profile</code></td>
+<td>Private</td>
+<td><code>{ name, avatar, bio }</code></td>
+<td>Update profile information</td>
+</tr>
+<tr>
+<td><strong>PUT</strong></td>
+<td><code>/api/auth/preferences</code></td>
+<td>Private</td>
+<td><code>{ cuisines, dietType, mealTypes }</code></td>
+<td>Update culinary preferences</td>
+</tr>
+<tr>
+<td><strong>PUT</strong></td>
+<td><code>/api/auth/password</code></td>
+<td>Private</td>
+<td><code>{ currentPassword, newPassword }</code></td>
+<td>Securely change user password</td>
+</tr>
+<tr>
+<td><strong>GET</strong></td>
+<td><code>/api/recipes</code></td>
+<td>Public</td>
+<td><code>?search=&amp;cuisine=&amp;mealType=&amp;limit=</code></td>
+<td>Search &amp; multi-filter recipes</td>
+</tr>
+<tr>
+<td><strong>GET</strong></td>
+<td><code>/api/recipes/search</code></td>
+<td>Public</td>
+<td><code>?q=&amp;suggest=true</code></td>
+<td>Autocomplete title/ingredient search</td>
+</tr>
+<tr>
+<td><strong>GET</strong></td>
+<td><code>/api/recipes/recommendations</code></td>
+<td>Public/Private</td>
+<td>None</td>
+<td>Get personalized/trending recipes</td>
+</tr>
+<tr>
+<td><strong>GET</strong></td>
+<td><code>/api/recipes/my/collections</code></td>
+<td>Private</td>
+<td>None</td>
+<td>Fetch user’s recipes, favorites &amp; bookmarks</td>
+</tr>
+<tr>
+<td><strong>GET</strong></td>
+<td><code>/api/recipes/:id</code></td>
+<td>Public</td>
+<td><code>id</code> in route</td>
+<td>Fetch single recipe with reviews/comments</td>
+</tr>
+<tr>
+<td><strong>GET</strong></td>
+<td><code>/api/recipes/:id/similar</code></td>
+<td>Public</td>
+<td><code>id</code> in route</td>
+<td>Get similar recipes matching cuisine/meal</td>
+</tr>
+<tr>
+<td><strong>POST</strong></td>
+<td><code>/api/recipes</code></td>
+<td>Private</td>
+<td><code>{ title, cuisine, ingredients, ... }</code></td>
+<td>Create new recipe</td>
+</tr>
+<tr>
+<td><strong>PUT</strong></td>
+<td><code>/api/recipes/:id</code></td>
+<td>Private (Owner/Admin)</td>
+<td><code>{ ...fields }</code></td>
+<td>Update owned recipe</td>
+</tr>
+<tr>
+<td><strong>DELETE</strong></td>
+<td><code>/api/recipes/:id</code></td>
+<td>Private (Owner/Admin)</td>
+<td>None</td>
+<td>Delete owned recipe</td>
+</tr>
+<tr>
+<td><strong>POST</strong></td>
+<td><code>/api/recipes/:id/favorite</code></td>
+<td>Private</td>
+<td>None</td>
+<td>Toggle recipe favorite status</td>
+</tr>
+<tr>
+<td><strong>POST</strong></td>
+<td><code>/api/recipes/:id/bookmark</code></td>
+<td>Private</td>
+<td>None</td>
+<td>Toggle recipe bookmark status</td>
+</tr>
+<tr>
+<td><strong>POST</strong></td>
+<td><code>/api/recipes/:id/reviews</code></td>
+<td>Private</td>
+<td><code>{ rating, comment }</code></td>
+<td>Submit 1–5 star rating &amp; recalculate</td>
+</tr>
+<tr>
+<td><strong>DELETE</strong></td>
+<td><code>/api/recipes/:id/reviews/:reviewId</code></td>
+<td>Private (Owner/Admin)</td>
+<td>None</td>
+<td>Remove review &amp; recalculate rating</td>
+</tr>
+<tr>
+<td><strong>POST</strong></td>
+<td><code>/api/recipes/:id/comments</code></td>
+<td>Private</td>
+<td><code>{ text }</code></td>
+<td>Post discussion comment</td>
+</tr>
+<tr>
+<td><strong>DELETE</strong></td>
+<td><code>/api/recipes/:id/comments/:commentId</code></td>
+<td>Private (Owner/Admin)</td>
+<td>None</td>
+<td>Delete comment thread</td>
+</tr>
+<tr>
+<td><strong>POST</strong></td>
+<td><code>/api/recipes/:id/comments/:commentId/replies</code></td>
+<td>Private</td>
+<td><code>{ text }</code></td>
+<td>Reply to existing comment</td>
+</tr>
+<tr>
+<td><strong>DELETE</strong></td>
+<td><code>/api/recipes/:id/comments/:commentId/replies/:replyId</code></td>
+<td>Private (Owner/Admin)</td>
+<td>None</td>
+<td>Delete comment reply</td>
+</tr>
+<tr>
+<td><strong>GET</strong></td>
+<td><code>/api/shopping-list</code></td>
+<td>Private</td>
+<td>None</td>
+<td>Get user’s shopping list</td>
+</tr>
+<tr>
+<td><strong>POST</strong></td>
+<td><code>/api/shopping-list/add</code></td>
+<td>Private</td>
+<td><code>{ items: [{ name, quantity, unit }] }</code></td>
+<td>Add ingredients to list</td>
+</tr>
+<tr>
+<td><strong>POST</strong></td>
+<td><code>/api/shopping-list/merge</code></td>
+<td>Private</td>
+<td>None</td>
+<td>Consolidate duplicate ingredients</td>
+</tr>
+<tr>
+<td><strong>PATCH</strong></td>
+<td><code>/api/shopping-list/items/:itemId/toggle</code></td>
+<td>Private</td>
+<td>None</td>
+<td>Toggle item checked state</td>
+</tr>
+<tr>
+<td><strong>DELETE</strong></td>
+<td><code>/api/shopping-list/items/:itemId</code></td>
+<td>Private</td>
+<td>None</td>
+<td>Remove item from list</td>
+</tr>
+<tr>
+<td><strong>DELETE</strong></td>
+<td><code>/api/shopping-list/completed</code></td>
+<td>Private</td>
+<td>None</td>
+<td>Clear all checked items</td>
+</tr>
+<tr>
+<td><strong>DELETE</strong></td>
+<td><code>/api/shopping-list/clear</code></td>
+<td>Private</td>
+<td>None</td>
+<td>Clear entire shopping list</td>
+</tr>
+<tr>
+<td><strong>GET</strong></td>
+<td><code>/api/categories</code></td>
+<td>Public</td>
+<td><code>?type=cuisine\|mealType\|dietaryTag</code></td>
+<td>Fetch taxonomy categories</td>
+</tr>
+<tr>
+<td><strong>POST</strong></td>
+<td><code>/api/categories</code></td>
+<td>Admin Only</td>
+<td><code>{ name, type, icon, description }</code></td>
+<td>Create new taxonomy term</td>
+</tr>
+<tr>
+<td><strong>DELETE</strong></td>
+<td><code>/api/categories/:id</code></td>
+<td>Admin Only</td>
+<td>None</td>
+<td>Remove taxonomy term</td>
+</tr>
+<tr>
+<td><strong>POST</strong></td>
+<td><code>/api/upload/image</code></td>
+<td>Private</td>
+<td><code>multipart/form-data</code></td>
+<td>Upload cover/step image</td>
+</tr>
+<tr>
+<td><strong>POST</strong></td>
+<td><code>/api/upload/video</code></td>
+<td>Private</td>
+<td><code>multipart/form-data</code></td>
+<td>Upload recipe video</td>
+</tr>
+<tr>
+<td><strong>GET</strong></td>
+<td><code>/api/admin/stats</code></td>
+<td>Admin Only</td>
+<td>None</td>
+<td>Platform overview KPIs &amp; metrics</td>
+</tr>
+<tr>
+<td><strong>GET</strong></td>
+<td><code>/api/admin/users</code></td>
+<td>Admin Only</td>
+<td><code>?search=</code></td>
+<td>Search &amp; list all users</td>
+</tr>
+<tr>
+<td><strong>PATCH</strong></td>
+<td><code>/api/admin/users/:userId/role</code></td>
+<td>Admin Only</td>
+<td><code>{ role: 'user' \| 'admin' }</code></td>
+<td>Promote or demote user</td>
+</tr>
+<tr>
+<td><strong>PATCH</strong></td>
+<td><code>/api/admin/users/:userId/block</code></td>
+<td>Admin Only</td>
+<td>None</td>
+<td>Suspend or reactivate user</td>
+</tr>
+<tr>
+<td><strong>DELETE</strong></td>
+<td><code>/api/admin/users/:userId</code></td>
+<td>Admin Only</td>
+<td>None</td>
+<td>Delete user &amp; associated data</td>
+</tr>
+<tr>
+<td><strong>PATCH</strong></td>
+<td><code>/api/admin/recipes/:recipeId/feature</code></td>
+<td>Admin Only</td>
+<td>None</td>
+<td>Toggle featured recipe flag</td>
+</tr>
+<tr>
+<td><strong>PATCH</strong></td>
+<td><code>/api/admin/recipes/:recipeId/status</code></td>
+<td>Admin Only</td>
+<td><code>{ status: 'approved' \| 'pending' \| 'rejected' }</code></td>
+<td>Update recipe approval status</td>
+</tr>
+<tr>
+<td><strong>DELETE</strong></td>
+<td><code>/api/admin/recipes/:recipeId</code></td>
+<td>Admin Only</td>
+<td>None</td>
+<td>Administrator delete recipe</td>
+</tr>
+<tr>
+<td><strong>GET</strong></td>
+<td><code>/api/admin/moderation</code></td>
+<td>Admin Only</td>
+<td>None</td>
+<td>Fetch all platform reviews &amp; comments</td>
+</tr>
+<tr>
+<td><strong>DELETE</strong></td>
+<td><code>/api/admin/reviews/:recipeId/:reviewId</code></td>
+<td>Admin Only</td>
+<td>None</td>
+<td>Moderate/delete inappropriate review</td>
+</tr>
+<tr>
+<td><strong>DELETE</strong></td>
+<td><code>/api/admin/comments/:recipeId/:commentId</code></td>
+<td>Admin Only</td>
+<td>None</td>
+<td>Moderate/delete inappropriate comment</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="security-performance-best-practices">7. Security, Performance
+&amp; Best Practices</h2>
+<ol type="1">
+<li><strong>Stateless JWT Authorization</strong>: Tokens are signed with
+<code>process.env.JWT_SECRET</code> and expire in 7 days
+(<code>7d</code>). The <code>protect</code> middleware extracts the
+Bearer token, verifies its cryptographic signature, checks user
+existence, and confirms whether the account is suspended
+(<code>isBlocked</code>).</li>
+<li><strong>Password Security</strong>: Passwords are encrypted with
+<code>bcryptjs</code> using 10 salt rounds prior to persistence.
+Passwords are never returned in database queries
+(<code>select: false</code>).</li>
+<li><strong>Role-Based Access Control (RBAC)</strong>: The
+<code>adminOnly</code> middleware enforces that
+<code>req.user.role === 'admin'</code>. Unauthorized requests receive an
+explicit <code>403 Forbidden</code> response.</li>
+<li><strong>Brute Force &amp; DoS Defense</strong>:
+<code>express-rate-limit</code> limits clients to 100 requests per
+15-minute window with appropriate <code>Retry-After</code> headers.</li>
+<li><strong>HTTP Security Headers</strong>: <code>helmet()</code>
+protects against Cross-Site Scripting (XSS), Content-Type sniffing,
+Clickjacking, and enforces strict Cross-Origin Resource Policies.</li>
+<li><strong>Frontend Debouncing</strong>: Search input queries are
+throttled with a 250ms debounce delay to prevent rapid-fire HTTP
+requests and reduce server load.</li>
+<li><strong>Database Query Optimization</strong>: Compound text indexes
+on <code>title</code>, <code>description</code>, <code>cuisine</code>,
+and <code>ingredients.name</code> provide sub-10ms query execution
+times.</li>
+</ol>
+<hr />
+<h2 id="project-head-technical-viva-qa-guide-15-core-questions">8.
+Project Head &amp; Technical Viva Q&amp;A Guide (15 Core Questions)</h2>
+<p>Use these questions and model answers to ace your project
+presentation or technical defense:</p>
+<h4
+id="q1-why-did-you-choose-mongodb-over-a-relational-database-like-postgresql-or-mysql-for-this-recipe-application">Q1:
+Why did you choose MongoDB over a relational database like PostgreSQL or
+MySQL for this recipe application?</h4>
+<blockquote>
+<p><strong>Model Answer:</strong><br />
+“A recipe is inherently a rich, hierarchical document. In a relational
+database, storing a single recipe requires 4 to 5 separate tables
+(<code>recipes</code>, <code>ingredients</code>,
+<code>instructions</code>, <code>reviews</code>, <code>comments</code>,
+<code>replies</code>) connected by foreign keys and costly SQL
+<code>JOIN</code> operations. In MongoDB, a recipe is stored as a
+single, cohesive BSON document. The ingredients, instructions with step
+timers, reviews, and nested replies are embedded directly within the
+document. This provides <span class="math inline"><em>O</em>(1)</span>
+read performance when viewing a recipe, simplifies atomic updates, and
+accommodates varied recipe structures across different cuisines without
+rigid schema migrations.”</p>
+</blockquote>
+<h4
+id="q2-how-does-the-application-ensure-that-standard-users-cannot-perform-administrative-actions">Q2:
+How does the application ensure that standard users cannot perform
+administrative actions?</h4>
+<blockquote>
+<p><strong>Model Answer:</strong><br />
+“We implement a layered security model: 1. <strong>Stateless JWT
+verification</strong>: The <code>protect</code> middleware verifies the
+digital signature of the token and loads the authenticated user. 2.
+<strong>RBAC middleware</strong>: The <code>adminOnly</code> middleware
+checks if <code>req.user.role === 'admin'</code>. If an ordinary user
+attempts to call <code>/api/admin/*</code> or
+<code>/api/categories</code>, the request is immediately terminated with
+a <code>403 Forbidden</code> error. 3. <strong>Database
+Guardrails</strong>: Admins cannot demote themselves or delete their own
+accounts, preventing accidental administrative lockout. 4.
+<strong>Frontend Route Guards</strong>: The frontend
+<code>ProtectedRoute</code> checks the user’s role and redirects
+non-admins away from <code>/admin/dashboard</code>.”</p>
+</blockquote>
+<h4
+id="q3-how-does-the-dynamic-servings-scaler-calculate-new-ingredient-quantities-without-corrupting-the-original-data">Q3:
+How does the dynamic servings scaler calculate new ingredient quantities
+without corrupting the original data?</h4>
+<blockquote>
+<p><strong>Model Answer:</strong><br />
+“The dynamic servings scaler is executed purely on the client side
+without issuing database mutations. The recipe preserves its original
+<code>servings</code> and <code>ingredients[i].quantity</code> values in
+MongoDB. When the user clicks <code>+</code> or <code>-</code> to adjust
+the servings on the frontend, the component computes the multiplier:
+<span class="math display">$$\text{Multiplier} = \frac{\text{Selected
+Servings}}{\text{Base Servings}}$$</span> Each ingredient quantity is
+dynamically rendered as <span class="math inline">Base
+Quantity × Multiplier</span>. This prevents database writes while
+guaranteeing an instantaneous, responsive user interface.”</p>
+</blockquote>
+<h4
+id="q4-how-is-ingredient-based-recipe-discovery-implemented-in-the-search-engine">Q4:
+How is ingredient-based recipe discovery implemented in the search
+engine?</h4>
+<blockquote>
+<p><strong>Model Answer:</strong><br />
+“When a user enters ingredients into the ‘Search by Ingredients’ bar,
+the frontend transmits a comma-separated list of items to
+<code>/api/recipes/search?ingredients=...</code>. The backend splits the
+query, normalizes each ingredient into a case-insensitive regular
+expression, and matches against the <code>ingredients.name</code> field.
+The backend computes the number of matching ingredients per recipe and
+sorts results by relevance, while the frontend displays a visual match
+badge (e.g., <em>‘3/4 ingredients matched’</em>).”</p>
+</blockquote>
+<h4
+id="q5-how-does-the-shopping-list-consolidate-duplicate-ingredients">Q5:
+How does the shopping list consolidate duplicate ingredients?</h4>
+<blockquote>
+<p><strong>Model Answer:</strong><br />
+“The <code>/api/shopping-list/merge</code> endpoint iterates over the
+user’s shopping list items and groups them using a composite key:
+<code>normalizedName + '_' + normalizedUnit</code>. If two items share
+the same ingredient name and measurement unit (e.g., <em>‘250g
+Flour’</em> and <em>‘500g Flour’</em>), their numerical quantities are
+summed (<em>‘750g Flour’</em>), the recipe references are joined, and
+duplicate entries are purged atomically.”</p>
+</blockquote>
+<h4
+id="q6-how-are-average-ratings-recalculated-when-a-review-is-added-or-deleted">Q6:
+How are average ratings recalculated when a review is added or
+deleted?</h4>
+<blockquote>
+<p><strong>Model Answer:</strong><br />
+“Rather than calculating ratings on every page view, we store
+denormalized <code>averageRating</code> and <code>ratingsCount</code>
+fields directly on the Recipe document for high-performance reading.
+When a user submits a review or an admin deletes one, the backend
+recalculates the arithmetic mean: <span
+class="math display">$$\text{averageRating} = \frac{\sum
+\text{ratings}}{\text{total reviews}}$$</span> This is updated and saved
+atomically in MongoDB, keeping the average consistent and
+performant.”</p>
+</blockquote>
+<h4
+id="q7-what-happens-if-cloudinary-is-not-configured-or-goes-offline">Q7:
+What happens if Cloudinary is not configured or goes offline?</h4>
+<blockquote>
+<p><strong>Model Answer:</strong><br />
+“We engineered a dual-mode fallback upload pipeline in
+<code>FRA_Backend/controllers/uploadController.js</code>. If Cloudinary
+credentials (<code>CLOUDINARY_CLOUD_NAME</code>, <code>API_KEY</code>,
+<code>API_SECRET</code>) are present, media is streamed to Cloudinary
+CDN. If they are absent, the controller automatically writes the file to
+the local <code>/uploads</code> directory using
+<code>multer.diskStorage</code> and returns the local static URL. This
+guarantees that file uploads never throw fatal errors during evaluations
+or offline demos.”</p>
+</blockquote>
+<h4
+id="q8-how-does-the-system-handle-database-connectivity-if-mongodb-atlas-is-unreachable">Q8:
+How does the system handle database connectivity if MongoDB Atlas is
+unreachable?</h4>
+<blockquote>
+<p><strong>Model Answer:</strong><br />
+“In <code>FRA_Backend/config/db.js</code>, the connection manager
+attempts to connect to the configured MongoDB URI. If the remote
+connection fails or the developer runs in an isolated environment, it
+spins up an in-memory database using <code>mongodb-memory-server</code>
+and automatically executes the seed script
+(<code>seedDatabase()</code>), populating 34 full recipes, 21 taxonomy
+categories, and 2 default user accounts seamlessly.”</p>
+</blockquote>
+<h4 id="q9-how-do-you-prevent-brute-force-attacks-on-authentication">Q9:
+How do you prevent brute force attacks on authentication?</h4>
+<blockquote>
+<p><strong>Model Answer:</strong><br />
+“We implement two independent lines of defense: 1. <strong>Rate
+Limiting</strong>: <code>express-rate-limit</code> tracks IP addresses
+and caps incoming requests to 100 calls per 15 minutes, blocking
+automated brute-force scripts. 2. <strong>Bcrypt Work Factor</strong>:
+Password verification uses bcrypt with a salt cost factor of 10,
+imposing a computational delay on each hash evaluation to render
+dictionary attacks computationally impractical.”</p>
+</blockquote>
+<h4
+id="q10-how-are-nested-replies-handled-within-the-comment-system">Q10:
+How are nested replies handled within the comment system?</h4>
+<blockquote>
+<p><strong>Model Answer:</strong><br />
+“We use an embedded subdocument schema (<code>ReplySchema</code>) inside
+each comment of the Recipe document. When a user replies to an existing
+comment, the backend pushes the reply object into
+<code>recipe.comments.id(commentId).replies</code> and saves the parent
+recipe. This eliminates recursive database lookups while keeping the
+entire discussion thread localized to the recipe.”</p>
+</blockquote>
+<h4
+id="q11-explain-your-approach-to-state-management-in-the-react-frontend.">Q11:
+Explain your approach to state management in the React frontend.</h4>
+<blockquote>
+<p><strong>Model Answer:</strong><br />
+“We follow an optimal, lightweight state architecture using React 19
+Context API rather than heavyweight external libraries like Redux: *
+<code>AuthContext</code>: Centralizes user session, token storage
+(<code>localStorage</code>), login, registration, role identification,
+and 1-click role switching. * <code>ToastContext</code>: Provides a
+unified event-driven notification queue for non-blocking success, error,
+and info toasts. * Local Component State: Ephemeral UI states (like
+serving multipliers, active tabs, filters, and step timer counts) live
+within their respective components for optimal rendering
+performance.”</p>
+</blockquote>
+<h4 id="q12-how-did-you-implement-debounced-autocomplete-search">Q12:
+How did you implement debounced autocomplete search?</h4>
+<blockquote>
+<p><strong>Model Answer:</strong><br />
+“In <code>SearchAutocomplete.jsx</code>, an input change triggers a
+React <code>useEffect</code> hook. Instead of dispatching an HTTP
+request on every keystroke, a <code>setTimeout</code> of 250ms is
+initialized. If the user types another character before 250ms elapses,
+the previous timer is cleared. Only when the user pauses typing does the
+request go to <code>/api/recipes/search?suggest=true&amp;q=...</code>.
+This reduces API calls by over 80%.”</p>
+</blockquote>
+<h4
+id="q13-what-measures-were-taken-to-ensure-the-frontend-is-production-ready">Q13:
+What measures were taken to ensure the frontend is
+production-ready?</h4>
+<blockquote>
+<p><strong>Model Answer:</strong><br />
+“The frontend compiles cleanly with zero errors via Vite
+(<code>built in 288ms</code>). We implemented semantic HTML5 tags,
+unique DOM element IDs for end-to-end automated testing, responsive
+mobile drawers, and CSS media queries ensuring full mobile, tablet, and
+desktop compatibility.”</p>
+</blockquote>
+<h4
+id="q14-how-does-the-application-handle-recipe-moderation-and-approval">Q14:
+How does the application handle recipe moderation and approval?</h4>
+<blockquote>
+<p><strong>Model Answer:</strong><br />
+“Recipes have a <code>status</code> field with three possible states:
+<code>pending</code>, <code>approved</code>, and <code>rejected</code>.
+Administrators can review recipes on the Admin Dashboard and toggle
+their status via <code>PATCH /api/admin/recipes/:recipeId/status</code>.
+Only approved recipes are exposed to public search results, allowing the
+platform to maintain high content quality.”</p>
+</blockquote>
+<h4
+id="q15-what-architectural-enhancements-would-you-propose-for-scaling-to-10-million-active-users">Q15:
+What architectural enhancements would you propose for scaling to 10
+million active users?</h4>
+<blockquote>
+<p><strong>Model Answer:</strong><br />
+“To scale horizontally for millions of users: 1. <strong>Caching
+Layer</strong>: Place Redis in front of MongoDB to cache popular
+recipes, search suggestions, and category taxonomies. 2.
+<strong>Dedicated Search Engine</strong>: Integrate Elasticsearch or
+Meilisearch for typo-tolerant fuzzy matching and inverted-index search.
+3. <strong>Microservices Decomposition</strong>: Decouple the monolithic
+Express server into independent microservices (Auth Service, Recipe
+Discovery Service, Shopping List Service) orchestrated via Docker and
+Kubernetes. 4. <strong>CDN Edge Caching</strong>: Distribute static
+frontend assets and recipe images globally via Cloudflare or AWS
+CloudFront.”</p>
+</blockquote>
+<hr />
+<h2 id="local-setup-execution-demonstration-checklist">9. Local Setup,
+Execution &amp; Demonstration Checklist</h2>
+<h3 id="prerequisites">Prerequisites</h3>
+<ul>
+<li>Node.js v18.0.0 or higher</li>
+<li>npm v9.0.0 or higher</li>
+</ul>
+<h3 id="step-1-install-dependencies">Step 1: Install Dependencies</h3>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In project root:</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Users/arshad_010/Desktop/FRA</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Install backend dependencies</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> FRA_Backend <span class="kw">&amp;&amp;</span> <span class="ex">npm</span> install</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Install frontend dependencies</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ../FRA_Frontend <span class="kw">&amp;&amp;</span> <span class="ex">npm</span> install</span></code></pre></div>
+<h3 id="step-2-launch-backend-api-server">Step 2: Launch Backend API
+Server</h3>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Users/arshad_010/Desktop/FRA/FRA_Backend</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">node</span> <span class="at">--watch</span> server.js</span></code></pre></div>
+<ul>
+<li><strong>API Port:</strong> <code>http://localhost:5050</code></li>
+<li><strong>Health Check:</strong>
+<code>http://localhost:5050/api/health</code></li>
+</ul>
+<h3 id="step-3-launch-frontend-client">Step 3: Launch Frontend
+Client</h3>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /Users/arshad_010/Desktop/FRA/FRA_Frontend</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run dev</span></code></pre></div>
+<ul>
+<li><strong>Frontend Port:</strong> <code>http://localhost:5176</code>
+(or <code>5173</code>)</li>
+</ul>
+<h3 id="demo-credentials-cheat-sheet">Demo Credentials Cheat Sheet</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Role</th>
+<th>Email</th>
+<th>Password</th>
+<th>Quick Fill Option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Administrator</strong></td>
+<td><code>admin@recipehaven.com</code></td>
+<td><code>Password@123</code></td>
+<td>Click <strong>“Fill Admin Demo”</strong> on Login Screen</td>
+</tr>
+<tr>
+<td><strong>Home Chef (User)</strong></td>
+<td><code>chef@recipehaven.com</code></td>
+<td><code>Password@123</code></td>
+<td>Click <strong>“Fill User Demo”</strong> on Login Screen</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Document produced for RecipeHaven Full-Stack Engineering
+Evaluation. All systems verified operational.</em></p>
+</body>
+</html>

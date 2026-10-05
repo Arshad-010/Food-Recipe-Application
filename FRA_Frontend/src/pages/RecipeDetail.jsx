@@ -85,6 +85,31 @@ export default function RecipeDetail() {
           setServings(rec.servings || 4);
           setFavCount(rec.favoritesCount || 0);
 
+          try {
+            const raw = localStorage.getItem('recipehaven_recently_viewed');
+            const list = raw ? JSON.parse(raw) : [];
+            const filtered = list.filter((r) => (r._id || r) !== rec._id);
+            const updated = [
+              {
+                _id: rec._id,
+                title: rec.title,
+                image: rec.image,
+                cuisine: rec.cuisine,
+                category: rec.category,
+                cookTime: rec.cookTime,
+                prepTime: rec.prepTime,
+                difficulty: rec.difficulty,
+                averageRating: rec.averageRating,
+                ratingsCount: rec.ratingsCount,
+                author: rec.author,
+              },
+              ...filtered,
+            ].slice(0, 8);
+            localStorage.setItem('recipehaven_recently_viewed', JSON.stringify(updated));
+          } catch (e) {
+            // ignore storage errors
+          }
+
           if (user && user.favorites) {
             setIsFavorited(
               user.favorites.some((fav) =>

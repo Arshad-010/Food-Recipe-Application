@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 const UserSchema = new mongoose.Schema(
   {
@@ -25,9 +26,16 @@ const UserSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, 'Please provide a password'],
+      required: function () {
+        return this.authProvider === 'local' || !this.authProvider;
+      },
       minlength: [6, 'Password must be at least 6 characters long'],
       select: false, // Do not return password by default in queries
+    },
+    authProvider: {
+      type: String,
+      enum: ['local', 'google'],
+      default: 'local',
     },
     role: {
       type: String,
@@ -78,6 +86,37 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    googleId: {
+      type: String,
+      default: null,
+      sparse: true,
+      unique: true,
+    },
+    resetPasswordToken: {
+      type: String,
+      select: false,
+    },
+    resetPasswordExpires: {
+      type: Date,
+      select: false,
+    },
+    resetOtpHash: {
+      type: String,
+      select: false,
+    },
+    resetOtpExpiresAt: {
+      type: Date,
+      select: false,
+    },
+    resetOtpAttempts: {
+      type: Number,
+      default: 0,
+      select: false,
+    },
+    resetOtpVerifiedAt: {
+      type: Date,
+      select: false,
+    },
   },
   {
     timestamps: true,
@@ -88,7 +127,7 @@ const UserSchema = new mongoose.Schema(
  * Pre-save middleware to hash password before saving
  */
 UserSchema.pre('save', async function () {
-  if (!this.isModified('password')) {
+  if (!this.isModified('password') || !this.password) {
     return;
   }
 
@@ -100,6 +139,9 @@ UserSchema.pre('save', async function () {
  * Compare entered password with hashed password in database
  */
 UserSchema.methods.matchPassword = async function (enteredPassword) {
+  if (!this.password) {
+    return false;
+  }
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
@@ -118,6 +160,19 @@ UserSchema.methods.generateAuthToken = function () {
       expiresIn: process.env.JWT_EXPIRES_IN || '7d',
     }
   );
+};
+
+/**
+ * Generate cryptographically secure, short-lived password reset token
+ */
+UserSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString('hex');
+  this.resetPasswordToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+  this.resetPasswordExpires = Date.now() + 60 * 60 * 1000; // 1 hour
+  return resetToken;
 };
 
 module.exports = mongoose.model('User', UserSchema);

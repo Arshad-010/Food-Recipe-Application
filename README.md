@@ -2,6 +2,11 @@
 
 A modern, production-grade web application where food lovers and chefs discover, search, save, and share recipes based on ingredients, cuisine, meal types, and dietary preferences. Features step-by-step cooking instructions with live step timers, an interactive servings scaler, personal shopping lists, ratings/reviews, threaded discussions, social sharing, smart personalized recommendations, and a comprehensive admin management dashboard.
 
+> 📚 **Complete Project Documentation & Viva Defense Guide**:  
+> • Markdown Documentation: [RecipeHaven_Project_Documentation_and_Viva_Guide.md](./RecipeHaven_Project_Documentation_and_Viva_Guide.md)  
+> • PDF Document: [RecipeHaven_Project_Documentation_and_Viva_Guide.pdf](./RecipeHaven_Project_Documentation_and_Viva_Guide.pdf)  
+> • Formatted HTML: [RecipeHaven_Project_Documentation_and_Viva_Guide.html](./RecipeHaven_Project_Documentation_and_Viva_Guide.html)  
+
 ---
 
 ## 🌟 Key Features

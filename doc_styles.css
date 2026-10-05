@@ -1,0 +1,282 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --primary: #ea580c;
+  --primary-dark: #c2410c;
+  --primary-light: #fff7ed;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --bg-page: #f8fafc;
+  --bg-card: #ffffff;
+  --code-bg: #0f172a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--text-main);
+  background-color: var(--bg-page);
+  line-height: 1.65;
+  font-size: 15px;
+}
+
+body {
+  margin: 0 auto;
+  max-width: 960px;
+  padding: 40px 30px 60px;
+  background-color: var(--bg-card);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: #0f172a;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-top: 1.8em;
+  margin-bottom: 0.6em;
+}
+
+h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--primary-dark);
+  border-bottom: 3px solid var(--primary);
+  padding-bottom: 12px;
+  margin-top: 0.8em;
+}
+
+h2 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #1e293b;
+  border-bottom: 1.5px solid var(--border-color);
+  padding-bottom: 8px;
+  margin-top: 2.2em;
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-top: 1.6em;
+}
+
+h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+p {
+  margin: 0.9em 0;
+  color: #334155;
+}
+
+/* Links */
+a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: var(--primary-dark);
+}
+
+/* Blockquotes / Callout Cards */
+blockquote {
+  margin: 1.4em 0;
+  padding: 16px 22px;
+  background-color: var(--primary-light);
+  border-left: 5px solid var(--primary);
+  border-radius: 0 12px 12px 0;
+  color: #7c2d12;
+  font-size: 0.96rem;
+}
+
+blockquote p {
+  margin: 0.4em 0;
+  color: inherit;
+}
+
+blockquote p strong {
+  color: var(--primary-dark);
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.6em 0;
+  font-size: 0.88rem;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+thead {
+  background-color: #f1f5f9;
+}
+
+th {
+  background-color: #f8fafc;
+  color: #0f172a;
+  font-weight: 700;
+  text-align: left;
+  padding: 12px 14px;
+  border-bottom: 2px solid var(--border-color);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-color);
+  color: #334155;
+  vertical-align: top;
+}
+
+tr:nth-child(even) td {
+  background-color: #fafbfc;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+/* Code Blocks */
+pre {
+  background-color: var(--code-bg);
+  color: #e2e8f0;
+  padding: 18px 20px;
+  border-radius: 12px;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', Consolas, Monaco, monospace;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  margin: 1.4em 0;
+  border: 1px solid #1e293b;
+}
+
+code {
+  font-family: 'JetBrains Mono', Consolas, Monaco, monospace;
+  font-size: 0.86em;
+  background-color: #f1f5f9;
+  color: #c2410c;
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+}
+
+pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+  border: none;
+  font-size: inherit;
+}
+
+/* Lists */
+ul, ol {
+  padding-left: 24px;
+  margin: 0.9em 0;
+}
+
+li {
+  margin-bottom: 0.45em;
+  color: #334155;
+}
+
+li strong {
+  color: #0f172a;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 2.5em 0;
+}
+
+/* Math blocks */
+.math {
+  font-family: 'JetBrains Mono', monospace;
+  background-color: #f8fafc;
+  padding: 2px 8px;
+  border-radius: 6px;
+  display: inline-block;
+  color: #0f172a;
+  border: 1px solid var(--border-color);
+}
+
+/* Print Styles */
+@media print {
+  @page {
+    size: A4;
+    margin: 15mm 12mm;
+  }
+
+  body {
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    font-size: 9.5pt;
+    line-height: 1.45;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    page-break-before: auto;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+    page-break-before: auto;
+    page-break-after: avoid;
+    margin-top: 1.6em;
+  }
+
+  h3, h4 {
+    page-break-after: avoid;
+    margin-top: 1.2em;
+  }
+
+  table {
+    page-break-inside: auto;
+    font-size: 8pt;
+  }
+
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  pre {
+    page-break-inside: avoid;
+    font-size: 7.8pt;
+    white-space: pre-wrap;
+    word-break: break-all;
+    padding: 10px 12px;
+  }
+
+  blockquote {
+    page-break-inside: avoid;
+    font-size: 8.8pt;
+    padding: 10px 14px;
+  }
+}

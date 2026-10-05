@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
+import GoogleSignInButton from '../components/GoogleSignInButton';
 import {
   ChefHat,
   Shield,
@@ -13,7 +14,6 @@ import {
   ArrowRight,
   Loader2,
   Sparkles,
-  CheckCircle,
 } from 'lucide-react';
 
 export default function Login() {
@@ -32,34 +32,28 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = location.state?.from?.pathname || (activeRoleTab === 'admin' ? '/admin/dashboard' : '/');
+  const from = location.state?.from?.pathname || (activeRoleTab === 'admin' ? '/admin/dashboard' : '/dashboard');
 
-  // Sync tab if URL param changes
+  // Sync tab if URL param changes without prefilling credentials
   useEffect(() => {
     const roleParam = searchParams.get('role');
     if (roleParam === 'admin') {
       setActiveRoleTab('admin');
-      setEmail('admin@recipehaven.com');
-      setPassword('Password@123');
     } else if (roleParam === 'user') {
       setActiveRoleTab('user');
-      setEmail('chef@recipehaven.com');
-      setPassword('Password@123');
     }
+    // Do not prefill inputs by default
+    setEmail('');
+    setPassword('');
   }, [searchParams]);
 
   const handleTabChange = (role) => {
     setActiveRoleTab(role);
     setError('');
     setSearchParams({ role });
-
-    if (role === 'admin') {
-      setEmail('admin@recipehaven.com');
-      setPassword('Password@123');
-    } else {
-      setEmail('chef@recipehaven.com');
-      setPassword('Password@123');
-    }
+    // Keep inputs clean on tab switch
+    setEmail('');
+    setPassword('');
   };
 
   const handleSubmit = async (e) => {
@@ -80,7 +74,7 @@ export default function Login() {
       showToast(`Welcome back, ${result.user.name} (${roleLabel})!`, 'success');
 
       // Navigate to admin dashboard if admin and no explicit return path
-      if (result.user.role === 'admin' && from === '/') {
+      if (result.user.role === 'admin' && (from === '/' || from === '/dashboard')) {
         navigate('/admin/dashboard', { replace: true });
       } else {
         navigate(from, { replace: true });
@@ -95,7 +89,7 @@ export default function Login() {
     setEmail('chef@recipehaven.com');
     setPassword('Password@123');
     setError('');
-    showToast('Loaded demo User (Sarah Jenkins) credentials', 'info');
+    showToast('Demo User credentials loaded', 'info');
   };
 
   const handleFillDemoAdmin = () => {
@@ -103,7 +97,7 @@ export default function Login() {
     setEmail('admin@recipehaven.com');
     setPassword('Password@123');
     setError('');
-    showToast('Loaded demo Admin (Master Chef Admin) credentials', 'info');
+    showToast('Demo Admin credentials loaded', 'info');
   };
 
   return (
@@ -155,7 +149,7 @@ export default function Login() {
           </div>
 
           <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
-            {activeRoleTab === 'admin' ? 'Administrator Portal' : 'Home Chef / User Sign In'}
+            {activeRoleTab === 'admin' ? 'Administrator Portal' : 'User / Chef Sign In'}
           </h2>
           <p className="text-xs sm:text-sm text-stone-500 max-w-xs mx-auto">
             {activeRoleTab === 'admin'
@@ -170,13 +164,13 @@ export default function Login() {
             <button
               type="button"
               onClick={handleFillDemoUser}
-              className="w-full py-2.5 px-3 rounded-2xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-900 font-semibold text-xs transition-colors flex items-center justify-between cursor-pointer group"
+              className="w-full py-2.5 px-3 rounded-2xl bg-stone-50 hover:bg-amber-50 border border-stone-200 hover:border-amber-300 text-stone-700 hover:text-amber-900 font-semibold text-xs transition-colors flex items-center justify-between cursor-pointer group"
             >
               <span className="flex items-center gap-1.5">
                 <Sparkles className="w-4 h-4 text-amber-600" />
-                <span>Fill User Demo (Sarah Jenkins)</span>
+                <span>Fill User Demo (Home Chef)</span>
               </span>
-              <span className="text-[11px] text-amber-700 bg-amber-200/60 px-2 py-0.5 rounded-lg group-hover:bg-amber-200 font-mono">
+              <span className="text-[11px] text-stone-500 group-hover:text-amber-800 bg-stone-100 group-hover:bg-amber-200/60 px-2 py-0.5 rounded-lg font-mono">
                 chef@recipehaven.com
               </span>
             </button>
@@ -184,13 +178,13 @@ export default function Login() {
             <button
               type="button"
               onClick={handleFillDemoAdmin}
-              className="w-full py-2.5 px-3 rounded-2xl bg-orange-50 hover:bg-orange-100 border border-orange-200 text-orange-900 font-semibold text-xs transition-colors flex items-center justify-between cursor-pointer group"
+              className="w-full py-2.5 px-3 rounded-2xl bg-stone-50 hover:bg-orange-50 border border-stone-200 hover:border-orange-300 text-stone-700 hover:text-orange-900 font-semibold text-xs transition-colors flex items-center justify-between cursor-pointer group"
             >
               <span className="flex items-center gap-1.5">
                 <Shield className="w-4 h-4 text-orange-600" />
-                <span>Fill Admin Demo (Master Chef)</span>
+                <span>Fill Admin Demo (Administrator)</span>
               </span>
-              <span className="text-[11px] text-orange-700 bg-orange-200/60 px-2 py-0.5 rounded-lg group-hover:bg-orange-200 font-mono">
+              <span className="text-[11px] text-stone-500 group-hover:text-orange-800 bg-stone-100 group-hover:bg-orange-200/60 px-2 py-0.5 rounded-lg font-mono">
                 admin@recipehaven.com
               </span>
             </button>
@@ -219,7 +213,7 @@ export default function Login() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder={activeRoleTab === 'admin' ? 'admin@recipehaven.com' : 'chef@recipehaven.com'}
+                placeholder="name@example.com"
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-50/80 border border-stone-200 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 text-sm transition-all outline-hidden"
               />
             </div>
@@ -230,7 +224,12 @@ export default function Login() {
               <label className="block text-xs font-bold uppercase tracking-wider text-stone-700">
                 Password
               </label>
-              <span className="text-[11px] text-stone-400 font-mono">Password@123</span>
+              <Link
+                to="/forgot-password"
+                className="text-xs font-semibold text-amber-600 hover:text-amber-700 hover:underline"
+              >
+                Forgot Password?
+              </Link>
             </div>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
@@ -241,7 +240,7 @@ export default function Login() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
+                placeholder="Enter your password..."
                 className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-stone-50/80 border border-stone-200 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 text-sm transition-all outline-hidden"
               />
               <button
@@ -278,6 +277,15 @@ export default function Login() {
             )}
           </button>
         </form>
+
+        {/* Google OAuth & Social Sign-In */}
+        <div className="relative flex py-1 items-center">
+          <div className="grow border-t border-stone-200"></div>
+          <span className="shrink mx-3 text-stone-400 text-xs font-semibold uppercase tracking-wider">Or continue with</span>
+          <div className="grow border-t border-stone-200"></div>
+        </div>
+
+        <GoogleSignInButton redirectPath={from} label="Continue with Google" />
 
         {/* Switch Account Quick Toggles */}
         <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-xs text-stone-500">

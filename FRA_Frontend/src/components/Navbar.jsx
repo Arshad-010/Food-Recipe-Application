@@ -90,6 +90,20 @@ export default function Navbar() {
 
         {/* Desktop Navigation Links */}
         <nav className="hidden md:flex items-center gap-1 lg:gap-2">
+          {isAuthenticated && (
+            <NavLink
+              to="/dashboard"
+              className={({ isActive }) =>
+                `px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  isActive
+                    ? 'text-amber-600 bg-amber-50 font-bold'
+                    : 'text-stone-600 hover:text-stone-900 hover:bg-stone-50'
+                }`
+              }
+            >
+              Dashboard
+            </NavLink>
+          )}
           <NavLink
             to="/"
             className={({ isActive }) =>
@@ -243,6 +257,15 @@ export default function Navbar() {
 
                     <div className="py-1">
                       <Link
+                        to="/dashboard"
+                        onClick={() => setDropdownOpen(false)}
+                        className="flex items-center gap-2.5 px-4 py-2 text-stone-700 hover:bg-amber-50 hover:text-amber-800 transition-colors font-medium"
+                      >
+                        <ChefHat className="w-4 h-4 text-amber-600" />
+                        <span>Chef Dashboard</span>
+                      </Link>
+
+                      <Link
                         to="/profile"
                         onClick={() => setDropdownOpen(false)}
                         className="flex items-center gap-2.5 px-4 py-2 text-stone-700 hover:bg-amber-50 hover:text-amber-800 transition-colors"
@@ -389,9 +412,16 @@ export default function Navbar() {
           {isAuthenticated ? (
             <>
               <Link
+                to="/dashboard"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block px-3 py-2 rounded-lg text-base font-bold text-amber-800 bg-amber-50"
+              >
+                Dashboard
+              </Link>
+              <Link
                 to="/create-recipe"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2 rounded-lg text-base font-medium text-amber-600 bg-amber-50"
+                className="block px-3 py-2 rounded-lg text-base font-medium text-stone-800 hover:bg-stone-50"
               >
                 Create Recipe
               </Link>

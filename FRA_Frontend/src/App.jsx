@@ -18,6 +18,10 @@ import AdminDashboard from './pages/AdminDashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import Dashboard from './pages/Dashboard';
+import ForgotPassword from './pages/ForgotPassword';
+import VerifyOtp from './pages/VerifyOtp';
+import ResetPassword from './pages/ResetPassword';
 
 function App() {
   return (
@@ -34,8 +38,20 @@ function App() {
                 <Route path="/recipes/:id" element={<RecipeDetail />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/verify-otp" element={<VerifyOtp />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/reset-password/:token" element={<ResetPassword />} />
 
                 {/* Protected User Routes */}
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route
                   path="/create-recipe"
                   element={

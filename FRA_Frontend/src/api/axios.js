@@ -29,13 +29,19 @@ api.interceptors.response.use(
       if (localStorage.getItem('token')) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        // Optional redirect to login could happen in AuthContext
       }
     }
-    const message =
-      error.response?.data?.message ||
-      error.message ||
-      'An unexpected error occurred';
+
+    let message = 'An unexpected error occurred';
+    if (!error.response) {
+      // Backend is unavailable or network error
+      message = 'Unable to connect to the server. Please try again.';
+    } else if (error.response?.data?.message) {
+      message = error.response.data.message;
+    } else if (error.message && error.message !== 'Network Error') {
+      message = error.message;
+    }
+
     return Promise.reject(new Error(message));
   }
 );

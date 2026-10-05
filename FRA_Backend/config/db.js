@@ -27,18 +27,32 @@ async function ensureDefaultUsers() {
     let demoChef = await User.findOne({ email: 'chef@recipehaven.com' });
     if (!demoChef) {
       demoChef = await User.create({
-        name: 'Sarah Jenkins',
+        name: 'Home Chef',
         email: 'chef@recipehaven.com',
         password: 'Password@123',
         role: 'user',
-        avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
-        bio: 'Home cook passionate about Mediterranean cuisine, artisan baking and quick weeknight meals.',
+        avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80',
+        bio: '',
         preferences: {
-          cuisines: ['Mediterranean', 'Mexican', 'Thai'],
-          dietType: 'Vegetarian',
+          cuisines: [],
+          dietType: 'None',
+          mealTypes: [],
         },
+        favorites: [],
+        bookmarks: [],
       });
-      console.log('[Auth Setup]: Created Demo User -> chef@recipehaven.com / Password@123');
+      console.log('[Auth Setup]: Created Default User -> chef@recipehaven.com / Password@123');
+    } else {
+      // Ensure clean blank-slate default for user profile
+      demoChef.name = 'Home Chef';
+      demoChef.bio = '';
+      demoChef.avatar = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80';
+      demoChef.preferences = {
+        cuisines: [],
+        dietType: 'None',
+        mealTypes: [],
+      };
+      await demoChef.save();
     }
 
     await seedDatabase(admin);
@@ -52,7 +66,7 @@ async function ensureDefaultUsers() {
  * Seamless fallback to MongoMemoryServer if remote cluster is unreachable (e.g. IP whitelist)
  */
 const connectDB = async () => {
-  const mongoUri = process.env.MONGODB_URI || process.env.MONGOOSE_URI;
+  const mongoUri = process.env.MONGO_URI || process.env.MONGODB_URI || process.env.MONGOOSE_URI;
 
   if (mongoUri) {
     try {

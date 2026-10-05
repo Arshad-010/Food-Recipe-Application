@@ -23,25 +23,33 @@ app.use(helmet({
 }));
 
 // CORS Configuration
-const allowedOrigins = [
-  process.env.CLIENT_URL,
-  'http://localhost:5173',
-  'http://localhost:3000',
-  'http://127.0.0.1:5173',
-].filter(Boolean);
+const isOriginAllowed = (origin) => {
+  // Allow requests with no origin (like mobile apps, curl, Postman)
+  if (!origin) return true;
+  // Allow any localhost or 127.0.0.1 port (e.g. 5173, 5174, 5175, 5176, 5177, 3000)
+  if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) return true;
+  // Allow local network IP addresses during development/demo (e.g. 192.168.x.x, 10.x.x.x)
+  if (/^https?:\/\/(192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+)(:\d+)?$/.test(origin)) return true;
+  // Allow configured CLIENT_URL
+  if (process.env.CLIENT_URL && origin === process.env.CLIENT_URL) return true;
+  // Allow in development mode
+  if (process.env.NODE_ENV !== 'production') return true;
+  return false;
+};
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin (like mobile apps, curl, Postman)
-      if (!origin || allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
-        return callback(null, true);
+      if (isOriginAllowed(origin)) {
+        callback(null, true);
+      } else {
+        callback(null, false);
       }
-      return callback(new Error('Blocked by CORS policy'));
     },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+    exposedHeaders: ['Content-Range', 'X-Content-Range'],
   })
 );
 
@@ -104,7 +112,7 @@ app.use(errorHandler);
 // Start Server if run directly
 let server;
 if (require.main === module || !process.env.TEST_MODE) {
-  server = app.listen(PORT, () => {
+  server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`===============================================`);
     console.log(` Food Recipe App Server is running on port: ${PORT}`);
     console.log(` Mode: ${process.env.NODE_ENV || 'development'}`);
