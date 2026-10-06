@@ -3,7 +3,7 @@ const path = require('path');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-require('dotenv').config();
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/errorHandler');
@@ -117,6 +117,11 @@ if (require.main === module || !process.env.TEST_MODE) {
     console.log(` Food Recipe App Server is running on port: ${PORT}`);
     console.log(` Mode: ${process.env.NODE_ENV || 'development'}`);
     console.log(` Health Check: http://localhost:${PORT}/api/health`);
+    if (process.env.GOOGLE_CLIENT_ID) {
+      console.log(` Google OAuth: ENABLED (Client ID: ${process.env.GOOGLE_CLIENT_ID.slice(0, 16)}...)`);
+    } else {
+      console.warn(` Google OAuth: DISABLED (GOOGLE_CLIENT_ID missing in backend .env)`);
+    }
     console.log(`===============================================`);
   });
 }

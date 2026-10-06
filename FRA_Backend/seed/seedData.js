@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const User = require('../models/User');
 const Recipe = require('../models/Recipe');
+const additionalRecipes = require('./additionalRecipes');
 
-const sampleRecipes = [
+const baseRecipes = [
   // ─────────────────────────────────────────────
   // ITALIAN RECIPES
   // ─────────────────────────────────────────────
@@ -84,7 +85,7 @@ const sampleRecipes = [
     caloriesPerServing: 720,
     dietaryTags: [],
     image: 'https://images.unsplash.com/photo-1546549032-9571cd6b27df?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=I6hMOFZcOXo',
+    videoUrl: 'https://www.youtube.com/watch?v=CWg_Rhgqxfc',
     isFeatured: false,
     ingredients: [
       { name: 'Lasagna Pasta Sheets', quantity: 300, unit: 'g', notes: 'Fresh or dried' },
@@ -158,7 +159,7 @@ const sampleRecipes = [
     caloriesPerServing: 380,
     dietaryTags: ['Vegetarian', 'Gluten-Free'],
     image: 'https://images.unsplash.com/photo-1645177628172-a8b23b106ec2?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=4YgBQUrXFhc',
+    videoUrl: 'https://www.youtube.com/watch?v=-rPNmeRkNSE',
     isFeatured: true,
     ingredients: [
       { name: 'Fresh Baby Spinach', quantity: 500, unit: 'g', notes: 'Blanched and pureed' },
@@ -193,7 +194,7 @@ const sampleRecipes = [
     caloriesPerServing: 750,
     dietaryTags: ['Gluten-Free'],
     image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=lIVHGbJJaI8',
+    videoUrl: 'https://www.youtube.com/watch?v=EiVoWp5b93s',
     isFeatured: true,
     ingredients: [
       { name: 'Basmati Rice', quantity: 3, unit: 'cups', notes: 'Soaked 30 minutes' },
@@ -232,7 +233,7 @@ const sampleRecipes = [
     caloriesPerServing: 420,
     dietaryTags: ['Pescatarian'],
     image: 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=fbToJsWqwJA',
+    videoUrl: 'https://www.youtube.com/watch?v=J2O0iYjj3iI',
     isFeatured: true,
     ingredients: [
       { name: 'Fresh Cod or Halibut Fillets', quantity: 500, unit: 'g', notes: 'Cut into 3-inch strips' },
@@ -265,7 +266,7 @@ const sampleRecipes = [
     caloriesPerServing: 220,
     dietaryTags: ['Vegan', 'Gluten-Free', 'Vegetarian'],
     image: 'https://images.unsplash.com/photo-1601593346740-925612772716?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=Hy0OJhBv_g4',
+    videoUrl: 'https://www.youtube.com/watch?v=NF2lrDeTU_g',
     isFeatured: false,
     ingredients: [
       { name: 'Ripe Hass Avocados', quantity: 3, unit: 'large', notes: 'Perfectly ripe' },
@@ -297,7 +298,7 @@ const sampleRecipes = [
     caloriesPerServing: 390,
     dietaryTags: ['Gluten-Free'],
     image: 'https://images.unsplash.com/photo-1640719028782-8230f1bdc93f?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=UMWbGNGcJa0',
+    videoUrl: 'https://www.youtube.com/watch?v=Med7sVDBYJs',
     isFeatured: false,
     ingredients: [
       { name: 'Beef Chuck Roast', quantity: 1.5, unit: 'kg', notes: 'Cut into large chunks' },
@@ -334,7 +335,7 @@ const sampleRecipes = [
     caloriesPerServing: 680,
     dietaryTags: [],
     image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=JtVDYoNaAzQ',
+    videoUrl: 'https://www.youtube.com/watch?v=r3_tcQiyGG8',
     isFeatured: true,
     ingredients: [
       { name: 'Fresh Ramen Noodles', quantity: 4, unit: 'portions', notes: 'Medium-wavy' },
@@ -368,7 +369,7 @@ const sampleRecipes = [
     caloriesPerServing: 320,
     dietaryTags: ['Vegan', 'Vegetarian'],
     image: 'https://images.unsplash.com/photo-1514190051997-0f6f39ca5cde?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=7sCFIzRBbKg',
+    videoUrl: 'https://www.youtube.com/watch?v=SN0P1WUK3b4',
     isFeatured: false,
     ingredients: [
       { name: 'Sweet Potato', quantity: 1, unit: 'medium', notes: 'Sliced into 0.5cm rounds' },
@@ -402,7 +403,7 @@ const sampleRecipes = [
     caloriesPerServing: 550,
     dietaryTags: [],
     image: 'https://images.unsplash.com/photo-1562802378-063ec186a863?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=0rXZxKF8bG4',
+    videoUrl: 'https://www.youtube.com/watch?v=osG3R8WWonc',
     isFeatured: false,
     ingredients: [
       { name: 'Thinly Sliced Beef Ribeye', quantity: 300, unit: 'g', notes: 'Paper-thin shabu-shabu style' },
@@ -440,7 +441,7 @@ const sampleRecipes = [
     caloriesPerServing: 350,
     dietaryTags: ['Vegetarian'],
     image: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=2N3mMaHOELM',
+    videoUrl: 'https://www.youtube.com/watch?v=GxL9fTvf4go',
     isFeatured: true,
     ingredients: [
       { name: 'Artisan Sourdough Bread', quantity: 2, unit: 'slices', notes: 'Thick cut' },
@@ -472,7 +473,7 @@ const sampleRecipes = [
     caloriesPerServing: 780,
     dietaryTags: [],
     image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=LHtOmx39H3Y',
+    videoUrl: 'https://www.youtube.com/watch?v=0nrRJdFaJjI',
     isFeatured: true,
     ingredients: [
       { name: 'Ground Beef (80/20)', quantity: 400, unit: 'g', notes: 'Loosely formed into 4 balls' },
@@ -504,7 +505,7 @@ const sampleRecipes = [
     caloriesPerServing: 420,
     dietaryTags: ['Vegetarian'],
     image: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=Jfna5_xVzlM',
+    videoUrl: 'https://www.youtube.com/watch?v=-fMcKbeqX4g',
     isFeatured: false,
     ingredients: [
       { name: 'All-Purpose Flour', quantity: 2, unit: 'cups', notes: '' },
@@ -542,7 +543,7 @@ const sampleRecipes = [
     caloriesPerServing: 240,
     dietaryTags: ['Vegetarian', 'Gluten-Free', 'Keto'],
     image: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=oJpERbNlbGM',
+    videoUrl: 'https://www.youtube.com/watch?v=oSn0Y9c99NU',
     isFeatured: false,
     ingredients: [
       { name: 'Ripe Vine Tomatoes', quantity: 4, unit: 'large', notes: 'Cut into wedges' },
@@ -573,7 +574,7 @@ const sampleRecipes = [
     caloriesPerServing: 480,
     dietaryTags: ['Gluten-Free'],
     image: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=HnYRVPxHpWc',
+    videoUrl: 'https://www.youtube.com/watch?v=NC5dxtGLqw4',
     isFeatured: true,
     ingredients: [
       { name: 'Ground Lamb', quantity: 500, unit: 'g', notes: '20% fat content' },
@@ -606,7 +607,7 @@ const sampleRecipes = [
     caloriesPerServing: 420,
     dietaryTags: ['Gluten-Free'],
     image: 'https://images.unsplash.com/photo-1601933973783-43cf8a7d4c5f?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=zRlAoCwPuAo',
+    videoUrl: 'https://www.youtube.com/watch?v=e16giQTp0z0',
     isFeatured: false,
     ingredients: [
       { name: 'Dried Chickpeas', quantity: 300, unit: 'g', notes: 'Soaked overnight, cooked until very tender' },
@@ -643,7 +644,7 @@ const sampleRecipes = [
     caloriesPerServing: 520,
     dietaryTags: ['Gluten-Free'],
     image: 'https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=hPGsRST3Z-0',
+    videoUrl: 'https://www.youtube.com/watch?v=XZQ63hG1IjI',
     isFeatured: true,
     ingredients: [
       { name: 'Chicken Breast', quantity: 500, unit: 'g', notes: 'Thinly sliced' },
@@ -676,7 +677,7 @@ const sampleRecipes = [
     caloriesPerServing: 520,
     dietaryTags: ['Vegetarian'],
     image: 'https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=BO0IgKVw-CI',
+    videoUrl: 'https://www.youtube.com/watch?v=w2xQMFfB0Jo',
     isFeatured: true,
     ingredients: [
       { name: 'Dried Rice Noodles (3mm)', quantity: 200, unit: 'g', notes: 'Soaked in cold water 30 minutes' },
@@ -710,7 +711,7 @@ const sampleRecipes = [
     caloriesPerServing: 320,
     dietaryTags: ['Gluten-Free'],
     image: 'https://images.unsplash.com/photo-1626804475297-41608ea09aeb?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=6eUjy2H-Cck',
+    videoUrl: 'https://www.youtube.com/watch?v=m3SxEEQlzGU',
     isFeatured: false,
     ingredients: [
       { name: 'Ground Chicken', quantity: 300, unit: 'g', notes: '' },
@@ -747,7 +748,7 @@ const sampleRecipes = [
     caloriesPerServing: 380,
     dietaryTags: ['Vegetarian', 'Gluten-Free'],
     image: 'https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=dDMJ7Gk36j8',
+    videoUrl: 'https://www.youtube.com/watch?v=vUfuLXqjkHU',
     isFeatured: false,
     ingredients: [
       { name: 'Heavy Whipping Cream', quantity: 2, unit: 'cups', notes: '36% fat' },
@@ -777,7 +778,7 @@ const sampleRecipes = [
     caloriesPerServing: 640,
     dietaryTags: ['Gluten-Free'],
     image: 'https://images.unsplash.com/photo-1604329760661-e71dc83f8f26?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=7GpeL-a5GAk',
+    videoUrl: 'https://www.youtube.com/watch?v=hJswLfXL_GA',
     isFeatured: false,
     ingredients: [
       { name: 'Whole Chicken, Cut into Pieces', quantity: 1.5, unit: 'kg', notes: '' },
@@ -814,7 +815,7 @@ const sampleRecipes = [
     caloriesPerServing: 280,
     dietaryTags: ['Gluten-Free'],
     image: 'https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=xO0fFLxwV7U',
+    videoUrl: 'https://www.youtube.com/watch?v=YUeI6MtxYCw',
     isFeatured: false,
     ingredients: [
       { name: 'Fresh Tiger Prawns', quantity: 400, unit: 'g', notes: 'Deveined, roughly chopped + some left whole' },
@@ -846,7 +847,7 @@ const sampleRecipes = [
     caloriesPerServing: 380,
     dietaryTags: ['Gluten-Free'],
     image: 'https://images.unsplash.com/photo-1546833998-877b37c2e5c6?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=L4_QL8HgsME',
+    videoUrl: 'https://www.youtube.com/watch?v=j_jQUz6aOkg',
     isFeatured: true,
     ingredients: [
       { name: 'Silken Tofu', quantity: 500, unit: 'g', notes: 'Cut into 1.5-inch cubes' },
@@ -879,7 +880,7 @@ const sampleRecipes = [
     caloriesPerServing: 120,
     dietaryTags: ['Vegan', 'Gluten-Free', 'Vegetarian'],
     image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=6vgHDEbDqkk',
+    videoUrl: 'https://www.youtube.com/watch?v=R4cDJVFWDSk',
     isFeatured: false,
     ingredients: [
       { name: 'Baby Bok Choy', quantity: 600, unit: 'g', notes: 'Halved lengthwise' },
@@ -914,7 +915,7 @@ const sampleRecipes = [
     caloriesPerServing: 480,
     dietaryTags: ['Gluten-Free'],
     image: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=V4CCWGVNJKI',
+    videoUrl: 'https://www.youtube.com/watch?v=6ZPfR3S9Rw8',
     isFeatured: true,
     ingredients: [
       { name: 'Beef Ribeye or Sirloin', quantity: 500, unit: 'g', notes: 'Shaved paper-thin' },
@@ -947,7 +948,7 @@ const sampleRecipes = [
     caloriesPerServing: 560,
     dietaryTags: ['Vegetarian', 'Gluten-Free'],
     image: 'https://images.unsplash.com/photo-1565299507177-b0ac66763828?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=2MNsEVe8U9c',
+    videoUrl: 'https://www.youtube.com/watch?v=jg0CFQoHjio',
     isFeatured: true,
     ingredients: [
       { name: 'Short-Grain White Rice', quantity: 1.5, unit: 'cups', notes: 'Cooked and warm' },
@@ -985,7 +986,7 @@ const sampleRecipes = [
     caloriesPerServing: 320,
     dietaryTags: ['Vegetarian', 'Gluten-Free'],
     image: 'https://images.unsplash.com/photo-1595854341625-f33ee10dbf94?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=G80MYFjFjLQ',
+    videoUrl: 'https://www.youtube.com/watch?v=Nf0EUTtjkFA',
     isFeatured: false,
     ingredients: [
       { name: 'Eggs', quantity: 4, unit: 'large', notes: '' },
@@ -1023,7 +1024,7 @@ const sampleRecipes = [
     caloriesPerServing: 520,
     dietaryTags: ['Vegetarian'],
     image: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=v6oEcmE2g0k',
+    videoUrl: 'https://www.youtube.com/watch?v=RScfTwEsWWA',
     isFeatured: true,
     ingredients: [
       { name: 'Graham Crackers', quantity: 250, unit: 'g', notes: 'Finely crushed' },
@@ -1056,7 +1057,7 @@ const sampleRecipes = [
     caloriesPerServing: 290,
     dietaryTags: ['Vegetarian', 'Gluten-Free'],
     image: 'https://images.unsplash.com/photo-1557805931-a67d35ad2af3?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=zLtJQILRSd8',
+    videoUrl: 'https://www.youtube.com/watch?v=VMUUVxrxKUE',
     isFeatured: false,
     ingredients: [
       { name: 'Full-Fat Whole Milk', quantity: 1, unit: 'liter', notes: '' },
@@ -1092,7 +1093,7 @@ const sampleRecipes = [
     caloriesPerServing: 120,
     dietaryTags: ['Vegetarian', 'Gluten-Free'],
     image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=aMWmw_xtDIw',
+    videoUrl: 'https://www.youtube.com/watch?v=iJKnyvYnCm4',
     isFeatured: false,
     ingredients: [
       { name: 'South Indian Filter Coffee Powder (80% Coffee, 20% Chicory)', quantity: 4, unit: 'tbsp', notes: '' },
@@ -1121,7 +1122,7 @@ const sampleRecipes = [
     caloriesPerServing: 90,
     dietaryTags: ['Vegetarian', 'Gluten-Free'],
     image: 'https://images.unsplash.com/photo-1571934811356-5cc061b6821f?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=CiCOJnk0Blg',
+    videoUrl: 'https://www.youtube.com/watch?v=D8s_0jfo9Yw',
     isFeatured: false,
     ingredients: [
       { name: 'Water', quantity: 1, unit: 'cup', notes: '' },
@@ -1158,7 +1159,7 @@ const sampleRecipes = [
     caloriesPerServing: 380,
     dietaryTags: ['Vegan', 'Gluten-Free', 'Vegetarian'],
     image: 'https://images.unsplash.com/photo-1529543544282-ea669407fca3?auto=format&fit=crop&w=1200&q=80',
-    videoUrl: 'https://www.youtube.com/watch?v=RsLSMqlheRY',
+    videoUrl: 'https://www.youtube.com/watch?v=0HtyesvxjqY',
     isFeatured: false,
     ingredients: [
       { name: 'Dried Chickpeas', quantity: 250, unit: 'g', notes: 'Soaked 24 hours — NEVER use canned!' },
@@ -1179,57 +1180,82 @@ const sampleRecipes = [
   },
 ];
 
+const sampleRecipes = [...baseRecipes, ...additionalRecipes];
+
 async function seedDatabase(adminUser) {
   try {
-    const existingCount = await Recipe.countDocuments();
-    if (existingCount > 0) {
-      console.log(`[Seed Database]: Database already contains ${existingCount} recipes. Skipping seed.`);
+    if (!adminUser) {
+      adminUser = await User.findOne({ email: 'admin@recipehaven.com' });
+    }
+    if (!adminUser) {
+      console.warn('[Seed Database]: No admin user available for author reference. Skipping recipe seed.');
       return;
     }
 
-    console.log('[Seed Database]: Seeding initial high-quality recipes...');
-
+    let seededCount = 0;
     for (const r of sampleRecipes) {
-      await Recipe.create({
-        ...r,
-        author: adminUser._id,
-        authorName: adminUser.name,
-        authorAvatar: adminUser.avatar,
-        averageRating: 4.7 + Number((Math.random() * 0.3).toFixed(1)),
-        ratingsCount: Math.floor(Math.random() * 35) + 10,
-        favoritesCount: Math.floor(Math.random() * 55) + 15,
-        isPublished: true,
-        reviews: [
-          {
-            user: adminUser._id,
-            userName: 'Chef Isabella',
-            userAvatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80',
-            rating: 5,
-            comment: 'Absolutely sensational flavors! Followed the step-by-step instructions and timing, and the texture turned out restaurant-quality.',
-            createdAt: new Date(Date.now() - 86400000 * 2),
+      const exists = await Recipe.findOne({ title: r.title });
+      if (!exists) {
+        await Recipe.create({
+          ...r,
+          author: adminUser._id,
+          authorName: adminUser.name,
+          authorAvatar: adminUser.avatar,
+          authorContact: {
+            email: adminUser.contactEmail || adminUser.email || 'admin@recipehaven.com',
+            phone: adminUser.phoneNumber || '+1 (555) 382-4920',
+            location: adminUser.location || 'San Francisco, CA',
+            instagram: adminUser.instagram || '@recipehaven_official',
+            website: adminUser.website || 'https://recipehaven.com',
           },
-          {
-            user: adminUser._id,
-            userName: 'Marco Rossi',
-            userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
-            rating: 5,
-            comment: 'Simple to follow, perfectly measured ingredients, and wonderful depth of aroma. Bookmarked for my weekly dinner rotation!',
-            createdAt: new Date(Date.now() - 86400000),
-          },
-        ],
-        comments: [
-          {
-            user: adminUser._id,
-            userName: 'CulinaryEnthusiast',
-            userAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80',
-            text: 'Can I substitute one of the herbs if fresh is not in season? Loved making this!',
-            createdAt: new Date(),
-          },
-        ],
-      });
+          averageRating: 4.7 + Number((Math.random() * 0.3).toFixed(1)),
+          ratingsCount: Math.floor(Math.random() * 35) + 10,
+          favoritesCount: Math.floor(Math.random() * 55) + 15,
+          isPublished: true,
+          status: 'approved',
+          reviews: [
+            {
+              user: adminUser._id,
+              userName: 'Chef Isabella',
+              userAvatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80',
+              rating: 5,
+              comment: 'Absolutely sensational flavors! Followed the step-by-step instructions and timing, and the texture turned out restaurant-quality.',
+              createdAt: new Date(Date.now() - 86400000 * 2),
+            },
+            {
+              user: adminUser._id,
+              userName: 'Marco Rossi',
+              userAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
+              rating: 5,
+              comment: 'Simple to follow, perfectly measured ingredients, and wonderful depth of aroma. Bookmarked for my weekly dinner rotation!',
+              createdAt: new Date(Date.now() - 86400000),
+            },
+          ],
+          comments: [
+            {
+              user: adminUser._id,
+              userName: 'CulinaryEnthusiast',
+              userAvatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80',
+              text: 'Can I substitute one of the herbs if fresh is not in season? Loved making this!',
+              createdAt: new Date(),
+            },
+          ],
+        });
+        seededCount++;
+      } else {
+        // Sync verified working YouTube video URL
+        if (r.videoUrl && exists.videoUrl !== r.videoUrl) {
+          exists.videoUrl = r.videoUrl;
+          await exists.save();
+        }
+      }
     }
 
-    console.log(`[Seed Database]: Successfully seeded ${sampleRecipes.length} rich culinary recipes.`);
+    if (seededCount > 0) {
+      console.log(`[Seed Database]: Successfully seeded ${seededCount} new recipes (total recipes: ${await Recipe.countDocuments()}).`);
+    } else {
+      console.log(`[Seed Database]: All ${sampleRecipes.length} recipes verified and synchronized in database.`);
+    }
   } catch (err) {
     console.error('[Seed Database Error]:', err.message);
   }
@@ -1239,3 +1265,4 @@ module.exports = {
   sampleRecipes,
   seedDatabase,
 };
+

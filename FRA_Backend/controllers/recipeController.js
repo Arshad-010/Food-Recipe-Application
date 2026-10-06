@@ -17,6 +17,7 @@ const getRecipes = async (req, res, next) => {
       difficulty,
       maxTime,
       dietaryTag,
+      foodType,
       featured,
       sort,
       page = 1,
@@ -53,6 +54,15 @@ const getRecipes = async (req, res, next) => {
       query.mealType = mealType;
     }
 
+    // Food type filter (Veg / Non-Veg)
+    if (foodType && foodType !== 'All') {
+      if (foodType === 'Veg') {
+        query.isVeg = true;
+      } else if (foodType === 'Non-Veg') {
+        query.isVeg = false;
+      }
+    }
+
     // Difficulty filter
     if (difficulty && difficulty !== 'All') {
       query.difficulty = difficulty;
@@ -66,6 +76,11 @@ const getRecipes = async (req, res, next) => {
     // Featured only
     if (featured === 'true') {
       query.isFeatured = true;
+    }
+
+    // Has Video only
+    if (req.query.hasVideo === 'true') {
+      query.videoUrl = { $exists: true, $ne: '' };
     }
 
     // Max cooking time filter
@@ -99,6 +114,15 @@ const getRecipes = async (req, res, next) => {
       .limit(pageSize)
       .populate('author', 'name avatar');
 
+    // Prioritize recipes with active video access so they appear above
+    recipes.sort((a, b) => {
+      const hasA = Boolean(a.videoUrl && a.videoUrl.trim());
+      const hasB = Boolean(b.videoUrl && b.videoUrl.trim());
+      if (hasA && !hasB) return -1;
+      if (!hasA && hasB) return 1;
+      return 0;
+    });
+
     res.status(200).json({
       success: true,
       count: recipes.length,
@@ -119,7 +143,10 @@ const getRecipes = async (req, res, next) => {
  */
 const getRecipeById = async (req, res, next) => {
   try {
-    const recipe = await Recipe.findById(req.params.id).populate('author', 'name avatar bio role');
+    const recipe = await Recipe.findById(req.params.id).populate(
+      'author',
+      'name avatar bio role email contactEmail phoneNumber location instagram website'
+    );
 
     if (!recipe) {
       return res.status(404).json({
@@ -205,6 +232,13 @@ const createRecipe = async (req, res, next) => {
       author: req.user._id,
       authorName: req.user.name,
       authorAvatar: req.user.avatar,
+      authorContact: {
+        email: req.user.contactEmail || req.user.email || '',
+        phone: req.user.phoneNumber || '',
+        location: req.user.location || '',
+        instagram: req.user.instagram || '',
+        website: req.user.website || '',
+      },
       isPublished: isPublished !== undefined ? isPublished : true,
     });
 
@@ -801,7 +835,7 @@ const getSimilarRecipes = async (req, res, next) => {
  */
 const searchRecipes = async (req, res, next) => {
   try {
-    const { q, ingredients, suggest, page = 1, limit = 12 } = req.query;
+    const { q, ingredients, cuisine, mealType, difficulty, foodType, suggest, page = 1, limit = 12 } = req.query;
 
     // Autocomplete suggestions mode
     if (suggest === 'true' || suggest === '1') {
@@ -854,6 +888,30 @@ const searchRecipes = async (req, res, next) => {
       ];
     }
 
+    // Cuisine filter
+    if (cuisine && cuisine !== 'All') {
+      query.cuisine = new RegExp(`^${cuisine.trim()}$`, 'i');
+    }
+
+    // Meal type filter
+    if (mealType && mealType !== 'All') {
+      query.mealType = mealType;
+    }
+
+    // Difficulty filter
+    if (difficulty && difficulty !== 'All') {
+      query.difficulty = difficulty;
+    }
+
+    // Food type filter (Veg / Non-Veg)
+    if (foodType && foodType !== 'All') {
+      if (foodType === 'Veg') {
+        query.isVeg = true;
+      } else if (foodType === 'Non-Veg') {
+        query.isVeg = false;
+      }
+    }
+
     // If ingredients provided, query for recipes containing at least one
     if (ingList.length > 0) {
       const ingRegexes = ingList.map((ing) => new RegExp(ing, 'i'));
@@ -891,6 +949,15 @@ const searchRecipes = async (req, res, next) => {
           return b.matchCount - a.matchCount;
         }
         return (b.averageRating || 0) - (a.averageRating || 0);
+      });
+    } else {
+      // Prioritize recipes with active video access so they appear above
+      results.sort((a, b) => {
+        const hasA = Boolean(a.videoUrl && a.videoUrl.trim());
+        const hasB = Boolean(b.videoUrl && b.videoUrl.trim());
+        if (hasA && !hasB) return -1;
+        if (!hasA && hasB) return 1;
+        return 0;
       });
     }
 

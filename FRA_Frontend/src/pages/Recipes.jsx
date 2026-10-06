@@ -31,6 +31,7 @@ export default function Recipes() {
   const [selectedMaxTime, setSelectedMaxTime] = useState(searchParams.get('maxTime') || '');
   const [selectedDietaryTag, setSelectedDietaryTag] = useState(searchParams.get('dietaryTag') || 'All');
   const [selectedFoodType, setSelectedFoodType] = useState(searchParams.get('foodType') || 'All');
+  const [selectedHasVideo, setSelectedHasVideo] = useState(searchParams.get('hasVideo') === 'true');
   const [selectedSort, setSelectedSort] = useState(searchParams.get('sort') || 'popular');
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -38,6 +39,7 @@ export default function Recipes() {
   const [totalCount, setTotalCount] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Sync state when URL params change
   useEffect(() => {
@@ -50,6 +52,7 @@ export default function Recipes() {
     setSelectedMaxTime(searchParams.get('maxTime') || '');
     setSelectedDietaryTag(searchParams.get('dietaryTag') || 'All');
     setSelectedFoodType(searchParams.get('foodType') || 'All');
+    setSelectedHasVideo(searchParams.get('hasVideo') === 'true');
     setSelectedSort(searchParams.get('sort') || 'popular');
   }, [searchParams]);
 
@@ -58,20 +61,37 @@ export default function Recipes() {
     const fetchRecipes = async () => {
       try {
         setLoading(true);
+        setError(null);
         const params = new URLSearchParams();
 
         if (ingredientSearch.trim()) {
           // If searching by ingredients, use dedicated search endpoint
           params.append('ingredients', ingredientSearch.trim());
           if (searchTerm) params.append('q', searchTerm.trim());
+          if (selectedCuisine && selectedCuisine !== 'All') params.append('cuisine', selectedCuisine);
+          if (selectedMealType && selectedMealType !== 'All') params.append('mealType', selectedMealType);
+          if (selectedFoodType && selectedFoodType !== 'All') params.append('foodType', selectedFoodType);
+          if (selectedHasVideo) params.append('hasVideo', 'true');
           params.append('page', currentPage);
           params.append('limit', 12);
 
           const res = await api.get(`/recipes/search?${params.toString()}`);
           if (res.success) {
-            setRecipes(res.recipes || []);
+            const list = res.recipes || [];
+            // Prioritize recipes with video URLs so they appear above
+            list.sort((a, b) => {
+              const hasA = Boolean(a.videoUrl && a.videoUrl.trim());
+              const hasB = Boolean(b.videoUrl && b.videoUrl.trim());
+              if (hasA && !hasB) return -1;
+              if (!hasA && hasB) return 1;
+              return 0;
+            });
+            setRecipes(list);
             setTotalCount(res.total || 0);
             setTotalPages(res.totalPages || 1);
+          } else {
+            setRecipes([]);
+            setTotalCount(0);
           }
         } else {
           // Standard filtered list
@@ -82,19 +102,35 @@ export default function Recipes() {
           if (selectedMaxTime) params.append('maxTime', selectedMaxTime);
           if (selectedDietaryTag && selectedDietaryTag !== 'All') params.append('dietaryTag', selectedDietaryTag);
           if (selectedFoodType && selectedFoodType !== 'All') params.append('foodType', selectedFoodType);
+          if (selectedHasVideo) params.append('hasVideo', 'true');
           if (selectedSort) params.append('sort', selectedSort);
           params.append('page', currentPage);
           params.append('limit', 12);
 
           const res = await api.get(`/recipes?${params.toString()}`);
           if (res.success) {
-            setRecipes(res.recipes || []);
+            const list = res.recipes || [];
+            // Prioritize recipes with video URLs so they appear above
+            list.sort((a, b) => {
+              const hasA = Boolean(a.videoUrl && a.videoUrl.trim());
+              const hasB = Boolean(b.videoUrl && b.videoUrl.trim());
+              if (hasA && !hasB) return -1;
+              if (!hasA && hasB) return 1;
+              return 0;
+            });
+            setRecipes(list);
             setTotalCount(res.total || 0);
             setTotalPages(res.totalPages || 1);
+          } else {
+            setRecipes([]);
+            setTotalCount(0);
           }
         }
       } catch (err) {
         console.error('Failed to fetch recipes:', err);
+        setError(err.message || 'Unable to connect to the server. Please try again.');
+        setRecipes([]);
+        setTotalCount(0);
       } finally {
         setLoading(false);
       }
@@ -110,6 +146,7 @@ export default function Recipes() {
     selectedMaxTime,
     selectedDietaryTag,
     selectedFoodType,
+    selectedHasVideo,
     selectedSort,
     currentPage,
   ]);
@@ -146,6 +183,7 @@ export default function Recipes() {
     setSelectedMaxTime('');
     setSelectedDietaryTag('All');
     setSelectedFoodType('All');
+    setSelectedHasVideo(false);
     setSelectedSort('popular');
     setCurrentPage(1);
     setSearchParams({});
@@ -153,16 +191,17 @@ export default function Recipes() {
 
   const cuisinesList = [
     'All',
-    'Italian',
     'Indian',
+    'Italian',
     'Mexican',
+    'Spanish',
     'Japanese',
+    'Chinese',
+    'Korean',
     'Mediterranean',
     'American',
     'French',
     'Thai',
-    'Chinese',
-    'Spanish',
   ];
 
   const mealTypesList = [
@@ -193,6 +232,7 @@ export default function Recipes() {
     Boolean(selectedMaxTime),
     selectedDietaryTag !== 'All',
     selectedFoodType !== 'All',
+    selectedHasVideo,
     Boolean(searchTerm),
     Boolean(ingredientSearch),
   ].filter(Boolean).length;
@@ -395,6 +435,25 @@ export default function Recipes() {
               ))}
             </div>
 
+            {/* Video Recipes Filter Button */}
+            <button
+              type="button"
+              onClick={() => {
+                const next = !selectedHasVideo;
+                setSelectedHasVideo(next);
+                updateFilterParam('hasVideo', next ? 'true' : '');
+              }}
+              className={`px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer border ${
+                selectedHasVideo
+                  ? 'bg-red-600 text-white border-red-600 shadow-xs'
+                  : 'bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100 hover:text-red-600'
+              }`}
+              title="Show recipes with step-by-step video tutorials"
+            >
+              <span className={`w-2 h-2 rounded-full ${selectedHasVideo ? 'bg-white' : 'bg-red-500 animate-pulse'}`} />
+              <span>▶ Video Tutorials</span>
+            </button>
+
             {activeFilterCount > 0 && (
               <button
                 type="button"
@@ -438,7 +497,28 @@ export default function Recipes() {
       </div>
 
       {/* Recipes Grid */}
-      {loading ? (
+      {error ? (
+        <div className="text-center py-16 bg-white rounded-3xl border border-red-200/80 p-8 shadow-xs">
+          <div className="w-14 h-14 bg-red-50 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+            <UtensilsCrossed className="w-7 h-7" />
+          </div>
+          <h3 className="text-lg font-bold text-stone-800">Connection Error</h3>
+          <p className="text-sm text-stone-500 mt-1 max-w-md mx-auto">{error}</p>
+          <button
+            type="button"
+            onClick={() => {
+              setError(null);
+              setLoading(true);
+              const p = new URLSearchParams(searchParams);
+              p.set('t', Date.now().toString());
+              setSearchParams(p);
+            }}
+            className="mt-5 px-6 py-2.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm transition-colors cursor-pointer"
+          >
+            Retry Connection
+          </button>
+        </div>
+      ) : loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
             <div key={n} className="h-88 rounded-3xl bg-stone-200/70 animate-pulse" />

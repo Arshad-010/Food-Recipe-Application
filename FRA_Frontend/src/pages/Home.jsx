@@ -37,10 +37,26 @@ export default function Home() {
         ]);
 
         if (recipesRes.success) {
-          setFeaturedRecipes(recipesRes.recipes || []);
+          const list = recipesRes.recipes || [];
+          list.sort((a, b) => {
+            const hasA = Boolean(a.videoUrl && a.videoUrl.trim());
+            const hasB = Boolean(b.videoUrl && b.videoUrl.trim());
+            if (hasA && !hasB) return -1;
+            if (!hasA && hasB) return 1;
+            return 0;
+          });
+          setFeaturedRecipes(list);
         }
         if (recsRes.success) {
-          setRecommendedRecipes(recsRes.recommendations || []);
+          const list = recsRes.recommendations || [];
+          list.sort((a, b) => {
+            const hasA = Boolean(a.videoUrl && a.videoUrl.trim());
+            const hasB = Boolean(b.videoUrl && b.videoUrl.trim());
+            if (hasA && !hasB) return -1;
+            if (!hasA && hasB) return 1;
+            return 0;
+          });
+          setRecommendedRecipes(list);
         }
       } catch (err) {
         console.error('Error loading home data:', err);
@@ -62,14 +78,16 @@ export default function Home() {
   };
 
   const cuisines = [
-    { name: 'Italian', icon: '🍕', bg: 'from-amber-500/10 to-orange-500/10' },
     { name: 'Indian', icon: '🍛', bg: 'from-orange-500/10 to-red-500/10' },
+    { name: 'Italian', icon: '🍕', bg: 'from-amber-500/10 to-orange-500/10' },
     { name: 'Mexican', icon: '🌮', bg: 'from-emerald-500/10 to-teal-500/10' },
+    { name: 'Spanish', icon: '🥘', bg: 'from-yellow-500/10 to-orange-500/10' },
     { name: 'Japanese', icon: '🍜', bg: 'from-rose-500/10 to-pink-500/10' },
+    { name: 'Chinese', icon: '🥟', bg: 'from-red-500/10 to-amber-500/10' },
+    { name: 'Korean', icon: '🍚', bg: 'from-indigo-500/10 to-purple-500/10' },
     { name: 'Mediterranean', icon: '🥗', bg: 'from-blue-500/10 to-cyan-500/10' },
     { name: 'American', icon: '🍔', bg: 'from-amber-500/10 to-yellow-500/10' },
     { name: 'French', icon: '🥐', bg: 'from-purple-500/10 to-indigo-500/10' },
-    { name: 'Thai', icon: '🍲', bg: 'from-lime-500/10 to-emerald-500/10' },
   ];
 
   return (
@@ -152,7 +170,7 @@ export default function Home() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-5 xl:grid-cols-10 gap-3 sm:gap-4">
           {cuisines.map((c) => (
             <button
               key={c.name}

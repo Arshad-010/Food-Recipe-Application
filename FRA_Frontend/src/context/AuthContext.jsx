@@ -133,7 +133,7 @@ export function AuthProvider({ children }) {
   };
 
   // Google OAuth Login handler
-  const loginWithGoogle = async (googlePayload) => {
+  const loginWithGoogle = useCallback(async (googlePayload) => {
     try {
       const res = await api.post('/auth/google', googlePayload);
       if (res.success && res.token) {
@@ -144,7 +144,7 @@ export function AuthProvider({ children }) {
     } catch (err) {
       return { success: false, error: err.message };
     }
-  };
+  }, []);
 
   // Forgot password request (sends 6-digit email OTP)
   const forgotPassword = async (email) => {

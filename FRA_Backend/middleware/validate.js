@@ -159,6 +159,17 @@ const validateResetPasswordOtp = [
   handleValidationErrors,
 ];
 
+/**
+ * Validation rules for Google OAuth login
+ */
+const validateGoogleAuth = [
+  body('credential')
+    .trim()
+    .notEmpty()
+    .withMessage('Google authentication credential is required'),
+  handleValidationErrors,
+];
+
 module.exports = {
   handleValidationErrors,
   validateRegister,
@@ -167,4 +178,6 @@ module.exports = {
   validateForgotPassword,
   validateVerifyOtp,
   validateResetPasswordOtp,
+  validateGoogleAuth,
 };
+

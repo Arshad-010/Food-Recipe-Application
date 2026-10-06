@@ -113,6 +113,12 @@ export default function RecipeCard({ recipe, onFavoriteToggle, onBookmarkToggle 
           >
             {recipe.difficulty}
           </span>
+          {recipe.videoUrl && (
+            <span className="px-2 py-0.5 rounded-xl text-[10px] font-bold bg-red-600/90 text-white flex items-center gap-1 shadow-xs backdrop-blur-md">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+              ▶ Video Tutorial
+            </span>
+          )}
           {recipe.isFeatured && (
             <span className="px-2 py-0.5 rounded-xl text-[10px] font-bold bg-amber-500 text-white flex items-center gap-1 shadow-xs">
               <Sparkles className="w-2.5 h-2.5" />
@@ -161,10 +167,17 @@ export default function RecipeCard({ recipe, onFavoriteToggle, onBookmarkToggle 
             <Clock className="w-3.5 h-3.5 text-amber-400" />
             {totalTime} mins
           </span>
-          <span className="flex items-center gap-1 bg-stone-900/60 backdrop-blur-md px-2.5 py-1 rounded-xl">
-            <Flame className="w-3.5 h-3.5 text-orange-400" />
-            {recipe.caloriesPerServing ? `${recipe.caloriesPerServing} kcal` : `${recipe.servings || 4} servings`}
-          </span>
+          <div className="flex items-center gap-1.5">
+            {recipe.videoUrl && (
+              <span className="flex items-center gap-1 bg-red-600/90 text-white backdrop-blur-md px-2 py-0.5 rounded-lg text-[10px] font-bold shadow-xs">
+                ▶ Video
+              </span>
+            )}
+            <span className="flex items-center gap-1 bg-stone-900/60 backdrop-blur-md px-2.5 py-1 rounded-xl">
+              <Flame className="w-3.5 h-3.5 text-orange-400" />
+              {recipe.caloriesPerServing ? `${recipe.caloriesPerServing} kcal` : `${recipe.servings || 4} servings`}
+            </span>
+          </div>
         </div>
       </Link>
 

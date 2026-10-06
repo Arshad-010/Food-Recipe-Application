@@ -104,12 +104,28 @@ export default function Dashboard() {
 
       // Popular recipes
       if (popularRes.status === 'fulfilled' && popularRes.value?.success) {
-        setPopularRecipes(popularRes.value.recipes || []);
+        const list = popularRes.value.recipes || [];
+        list.sort((a, b) => {
+          const hasA = Boolean(a.videoUrl && a.videoUrl.trim());
+          const hasB = Boolean(b.videoUrl && b.videoUrl.trim());
+          if (hasA && !hasB) return -1;
+          if (!hasA && hasB) return 1;
+          return 0;
+        });
+        setPopularRecipes(list);
       }
 
       // Recommended recipes
       if (recsRes.status === 'fulfilled' && recsRes.value?.success) {
-        setRecommendedRecipes(recsRes.value.recommendations || []);
+        const list = recsRes.value.recommendations || [];
+        list.sort((a, b) => {
+          const hasA = Boolean(a.videoUrl && a.videoUrl.trim());
+          const hasB = Boolean(b.videoUrl && b.videoUrl.trim());
+          if (hasA && !hasB) return -1;
+          if (!hasA && hasB) return 1;
+          return 0;
+        });
+        setRecommendedRecipes(list);
       }
 
       // User favorites
@@ -179,98 +195,18 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-stone-50/60 flex flex-col">
-      {/* 1. Header */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200/80 shadow-2xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-          {/* Logo & Mobile Menu Toggle */}
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => setMobileSidebarOpen(!mobileSidebarOpen)}
-              className="lg:hidden p-2 rounded-xl text-stone-600 hover:text-stone-900 hover:bg-stone-100 transition-colors"
-              aria-label="Toggle Navigation"
-            >
-              {mobileSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-
-            <Link to="/dashboard" className="flex items-center gap-2.5 group">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-600 to-orange-500 flex items-center justify-center text-white shadow-md shadow-orange-500/20 group-hover:scale-105 transition-transform">
-                <ChefHat className="w-5 h-5" />
-              </div>
-              <div className="flex flex-col">
-                <span className="font-bold text-lg tracking-tight text-stone-900 group-hover:text-amber-600 transition-colors">
-                  Recipe<span className="text-amber-600">Haven</span>
-                </span>
-                <span className="text-[9px] uppercase tracking-wider font-semibold text-stone-400 -mt-1 hidden sm:block">
-                  Chef Dashboard
-                </span>
-              </div>
-            </Link>
-          </div>
-
-          {/* Quick Search in Header */}
-          <form
-            onSubmit={handleSearchSubmit}
-            className="flex-1 max-w-md hidden md:flex items-center relative"
-          >
-            <Search className="w-4 h-4 text-stone-400 absolute left-3.5 pointer-events-none" />
-            <input
-              type="text"
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-              placeholder="Search recipes, ingredients, cuisines..."
-              className="w-full pl-10 pr-4 py-2 bg-stone-100/80 hover:bg-stone-100 focus:bg-white border border-transparent focus:border-amber-400 rounded-2xl text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:ring-2 focus:ring-amber-500/20 transition-all outline-hidden"
-            />
-          </form>
-
-          {/* Header Actions & Profile */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            <Link
-              to="/create-recipe"
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow-xs hover:shadow transition-all"
-            >
-              <PlusCircle className="w-3.5 h-3.5" />
-              <span>Create Recipe</span>
-            </Link>
-
-            <Link
-              to="/shopping-list"
-              className="p-2 text-stone-500 hover:text-stone-800 hover:bg-stone-100 rounded-xl transition-colors relative"
-              title="Shopping List"
-            >
-              <ShoppingBag className="w-4 h-4" />
-            </Link>
-
-            {/* Profile Pill */}
-            <Link
-              to="/profile"
-              className="flex items-center gap-2 p-1 sm:pr-2.5 rounded-2xl border border-stone-200 hover:border-amber-300 hover:bg-stone-50 transition-all"
-            >
-              <img
-                src={
-                  user?.avatar ||
-                  'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'
-                }
-                alt={user?.name || 'Chef'}
-                className="w-7 h-7 rounded-xl object-cover"
-              />
-              <span className="text-xs font-bold text-stone-800 max-w-[100px] truncate hidden sm:inline">
-                {user?.name || 'Chef'}
-              </span>
-            </Link>
-
-            {/* Logout */}
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="p-2 text-stone-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer"
-              title="Sign Out"
-            >
-              <LogOut className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      </header>
+      {/* Mobile Sidebar Quick Opener */}
+      <div className="lg:hidden max-w-7xl mx-auto px-4 sm:px-6 pt-3 w-full flex items-center justify-between">
+        <button
+          type="button"
+          onClick={() => setMobileSidebarOpen(true)}
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white border border-stone-200 text-stone-700 text-xs font-bold shadow-2xs hover:bg-stone-50 transition-colors"
+          aria-label="Toggle Dashboard Menu"
+        >
+          <Menu className="w-4 h-4 text-amber-600" />
+          <span>Dashboard Menu</span>
+        </button>
+      </div>
 
       {/* Main Container with Sidebar + Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1 flex gap-8">

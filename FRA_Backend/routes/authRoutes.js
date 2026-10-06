@@ -20,13 +20,14 @@ const {
   validateForgotPassword,
   validateVerifyOtp,
   validateResetPasswordOtp,
+  validateGoogleAuth,
 } = require('../middleware/validate');
 const { authLimiter } = require('../middleware/rateLimiter');
 
 // Public authentication routes with dedicated rate limiter
 router.post('/register', authLimiter, validateRegister, register);
 router.post('/login', authLimiter, validateLogin, login);
-router.post('/google', authLimiter, googleLogin);
+router.post('/google', authLimiter, validateGoogleAuth, googleLogin);
 
 // Forgot Password & Email OTP flow
 router.post('/forgot-password', authLimiter, validateForgotPassword, forgotPassword);

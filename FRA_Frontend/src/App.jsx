@@ -23,14 +23,18 @@ import ForgotPassword from './pages/ForgotPassword';
 import VerifyOtp from './pages/VerifyOtp';
 import ResetPassword from './pages/ResetPassword';
 
-function App() {
+import { useLocation } from 'react-router-dom';
+
+function AppContent() {
+  const location = useLocation();
+  const isAuthPage = ['/login', '/register', '/forgot-password', '/verify-otp', '/reset-password'].some(
+    (path) => location.pathname.startsWith(path)
+  );
+
   return (
-    <BrowserRouter>
-      <ToastProvider>
-        <AuthProvider>
-          <div className="min-h-screen flex flex-col bg-stone-50/50 text-stone-900 font-sans selection:bg-amber-200 selection:text-amber-900">
-            <Navbar />
-            <main className="flex-1 flex flex-col">
+    <div className="min-h-screen flex flex-col bg-stone-50/50 text-stone-900 font-sans selection:bg-amber-200 selection:text-amber-900">
+      <Navbar />
+      <main className="flex-1 flex flex-col">
               <Routes>
                 {/* Public Discovery Routes */}
                 <Route path="/" element={<Home />} />
@@ -127,8 +131,17 @@ function App() {
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </main>
-            <Footer />
+            {!isAuthPage && <Footer />}
           </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <ToastProvider>
+        <AuthProvider>
+          <AppContent />
         </AuthProvider>
       </ToastProvider>
     </BrowserRouter>

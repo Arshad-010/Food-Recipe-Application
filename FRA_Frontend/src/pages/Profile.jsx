@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
+import api from '../api/axios';
 import {
   User,
   Mail,
@@ -15,7 +16,31 @@ import {
   Loader2,
   Calendar,
   ChefHat,
+  Camera,
+  UploadCloud,
+  Upload,
+  Trash2,
+  Image,
+  Phone,
+  Globe,
+  MapPin,
 } from 'lucide-react';
+
+const InstagramIcon = ({ className = 'w-4 h-4' }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+  </svg>
+);
 
 const AVAILABLE_CUISINES = [
   'Indian',
@@ -53,11 +78,14 @@ const MEAL_TYPES = [
 ];
 
 const PRESET_AVATARS = [
-  'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80',
-  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80',
-  'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=150&q=80',
-  'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80',
-  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
+  'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=200&q=80',
+  'https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=200&q=80',
+  'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80',
+  'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80',
+  'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=200&q=80',
+  'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80',
+  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
+  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
 ];
 
 export default function Profile() {
@@ -66,11 +94,20 @@ export default function Profile() {
 
   const [activeTab, setActiveTab] = useState('profile');
 
+  // File upload state & ref
+  const fileInputRef = useRef(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
+
   // Basic Profile form state
   const [profileForm, setProfileForm] = useState({
     name: user?.name || '',
     avatar: user?.avatar || PRESET_AVATARS[0],
     bio: user?.bio || '',
+    contactEmail: user?.contactEmail || user?.email || '',
+    phoneNumber: user?.phoneNumber || '',
+    location: user?.location || '',
+    instagram: user?.instagram || '',
+    website: user?.website || '',
   });
   const [savingProfile, setSavingProfile] = useState(false);
 
@@ -97,6 +134,11 @@ export default function Profile() {
         name: user.name || '',
         avatar: user.avatar || PRESET_AVATARS[0],
         bio: user.bio || '',
+        contactEmail: user.contactEmail || user.email || '',
+        phoneNumber: user.phoneNumber || '',
+        location: user.location || '',
+        instagram: user.instagram || '',
+        website: user.website || '',
       });
       setPreferences({
         cuisines: user.preferences?.cuisines || [],
@@ -105,6 +147,49 @@ export default function Profile() {
       });
     }
   }, [user]);
+
+  // Handle direct file upload for profile image
+  const handleFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      showToast('Please select a valid image file (JPG, PNG, WEBP, GIF)', 'error');
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      showToast('Image file size must be less than 10MB', 'error');
+      return;
+    }
+
+    try {
+      setUploadingImage(true);
+      const formData = new FormData();
+      formData.append('image', file);
+
+      const res = await api.post('/upload/image', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      setUploadingImage(false);
+      if (res.success && res.url) {
+        setProfileForm((prev) => ({ ...prev, avatar: res.url }));
+        // Automatically persist into user profile
+        await updateProfile({ ...profileForm, avatar: res.url });
+        showToast('Profile photo updated successfully!', 'success');
+      } else {
+        showToast(res.message || 'Image upload failed', 'error');
+      }
+    } catch (err) {
+      setUploadingImage(false);
+      showToast(err.message || 'Failed to upload image. Please try again.', 'error');
+    } finally {
+      if (e.target) e.target.value = '';
+    }
+  };
 
   // Handle Profile Save
   const handleSaveProfile = async (e) => {
@@ -204,19 +289,61 @@ export default function Profile() {
         <div className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/90 shadow-sm flex flex-col sm:flex-row items-center sm:items-start gap-6 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-amber-100/50 to-transparent rounded-full -mr-20 -mt-20 pointer-events-none" />
 
-          {/* Avatar Preview */}
+          {/* Avatar Preview & Direct Upload Button */}
           <div className="relative group shrink-0">
-            <img
-              src={profileForm.avatar || PRESET_AVATARS[0]}
-              alt={user?.name}
-              className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover border-4 border-amber-100 shadow-md"
-              onError={(e) => {
-                e.target.src = PRESET_AVATARS[0];
-              }}
+            {/* Hidden native file input */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFileChange}
             />
+
+            <div
+              onClick={() => fileInputRef.current?.click()}
+              className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-4 border-amber-100 shadow-md cursor-pointer group/avatar"
+              title="Click to change profile picture"
+            >
+              <img
+                src={profileForm.avatar || PRESET_AVATARS[0]}
+                alt={user?.name}
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover transition-transform duration-300 group-hover/avatar:scale-105"
+                onError={(e) => {
+                  e.target.src = PRESET_AVATARS[0];
+                }}
+              />
+
+              {/* Hover overlay with Camera */}
+              <div className="absolute inset-0 bg-black/45 backdrop-blur-[1px] opacity-0 group-hover/avatar:opacity-100 transition-opacity flex flex-col items-center justify-center text-white">
+                <Camera className="w-6 h-6 mb-1" />
+                <span className="text-[10px] font-bold tracking-wider uppercase">Change</span>
+              </div>
+
+              {/* Uploading loading spinner overlay */}
+              {uploadingImage && (
+                <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px] flex flex-col items-center justify-center text-white">
+                  <Loader2 className="w-7 h-7 animate-spin text-amber-400 mb-1" />
+                  <span className="text-[10px] font-semibold">Uploading...</span>
+                </div>
+              )}
+            </div>
+
+            {/* Quick action camera button badge */}
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={uploadingImage}
+              title="Upload new profile picture"
+              className="absolute -bottom-2 -right-2 p-2 bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-700 hover:to-orange-600 text-white rounded-xl shadow-md border-2 border-white transition-all transform hover:scale-110 cursor-pointer disabled:opacity-50"
+            >
+              <Camera className="w-3.5 h-3.5" />
+            </button>
+
             {user?.role === 'admin' && (
-              <span className="absolute -bottom-2 -right-2 bg-gradient-to-r from-amber-600 to-orange-500 text-white p-1.5 rounded-xl shadow-md border-2 border-white" title="Administrator">
-                <Shield className="w-4 h-4" />
+              <span className="absolute -top-2 -right-2 bg-gradient-to-r from-amber-600 to-orange-500 text-white p-1 rounded-lg shadow-md border-2 border-white" title="Administrator">
+                <Shield className="w-3.5 h-3.5" />
               </span>
             )}
           </div>
@@ -360,36 +487,102 @@ export default function Profile() {
               </div>
             </div>
 
-            {/* Custom Avatar URL or Presets */}
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
-                Avatar Image URL
-              </label>
-              <input
-                type="url"
-                value={profileForm.avatar}
-                onChange={(e) => setProfileForm({ ...profileForm, avatar: e.target.value })}
-                placeholder="https://images.unsplash.com/..."
-                className="w-full px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 text-sm outline-hidden transition-all mb-3"
-              />
+            {/* Profile Picture Management */}
+            <div className="bg-stone-50/70 border border-stone-200/80 rounded-2xl p-4 sm:p-5 space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700">
+                    Profile Photo & Avatar
+                  </label>
+                  <p className="text-xs text-stone-500 mt-0.5">
+                    Upload a custom photo from your device or select a chef avatar below.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  disabled={uploadingImage}
+                  onClick={() => fileInputRef.current?.click()}
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 transition-colors border border-amber-200/60 shadow-xs cursor-pointer disabled:opacity-50"
+                >
+                  {uploadingImage ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin text-amber-700" />
+                      <span>Uploading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <UploadCloud className="w-4 h-4 text-amber-700" />
+                      <span>Upload from Device</span>
+                    </>
+                  )}
+                </button>
+              </div>
 
-              <div className="flex items-center gap-3">
-                <span className="text-xs text-stone-500">Or pick an avatar:</span>
-                <div className="flex items-center gap-2">
-                  {PRESET_AVATARS.map((url, i) => (
+              {/* Preset Avatars Selection */}
+              <div>
+                <span className="text-xs font-semibold text-stone-600 block mb-2">
+                  Chef Avatars
+                </span>
+                <div className="grid grid-cols-4 sm:grid-cols-8 gap-2.5">
+                  {PRESET_AVATARS.map((url, i) => {
+                    const isSelected = profileForm.avatar === url;
+                    return (
+                      <button
+                        key={i}
+                        type="button"
+                        onClick={() => setProfileForm((prev) => ({ ...prev, avatar: url }))}
+                        className={`relative aspect-square rounded-xl overflow-hidden border-2 transition-all cursor-pointer group ${
+                          isSelected
+                            ? 'border-amber-600 ring-2 ring-amber-500/30 scale-105 shadow-sm'
+                            : 'border-transparent hover:border-amber-300 opacity-75 hover:opacity-100'
+                        }`}
+                        title={`Select Avatar ${i + 1}`}
+                      >
+                        <img
+                          src={url}
+                          alt={`Avatar option ${i + 1}`}
+                          className="w-full h-full object-cover"
+                          referrerPolicy="no-referrer"
+                        />
+                        {isSelected && (
+                          <span className="absolute inset-0 bg-amber-600/20 flex items-center justify-center">
+                            <span className="w-5 h-5 rounded-full bg-amber-600 text-white flex items-center justify-center shadow-xs">
+                              <Check className="w-3 h-3 stroke-[3]" />
+                            </span>
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Optional Custom Image URL */}
+              <div className="pt-2 border-t border-stone-200/60">
+                <label className="block text-[11px] font-semibold text-stone-500 uppercase tracking-wider mb-1.5">
+                  Or Paste an Image URL
+                </label>
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <input
+                      type="url"
+                      value={profileForm.avatar}
+                      onChange={(e) => setProfileForm({ ...profileForm, avatar: e.target.value })}
+                      placeholder="https://example.com/photo.jpg"
+                      className="w-full pl-9 pr-4 py-2 rounded-xl bg-white border border-stone-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 text-xs outline-hidden transition-all"
+                    />
+                    <Image className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  </div>
+                  {profileForm.avatar && (
                     <button
-                      key={i}
                       type="button"
-                      onClick={() => setProfileForm({ ...profileForm, avatar: url })}
-                      className={`w-9 h-9 rounded-xl overflow-hidden border-2 transition-all ${
-                        profileForm.avatar === url
-                          ? 'border-amber-600 scale-105 shadow-sm'
-                          : 'border-transparent hover:border-stone-300 opacity-70 hover:opacity-100'
-                      }`}
+                      onClick={() => setProfileForm({ ...profileForm, avatar: PRESET_AVATARS[0] })}
+                      className="px-3 py-2 text-xs font-medium text-stone-600 hover:text-red-600 hover:bg-stone-100 rounded-xl transition-colors border border-stone-200/80"
+                      title="Reset to default avatar"
                     >
-                      <img src={url} alt={`Preset ${i}`} className="w-full h-full object-cover" />
+                      Reset
                     </button>
-                  ))}
+                  )}
                 </div>
               </div>
             </div>
@@ -406,6 +599,103 @@ export default function Profile() {
                 placeholder="Share a short culinary background or what dishes you love crafting..."
                 className="w-full px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 text-sm outline-hidden transition-all"
               />
+            </div>
+
+            {/* Public Chef Contact Details */}
+            <div className="p-5 rounded-2xl bg-amber-50/40 border border-amber-200/70 space-y-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <ChefHat className="w-4 h-4 text-amber-700" />
+                  <h4 className="text-sm font-bold text-stone-900">
+                    Chef Contact Information
+                  </h4>
+                </div>
+                <p className="text-xs text-stone-500 mt-0.5">
+                  These details appear under your published recipes so foodies, collaborators, and clients can reach you.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-stone-700 mb-1">
+                    Contact / Inquiries Email
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="email"
+                      value={profileForm.contactEmail}
+                      onChange={(e) => setProfileForm({ ...profileForm, contactEmail: e.target.value })}
+                      placeholder={user?.email || 'chef@recipehaven.com'}
+                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 outline-hidden transition-all"
+                    />
+                    <Mail className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-stone-700 mb-1">
+                    Phone / WhatsApp Number
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="tel"
+                      value={profileForm.phoneNumber}
+                      onChange={(e) => setProfileForm({ ...profileForm, phoneNumber: e.target.value })}
+                      placeholder="+1 (555) 234-5678"
+                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 outline-hidden transition-all"
+                    />
+                    <Phone className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-stone-700 mb-1">
+                    Kitchen / Studio Location
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={profileForm.location}
+                      onChange={(e) => setProfileForm({ ...profileForm, location: e.target.value })}
+                      placeholder="e.g. San Francisco, CA or Rome, Italy"
+                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 outline-hidden transition-all"
+                    />
+                    <MapPin className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-stone-700 mb-1">
+                    Instagram Handle
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={profileForm.instagram}
+                      onChange={(e) => setProfileForm({ ...profileForm, instagram: e.target.value })}
+                      placeholder="@culinary_chef"
+                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 outline-hidden transition-all"
+                    />
+                    <InstagramIcon className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  </div>
+                </div>
+
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-semibold text-stone-700 mb-1">
+                    Website or Culinary Portfolio
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="url"
+                      value={profileForm.website}
+                      onChange={(e) => setProfileForm({ ...profileForm, website: e.target.value })}
+                      placeholder="https://chefkitchen.com"
+                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 outline-hidden transition-all"
+                    />
+                    <Globe className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="flex justify-end pt-2">

@@ -14,6 +14,10 @@ import {
   Check,
   Upload,
   Loader2,
+  Mail,
+  Phone,
+  MapPin,
+  Globe,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
@@ -55,6 +59,13 @@ export default function CreateEditRecipe() {
     image: PHOTO_PRESETS[0].url,
     videoUrl: '',
     isPublished: true,
+    authorContact: {
+      email: user?.contactEmail || user?.email || '',
+      phone: user?.phoneNumber || '',
+      location: user?.location || '',
+      instagram: user?.instagram || '',
+      website: user?.website || '',
+    },
     ingredients: [
       { name: '', quantity: 1, unit: 'g', notes: '' },
       { name: '', quantity: 2, unit: 'tbsp', notes: '' },
@@ -139,6 +150,13 @@ export default function CreateEditRecipe() {
               isPublished: r.isPublished !== undefined ? r.isPublished : true,
               ingredients: r.ingredients?.length ? r.ingredients : [{ name: '', quantity: 1, unit: '', notes: '' }],
               instructions: r.instructions?.length ? r.instructions : [{ stepNumber: 1, title: '', instruction: '', timerMinutes: 0 }],
+              authorContact: {
+                email: r.authorContact?.email || r.author?.contactEmail || r.author?.email || '',
+                phone: r.authorContact?.phone || r.author?.phoneNumber || '',
+                location: r.authorContact?.location || r.author?.location || '',
+                instagram: r.authorContact?.instagram || r.author?.instagram || '',
+                website: r.authorContact?.website || r.author?.website || '',
+              },
             });
           }
         } catch (err) {
@@ -773,6 +791,123 @@ export default function CreateEditRecipe() {
                   />
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* Chef Contact Details for this Recipe */}
+          <div className="space-y-4 pt-6 border-t border-stone-100">
+            <div>
+              <div className="flex items-center gap-2">
+                <ChefHat className="w-4 h-4 text-amber-700" />
+                <h3 className="text-base font-bold text-stone-900">Chef Contact Details (Displayed Under Recipe)</h3>
+              </div>
+              <p className="text-xs text-stone-500 mt-0.5">
+                These contact details are shown under this recipe so food lovers can reach out for questions, private dining, or catering.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5 rounded-2xl bg-amber-50/40 border border-amber-200/60">
+              <div>
+                <label className="block text-xs font-semibold text-stone-700 mb-1">
+                  Contact Email
+                </label>
+                <div className="relative">
+                  <input
+                    type="email"
+                    value={formData.authorContact?.email || ''}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        authorContact: { ...prev.authorContact, email: e.target.value },
+                      }))
+                    }
+                    placeholder={user?.email || 'chef@recipehaven.com'}
+                    className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                  />
+                  <Mail className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-stone-700 mb-1">
+                  Phone / WhatsApp (Optional)
+                </label>
+                <div className="relative">
+                  <input
+                    type="tel"
+                    value={formData.authorContact?.phone || ''}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        authorContact: { ...prev.authorContact, phone: e.target.value },
+                      }))
+                    }
+                    placeholder="+1 (555) 234-5678"
+                    className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                  />
+                  <Phone className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-stone-700 mb-1">
+                  Studio Location (Optional)
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={formData.authorContact?.location || ''}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        authorContact: { ...prev.authorContact, location: e.target.value },
+                      }))
+                    }
+                    placeholder="e.g. San Francisco, CA"
+                    className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                  />
+                  <MapPin className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-stone-700 mb-1">
+                  Instagram / Social (Optional)
+                </label>
+                <input
+                  type="text"
+                  value={formData.authorContact?.instagram || ''}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      authorContact: { ...prev.authorContact, instagram: e.target.value },
+                    }))
+                  }
+                  placeholder="@culinary_chef"
+                  className="w-full px-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                />
+              </div>
+
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-semibold text-stone-700 mb-1">
+                  Website / Portfolio (Optional)
+                </label>
+                <div className="relative">
+                  <input
+                    type="url"
+                    value={formData.authorContact?.website || ''}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        authorContact: { ...prev.authorContact, website: e.target.value },
+                      }))
+                    }
+                    placeholder="https://chefkitchen.com"
+                    className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                  />
+                  <Globe className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                </div>
+              </div>
             </div>
           </div>
 

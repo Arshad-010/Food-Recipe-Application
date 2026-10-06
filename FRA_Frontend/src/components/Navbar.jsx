@@ -196,6 +196,10 @@ export default function Navbar() {
                   <img
                     src={user?.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'}
                     alt={user?.name}
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      e.target.src = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80';
+                    }}
                     className="w-8 h-8 rounded-xl object-cover"
                   />
                   <div className="hidden sm:flex flex-col text-left">

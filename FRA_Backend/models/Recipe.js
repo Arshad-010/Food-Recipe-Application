@@ -166,6 +166,13 @@ const RecipeSchema = new mongoose.Schema(
       type: String,
       default: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80',
     },
+    authorContact: {
+      email: { type: String, default: '', trim: true },
+      phone: { type: String, default: '', trim: true },
+      instagram: { type: String, default: '', trim: true },
+      website: { type: String, default: '', trim: true },
+      location: { type: String, default: '', trim: true },
+    },
     cuisine: {
       type: String,
       required: [true, 'Cuisine category is required'],

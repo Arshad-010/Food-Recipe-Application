@@ -55,6 +55,31 @@ const UserSchema = new mongoose.Schema(
       default: '',
       maxlength: [300, 'Bio cannot exceed 300 characters'],
     },
+    phoneNumber: {
+      type: String,
+      default: '',
+      trim: true,
+    },
+    contactEmail: {
+      type: String,
+      default: '',
+      trim: true,
+    },
+    location: {
+      type: String,
+      default: '',
+      trim: true,
+    },
+    instagram: {
+      type: String,
+      default: '',
+      trim: true,
+    },
+    website: {
+      type: String,
+      default: '',
+      trim: true,
+    },
     preferences: {
       cuisines: {
         type: [String],

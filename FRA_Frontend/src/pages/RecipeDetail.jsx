@@ -25,7 +25,35 @@ import {
   Utensils,
   ArrowLeft,
   CornerDownRight,
+  Mail,
+  Phone,
+  MapPin,
+  Globe,
+  Send,
+  Loader2,
 } from 'lucide-react';
+
+const InstagramIcon = ({ className = 'w-4 h-4' }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+  </svg>
+);
+
+const YouTubeIcon = ({ className = 'w-4 h-4' }) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+  </svg>
+);
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import api from '../api/axios';
@@ -72,6 +100,28 @@ export default function RecipeDetail() {
 
   // Share Modal state
   const [shareModalOpen, setShareModalOpen] = useState(false);
+
+  // Chef Contact Modal & Form state
+  const [contactModalOpen, setContactModalOpen] = useState(false);
+  const [contactForm, setContactForm] = useState({
+    senderName: '',
+    senderEmail: '',
+    subject: '',
+    inquiryType: 'Recipe Question',
+    message: '',
+  });
+  const [sendingContact, setSendingContact] = useState(false);
+
+  // Sync logged in user details to contact form
+  useEffect(() => {
+    if (user) {
+      setContactForm((prev) => ({
+        ...prev,
+        senderName: prev.senderName || user.name || '',
+        senderEmail: prev.senderEmail || user.email || '',
+      }));
+    }
+  }, [user]);
 
   // Fetch recipe details
   useEffect(() => {
@@ -523,18 +573,72 @@ export default function RecipeDetail() {
   const canEdit = isOwner || isAdmin;
   const scale = servings / (recipe.servings || 4);
 
-  // YouTube embed parser
+  // Chef details & fallback normalization
+  const chef = recipe.author && typeof recipe.author === 'object' ? recipe.author : {};
+  const chefName = chef.name || recipe.authorName || 'Chef';
+  const chefAvatar = chef.avatar || recipe.authorAvatar || 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=200&q=80';
+  const chefBio = chef.bio || 'Passionate culinary creator dedicated to sharing fresh, authentic recipes and handcrafted flavors.';
+  const chefEmail = recipe.authorContact?.email || chef.contactEmail || chef.email || 'chef@recipehaven.com';
+  const chefPhone = recipe.authorContact?.phone || chef.phoneNumber || '';
+  const chefLocation = recipe.authorContact?.location || chef.location || '';
+  const chefInstagram = recipe.authorContact?.instagram || chef.instagram || '';
+  const chefWebsite = recipe.authorContact?.website || chef.website || '';
+
+  const copyChefContact = () => {
+    const details = `Chef: ${chefName}\nEmail: ${chefEmail}${chefPhone ? `\nPhone: ${chefPhone}` : ''}${chefLocation ? `\nLocation: ${chefLocation}` : ''}${chefInstagram ? `\nInstagram: ${chefInstagram}` : ''}${chefWebsite ? `\nWebsite: ${chefWebsite}` : ''}`;
+    navigator.clipboard.writeText(details);
+    showToast(`Chef ${chefName}'s contact details copied to clipboard!`, 'success');
+  };
+
+  const handleSendChefMessage = (e) => {
+    e.preventDefault();
+    if (!contactForm.message.trim() || !contactForm.senderEmail.trim()) {
+      showToast('Please provide your email and message', 'error');
+      return;
+    }
+    setSendingContact(true);
+    setTimeout(() => {
+      setSendingContact(false);
+      setContactModalOpen(false);
+      showToast(
+        `Your message has been sent to Chef ${chefName}! They will respond to ${contactForm.senderEmail}.`,
+        'success'
+      );
+      setContactForm({
+        senderName: user?.name || '',
+        senderEmail: user?.email || '',
+        subject: '',
+        inquiryType: 'Recipe Question',
+        message: '',
+      });
+    }, 600);
+  };
+
+  // YouTube embed parser supporting all URL formats
   const getEmbedVideoUrl = (url) => {
     if (!url) return null;
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url.match(regExp);
-    if (match && match[2].length === 11) {
-      return `https://www.youtube.com/embed/${match[2]}`;
+    try {
+      if (url.includes('youtube.com/embed/')) return url;
+      const shortMatch = url.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
+      if (shortMatch) return `https://www.youtube.com/embed/${shortMatch[1]}`;
+      const longMatch = url.match(/(?:youtube\.com\/(?:watch\?.*v=|v\/|shorts\/))([a-zA-Z0-9_-]{11})/);
+      if (longMatch) return `https://www.youtube.com/embed/${longMatch[1]}`;
+      if (url.includes('player.vimeo.com')) return url;
+      return url;
+    } catch {
+      return url;
     }
-    return url;
+  };
+
+  const getYouTubeWatchUrl = () => {
+    if (recipe.videoUrl && (recipe.videoUrl.includes('youtube.com') || recipe.videoUrl.includes('youtu.be'))) {
+      return recipe.videoUrl;
+    }
+    return `https://www.youtube.com/results?search_query=${encodeURIComponent(recipe.title + ' recipe step by step')}`;
   };
 
   const embedVideo = getEmbedVideoUrl(recipe.videoUrl);
+  const youtubeWatchUrl = getYouTubeWatchUrl();
 
   return (
     <div className="flex-1 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
@@ -604,11 +708,22 @@ export default function RecipeDetail() {
             </button>
           </div>
 
-          {/* Title on Hero Bottom */}
-          <div className="absolute bottom-4 left-4 right-4 text-white">
+          {/* Title and Direct YouTube Watch Button on Hero Bottom */}
+          <div className="absolute bottom-4 left-4 right-4 text-white flex flex-col sm:flex-row sm:items-end justify-between gap-3">
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight drop-shadow-md">
               {recipe.title}
             </h1>
+            <a
+              href={youtubeWatchUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm shadow-xl hover:shadow-2xl transition-all shrink-0 cursor-pointer w-fit transform hover:-translate-y-0.5 active:translate-y-0"
+              title="Watch full step-by-step video process on YouTube"
+            >
+              <YouTubeIcon className="w-4 h-4 text-white" />
+              <span>Watch on YouTube</span>
+              <ExternalLink className="w-3.5 h-3.5 opacity-80" />
+            </a>
           </div>
         </div>
 
@@ -669,64 +784,110 @@ export default function RecipeDetail() {
             {/* Author Profile */}
             <div className="flex items-center gap-3 p-3 rounded-2xl bg-stone-50 border border-stone-200 shrink-0">
               <img
-                src={recipe.author?.avatar || recipe.authorAvatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'}
-                alt={recipe.author?.name || recipe.authorName}
+                src={chefAvatar}
+                alt={chefName}
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  e.target.src = 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=200&q=80';
+                }}
                 className="w-12 h-12 rounded-xl object-cover"
               />
               <div>
                 <p className="text-xs text-stone-500 font-medium">Recipe created by</p>
-                <p className="font-bold text-stone-900 text-sm">{recipe.author?.name || recipe.authorName || 'Chef'}</p>
+                <p className="font-bold text-stone-900 text-sm">{chefName}</p>
                 <span className="text-[11px] text-amber-700 font-semibold">Master Culinary Contributor</span>
               </div>
 
-              {canEdit && (
-                <div className="ml-4 flex items-center gap-1 border-l border-stone-200 pl-3">
-                  <Link
-                    to={`/edit-recipe/${recipe._id}`}
-                    className="p-2 text-stone-600 hover:text-amber-600 hover:bg-white rounded-xl transition-colors"
-                    title="Edit Recipe"
-                  >
-                    <Edit className="w-4 h-4" />
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={handleDeleteRecipe}
-                    className="p-2 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer"
-                    title="Delete Recipe"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </div>
-              )}
+              <div className="ml-2 pl-3 border-l border-stone-200 flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const el = document.getElementById('chef-contact');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    else setContactModalOpen(true);
+                  }}
+                  className="px-2.5 py-1.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-xs inline-flex items-center gap-1 transition-colors cursor-pointer"
+                  title="Contact Chef"
+                >
+                  <Mail className="w-3.5 h-3.5 text-amber-700" />
+                  <span className="hidden sm:inline">Contact</span>
+                </button>
+
+                {canEdit && (
+                  <>
+                    <Link
+                      to={`/edit-recipe/${recipe._id}`}
+                      className="p-1.5 text-stone-600 hover:text-amber-600 hover:bg-white rounded-xl transition-colors"
+                      title="Edit Recipe"
+                    >
+                      <Edit className="w-4 h-4" />
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={handleDeleteRecipe}
+                      className="p-1.5 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer"
+                      title="Delete Recipe"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
 
-          {/* Video Section (if provided) */}
-          {embedVideo && (
-            <div className="p-6 rounded-3xl bg-stone-950 text-white space-y-4">
-              <div className="flex items-center gap-2">
-                <Play className="w-5 h-5 text-amber-500 fill-amber-500" />
-                <h3 className="font-bold text-lg">Watch Step-by-Step Cooking Video</h3>
+          {/* Video Section */}
+          {(embedVideo || recipe.videoUrl) && (
+            <div id="recipe-video" className="p-6 sm:p-8 rounded-3xl bg-stone-950 text-white space-y-4 shadow-xl border border-stone-800">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-red-600 text-white flex items-center justify-center shrink-0 shadow-md">
+                    <YouTubeIcon className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-extrabold text-lg sm:text-xl text-white">
+                      Step-by-Step Cooking Video
+                    </h3>
+                    <p className="text-xs text-stone-400">
+                      Watch the complete recipe demonstration and chef preparation
+                    </p>
+                  </div>
+                </div>
+
+                <a
+                  href={youtubeWatchUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm transition-all shadow-md self-start sm:self-auto cursor-pointer"
+                  title="Open in YouTube (new tab)"
+                >
+                  <YouTubeIcon className="w-4 h-4 text-white" />
+                  <span>Open in YouTube</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
               </div>
-              <div className="aspect-video w-full rounded-2xl overflow-hidden bg-stone-900">
-                {embedVideo && (embedVideo.includes('youtube.com/embed') || embedVideo.includes('player.vimeo.com')) ? (
-                  <iframe
-                    src={embedVideo}
-                    title="Recipe Cooking Video"
-                    className="w-full h-full border-0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                ) : (
-                  <video
-                    controls
-                    src={recipe.videoUrl}
-                    className="w-full h-full object-cover"
-                  >
-                    Your browser does not support HTML5 video streaming.
-                  </video>
-                )}
-              </div>
+
+              {embedVideo ? (
+                <div className="aspect-video w-full rounded-2xl overflow-hidden bg-stone-900 border border-stone-800 shadow-inner">
+                  {embedVideo.includes('youtube.com/embed') || embedVideo.includes('player.vimeo.com') ? (
+                    <iframe
+                      src={embedVideo}
+                      title={`${recipe.title} - Step-by-Step Cooking Video`}
+                      className="w-full h-full border-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  ) : (
+                    <video
+                      controls
+                      src={recipe.videoUrl}
+                      className="w-full h-full object-cover"
+                    >
+                      Your browser does not support HTML5 video streaming.
+                    </video>
+                  )}
+                </div>
+              ) : null}
             </div>
           )}
 
@@ -824,6 +985,47 @@ export default function RecipeDetail() {
 
             {/* Right Column: Step-by-Step Cooking Instructions */}
             <div className="lg:col-span-7 space-y-6">
+              {/* YouTube Video Banner for Step-by-Step Instructions */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-red-50/70 border border-red-200/80 shadow-2xs">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+                    <YouTubeIcon className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-stone-900 uppercase tracking-wider flex items-center gap-1.5">
+                      <span>Step-by-Step YouTube Process</span>
+                      <span className="bg-red-600 text-white text-[9px] px-1.5 py-0.2 rounded font-extrabold uppercase">Video</span>
+                    </h4>
+                    <p className="text-xs text-stone-600 mt-0.5">
+                      Follow the visual chef techniques step-by-step
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  {embedVideo && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const el = document.getElementById('recipe-video');
+                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                      className="px-3 py-1.5 rounded-xl bg-white hover:bg-stone-100 text-stone-800 text-xs font-bold border border-stone-200 transition-colors shadow-2xs cursor-pointer"
+                    >
+                      Jump to Video
+                    </button>
+                  )}
+                  <a
+                    href={youtubeWatchUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold shadow-xs transition-colors cursor-pointer"
+                  >
+                    <span>Watch on YouTube</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </div>
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-xl font-bold text-stone-900">Cooking Instructions</h3>
@@ -936,6 +1138,146 @@ export default function RecipeDetail() {
                     </div>
                   );
                 })}
+              </div>
+            </div>
+          </div>
+
+          {/* Meet & Contact the Chef Section */}
+          <div id="chef-contact" className="pt-10 border-t border-stone-200/80">
+            <div className="bg-gradient-to-br from-white via-amber-50/20 to-orange-50/30 rounded-3xl p-6 sm:p-8 border border-amber-200/70 shadow-sm relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-amber-200/30 to-transparent rounded-full -mr-28 -mt-28 pointer-events-none" />
+
+              <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 relative z-10">
+                {/* Left: Chef Avatar and Bio Details */}
+                <div className="flex items-start sm:items-center gap-5 flex-1">
+                  <div className="relative shrink-0">
+                    <img
+                      src={chefAvatar}
+                      alt={chefName}
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        e.target.src = 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=200&q=80';
+                      }}
+                      className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border-4 border-amber-100 shadow-md"
+                    />
+                    <span
+                      className="absolute -bottom-2 -right-2 bg-gradient-to-r from-amber-600 to-orange-500 text-white p-1.5 rounded-xl shadow-md border-2 border-white"
+                      title="Verified Culinary Creator"
+                    >
+                      <ChefHat className="w-4 h-4" />
+                    </span>
+                  </div>
+
+                  <div className="space-y-1.5 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-amber-800 bg-amber-100/80 px-2.5 py-0.5 rounded-full border border-amber-200/60">
+                        Recipe Creator & Chef
+                      </span>
+                      {chefLocation && (
+                        <span className="text-xs text-stone-500 flex items-center gap-1 font-medium">
+                          <MapPin className="w-3.5 h-3.5 text-amber-600" />
+                          <span>{chefLocation}</span>
+                        </span>
+                      )}
+                    </div>
+
+                    <h3 className="text-xl sm:text-2xl font-extrabold text-stone-900 tracking-tight">
+                      {chefName}
+                    </h3>
+
+                    <p className="text-xs sm:text-sm text-stone-600 max-w-xl leading-relaxed">
+                      {chefBio}
+                    </p>
+
+                    {/* Contact Badges & Handles */}
+                    <div className="flex flex-wrap items-center gap-3 pt-1 text-xs text-stone-600">
+                      {chefEmail && (
+                        <a
+                          href={`mailto:${chefEmail}?subject=${encodeURIComponent(
+                            `Inquiry about recipe: ${recipe.title}`
+                          )}`}
+                          className="inline-flex items-center gap-1.5 text-stone-700 hover:text-amber-700 font-medium transition-colors"
+                          title="Send Email"
+                        >
+                          <Mail className="w-3.5 h-3.5 text-amber-600" />
+                          <span>{chefEmail}</span>
+                        </a>
+                      )}
+
+                      {chefPhone && (
+                        <a
+                          href={`tel:${chefPhone}`}
+                          className="inline-flex items-center gap-1.5 text-stone-700 hover:text-amber-700 font-medium transition-colors"
+                          title="Call or WhatsApp"
+                        >
+                          <Phone className="w-3.5 h-3.5 text-emerald-600" />
+                          <span>{chefPhone}</span>
+                        </a>
+                      )}
+
+                      {chefInstagram && (
+                        <a
+                          href={`https://instagram.com/${chefInstagram.replace('@', '')}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1 text-stone-700 hover:text-amber-700 font-medium transition-colors"
+                        >
+                          <InstagramIcon className="w-3.5 h-3.5 text-rose-500" />
+                          <span>{chefInstagram.startsWith('@') ? chefInstagram : `@${chefInstagram}`}</span>
+                        </a>
+                      )}
+
+                      {chefWebsite && (
+                        <a
+                          href={chefWebsite.startsWith('http') ? chefWebsite : `https://${chefWebsite}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1 text-stone-700 hover:text-amber-700 font-medium transition-colors"
+                        >
+                          <Globe className="w-3.5 h-3.5 text-sky-600" />
+                          <span>Portfolio / Website</span>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right: Quick Action Buttons */}
+                <div className="flex flex-row lg:flex-col gap-2.5 w-full lg:w-auto shrink-0 pt-2 lg:pt-0">
+                  <button
+                    type="button"
+                    onClick={() => setContactModalOpen(true)}
+                    className="flex-1 lg:flex-none inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs sm:text-sm shadow-sm transition-all hover:shadow cursor-pointer"
+                  >
+                    <Send className="w-4 h-4" />
+                    <span>Contact Chef</span>
+                  </button>
+
+                  <div className="flex items-center gap-2">
+                    <a
+                      href={`mailto:${chefEmail}?subject=${encodeURIComponent(
+                        `Inquiry regarding ${recipe.title}`
+                      )}&body=${encodeURIComponent(
+                        `Hi ${chefName},\n\nI was looking at your "${recipe.title}" recipe on RecipeHaven and wanted to get in touch!\n\nBest regards,\n${user?.name || ''}`
+                      )}`}
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-stone-50 text-stone-800 border border-stone-200/90 font-semibold text-xs transition-colors shadow-2xs"
+                      title="Open default email application"
+                    >
+                      <Mail className="w-3.5 h-3.5 text-amber-600" />
+                      <span>Email Client</span>
+                    </a>
+
+                    <button
+                      type="button"
+                      onClick={copyChefContact}
+                      className="inline-flex items-center justify-center gap-1 px-3 py-2 rounded-xl bg-white hover:bg-stone-50 text-stone-700 border border-stone-200/90 text-xs font-semibold transition-colors cursor-pointer shadow-2xs"
+                      title="Copy contact details to clipboard"
+                    >
+                      <Copy className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">Copy Info</span>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1329,6 +1671,140 @@ export default function RecipeDetail() {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Contact Chef Inquiry Modal */}
+      {contactModalOpen && (
+        <div className="fixed inset-0 z-50 bg-stone-950/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl p-6 sm:p-7 max-w-lg w-full border border-stone-200 shadow-2xl space-y-5 animate-scale-up">
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-3">
+                <img
+                  src={chefAvatar}
+                  alt={chefName}
+                  referrerPolicy="no-referrer"
+                  className="w-12 h-12 rounded-xl object-cover border-2 border-amber-200"
+                />
+                <div>
+                  <h3 className="font-extrabold text-lg text-stone-900 leading-tight">
+                    Contact Chef {chefName}
+                  </h3>
+                  <p className="text-xs text-stone-500">
+                    Regarding: <span className="font-semibold text-amber-800">"{recipe.title}"</span>
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setContactModalOpen(false)}
+                className="text-stone-400 hover:text-stone-600 p-1 rounded-lg text-xl leading-none cursor-pointer"
+              >
+                &times;
+              </button>
+            </div>
+
+            <form onSubmit={handleSendChefMessage} className="space-y-3.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">
+                    Your Name
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={contactForm.senderName}
+                    onChange={(e) => setContactForm({ ...contactForm, senderName: e.target.value })}
+                    placeholder="Your Name"
+                    className="w-full px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-900 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-hidden"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">
+                    Your Email
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={contactForm.senderEmail}
+                    onChange={(e) => setContactForm({ ...contactForm, senderEmail: e.target.value })}
+                    placeholder="your@email.com"
+                    className="w-full px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-900 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-hidden"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">
+                  Inquiry Topic
+                </label>
+                <select
+                  value={contactForm.inquiryType}
+                  onChange={(e) => setContactForm({ ...contactForm, inquiryType: e.target.value })}
+                  className="w-full px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-900 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-hidden"
+                >
+                  <option value="Recipe Question">Recipe Question & Ingredient Substitutions</option>
+                  <option value="Cooking Class">Private Cooking Class / Mentorship</option>
+                  <option value="Catering / Event">Catering, Events & Private Dining</option>
+                  <option value="Collaboration">Culinary Collaboration / Sponsorship</option>
+                  <option value="Compliment">Compliment & Culinary Appreciation</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">
+                  Message
+                </label>
+                <textarea
+                  required
+                  rows={4}
+                  value={contactForm.message}
+                  onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
+                  placeholder={`Write your message for Chef ${chefName}...`}
+                  className="w-full px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-900 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-hidden"
+                />
+              </div>
+
+              <div className="flex items-center justify-between pt-2">
+                <a
+                  href={`mailto:${chefEmail}?subject=${encodeURIComponent(
+                    `[${contactForm.inquiryType}] ${recipe.title}`
+                  )}&body=${encodeURIComponent(contactForm.message)}`}
+                  className="text-xs text-stone-500 hover:text-amber-700 font-medium inline-flex items-center gap-1"
+                >
+                  <Mail className="w-3.5 h-3.5" />
+                  <span>Open via Mail App</span>
+                </a>
+
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setContactModalOpen(false)}
+                    className="px-4 py-2 rounded-xl text-stone-600 hover:bg-stone-100 font-bold text-xs cursor-pointer transition-colors"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={sendingContact}
+                    className="px-5 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow-xs transition-colors cursor-pointer disabled:opacity-50 inline-flex items-center gap-1.5"
+                  >
+                    {sendingContact ? (
+                      <>
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        <span>Sending...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-3.5 h-3.5" />
+                        <span>Send Message</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       )}

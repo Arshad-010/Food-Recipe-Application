@@ -9,8 +9,6 @@ const {
 } = require('../utils/emailService');
 const { OAuth2Client } = require('google-auth-library');
 
-const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-
 /**
  * Helper to build consistent user auth payload
  */
@@ -21,6 +19,11 @@ const formatUserResponse = (user) => ({
   role: user.role,
   avatar: user.avatar,
   bio: user.bio,
+  phoneNumber: user.phoneNumber || '',
+  contactEmail: user.contactEmail || '',
+  location: user.location || '',
+  instagram: user.instagram || '',
+  website: user.website || '',
   authProvider: user.authProvider || 'local',
   preferences: user.preferences,
   favorites: user.favorites,
@@ -165,7 +168,7 @@ const getMe = async (req, res, next) => {
  */
 const updateProfile = async (req, res, next) => {
   try {
-    const { name, avatar, bio } = req.body;
+    const { name, avatar, bio, phoneNumber, contactEmail, location, instagram, website } = req.body;
 
     const user = await User.findById(req.user.id);
     if (!user) {
@@ -178,6 +181,11 @@ const updateProfile = async (req, res, next) => {
     if (name !== undefined) user.name = name.trim();
     if (avatar !== undefined) user.avatar = avatar;
     if (bio !== undefined) user.bio = bio;
+    if (phoneNumber !== undefined) user.phoneNumber = phoneNumber.trim();
+    if (contactEmail !== undefined) user.contactEmail = contactEmail.trim().toLowerCase();
+    if (location !== undefined) user.location = location.trim();
+    if (instagram !== undefined) user.instagram = instagram.trim();
+    if (website !== undefined) user.website = website.trim();
 
     const updatedUser = await user.save();
 
@@ -291,79 +299,64 @@ const changePassword = async (req, res, next) => {
  */
 const googleLogin = async (req, res, next) => {
   try {
-    const { credential, email, name, avatar, googleId } = req.body;
+    const { credential } = req.body;
 
-    let googlePayload = null;
-
-    if (credential) {
-      try {
-        if (process.env.GOOGLE_CLIENT_ID) {
-          const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-          const ticket = await client.verifyIdToken({
-            idToken: credential,
-            audience: process.env.GOOGLE_CLIENT_ID,
-          });
-          googlePayload = ticket.getPayload();
-
-          if (!googlePayload) {
-            return res.status(400).json({
-              success: false,
-              message: 'Invalid Google authentication token payload.',
-            });
-          }
-
-          if (googlePayload.email_verified === false) {
-            return res.status(400).json({
-              success: false,
-              message: 'Your Google email address is not verified by Google.',
-            });
-          }
-        } else {
-          // If no GOOGLE_CLIENT_ID is configured in environment, decode JWT safely for dev/testing
-          const parts = credential.split('.');
-          if (parts.length === 3) {
-            const base64Url = parts[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(
-              Buffer.from(base64, 'base64')
-                .toString('latin1')
-                .split('')
-                .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-                .join('')
-            );
-            googlePayload = JSON.parse(jsonPayload);
-          }
-        }
-      } catch (verifyError) {
-        if (process.env.GOOGLE_CLIENT_ID) {
-          return res.status(401).json({
-            success: false,
-            message: `Google authentication verification failed: ${verifyError.message}`,
-          });
-        }
-      }
-    }
-
-    const userEmail = googlePayload?.email || email;
-    const userName = googlePayload?.name || name || 'Google Chef';
-    const userAvatar =
-      googlePayload?.picture ||
-      avatar ||
-      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80';
-    const userGoogleId = googlePayload?.sub || googleId;
-
-    if (!userEmail) {
+    if (!credential || typeof credential !== 'string') {
       return res.status(400).json({
         success: false,
-        message: 'Google authentication failed: Email address not received from Google.',
+        message: 'Google authentication credential is required.',
       });
     }
 
-    const normalizedEmail = userEmail.toLowerCase().trim();
-    let user = await User.findOne({ email: normalizedEmail });
+    const clientId = process.env.GOOGLE_CLIENT_ID;
+    if (!clientId) {
+      return res.status(500).json({
+        success: false,
+        message: 'Google authentication is not configured on the server. Please configure GOOGLE_CLIENT_ID in the backend environment.',
+      });
+    }
+
+    const client = new OAuth2Client(clientId);
+    let ticket;
+    try {
+      ticket = await client.verifyIdToken({
+        idToken: credential,
+        audience: clientId,
+      });
+    } catch (verifyError) {
+      return res.status(401).json({
+        success: false,
+        message: `Google token verification failed: ${verifyError.message || 'Invalid or expired Google credential'}.`,
+      });
+    }
+
+    const payload = ticket.getPayload();
+    if (!payload || !payload.email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Unable to extract user identity from Google credential.',
+      });
+    }
+
+    if (payload.email_verified === false) {
+      return res.status(400).json({
+        success: false,
+        message: 'Your Google email address is not verified by Google.',
+      });
+    }
+
+    const googleSub = payload.sub;
+    const normalizedEmail = payload.email.toLowerCase().trim();
+    const userName = payload.name || payload.given_name || normalizedEmail.split('@')[0];
+    const userAvatar = payload.picture || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80';
+
+    // Find existing user by Google sub ID or verified email
+    let user = await User.findOne({
+      $or: [{ googleId: googleSub }, { email: normalizedEmail }],
+    });
 
     if (user) {
-      // Check if user is blocked
+      // Check if user is blocked/suspended
       if (user.isBlocked) {
         return res.status(403).json({
           success: false,
@@ -371,25 +364,24 @@ const googleLogin = async (req, res, next) => {
         });
       }
 
-      // Link googleId if missing
-      if (!user.googleId && userGoogleId) {
-        user.googleId = userGoogleId;
+      // Link googleId if not linked yet
+      if (!user.googleId) {
+        user.googleId = googleSub;
       }
-      if (!user.avatar && userAvatar) {
+      // Update avatar if currently default/placeholder
+      if (!user.avatar || user.avatar.includes('photo-1535713875002')) {
         user.avatar = userAvatar;
       }
       await user.save();
     } else {
-      // Create new user with Google profile (no password required for google authProvider)
-      const isFirstAccount = (await User.countDocuments({})) === 0;
-
+      // Create new user with Google profile (Strictly role: 'user', never admin)
       user = await User.create({
         name: userName,
         email: normalizedEmail,
-        googleId: userGoogleId,
+        googleId: googleSub,
         avatar: userAvatar,
         authProvider: 'google',
-        role: isFirstAccount ? 'admin' : 'user',
+        role: 'user',
         bio: '',
         preferences: {
           cuisines: [],
@@ -403,7 +395,7 @@ const googleLogin = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      message: 'Google sign-in successful',
+      message: 'Google authentication successful',
       token,
       user: formatUserResponse(user),
     });

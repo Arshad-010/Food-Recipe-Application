@@ -20,11 +20,20 @@ const {
   searchRecipes,
 } = require('../controllers/recipeController');
 const { protect, optionalAuth } = require('../middleware/auth');
+const { seedDatabase } = require('../seed/seedData');
 
 // Public & Recommendations
 router.get('/recommendations', optionalAuth, getRecommendations);
 router.get('/recommended', optionalAuth, getRecommendations);
 router.get('/search', searchRecipes);
+router.post('/seed', async (req, res, next) => {
+  try {
+    await seedDatabase();
+    res.status(200).json({ success: true, message: 'Database recipes checked & seeded successfully' });
+  } catch (err) {
+    next(err);
+  }
+});
 router.get('/', getRecipes);
 
 // User collections
