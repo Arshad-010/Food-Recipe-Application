@@ -200,8 +200,8 @@ export default function VerifyOtp() {
   };
 
   return (
-    <div className="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-amber-50/60 via-stone-50 to-orange-50/40">
-      <div className="max-w-md w-full space-y-6 bg-white p-6 sm:p-8 rounded-3xl shadow-xl shadow-stone-200/50 border border-stone-200/80">
+    <div className="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-amber-50/60 via-stone-50 to-orange-50/40 dark:from-stone-950 dark:via-stone-900 dark:to-stone-950 transition-colors">
+      <div className="max-w-md w-full space-y-6 bg-white dark:bg-stone-900 p-6 sm:p-8 rounded-3xl shadow-xl shadow-stone-200/50 dark:shadow-none border border-stone-200/80 dark:border-stone-800 transition-colors">
         {/* Step Indicator */}
         <div className="flex items-center justify-center gap-2 mb-2">
           <span className="w-8 h-8 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
@@ -211,8 +211,8 @@ export default function VerifyOtp() {
           <span className="w-8 h-8 rounded-full bg-amber-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
             2
           </span>
-          <span className="w-8 h-1 bg-stone-200 rounded-full" />
-          <span className="w-8 h-8 rounded-full bg-stone-100 text-stone-400 font-bold text-xs flex items-center justify-center">
+          <span className="w-8 h-1 bg-stone-200 dark:bg-stone-800 rounded-full" />
+          <span className="w-8 h-8 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-400 font-bold text-xs flex items-center justify-center">
             3
           </span>
         </div>
@@ -222,15 +222,15 @@ export default function VerifyOtp() {
           <div className="inline-flex w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-600 to-orange-500 items-center justify-center text-white shadow-lg shadow-orange-500/25 mb-2">
             <KeyRound className="w-7 h-7" />
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tracking-tight">
             Verify your email
           </h2>
-          <p className="text-xs sm:text-sm text-stone-500 max-w-xs mx-auto">
+          <p className="text-xs sm:text-sm text-stone-500 dark:text-stone-400 max-w-xs mx-auto">
             Enter the 6-digit verification code sent to your email.
             {email && (
               <>
                 <br />
-                <strong className="text-stone-800 font-semibold">{email}</strong>
+                <strong className="text-stone-800 dark:text-stone-200 font-semibold">{email}</strong>
               </>
             )}
           </p>
@@ -241,13 +241,13 @@ export default function VerifyOtp() {
           <button
             type="button"
             onClick={handleFillDevOtp}
-            className="w-full py-2 px-3 rounded-2xl bg-amber-50 hover:bg-amber-100/70 border border-amber-200 text-amber-900 text-xs font-semibold flex items-center justify-between transition-colors cursor-pointer"
+            className="w-full py-2 px-3 rounded-2xl bg-amber-50 dark:bg-amber-950/40 hover:bg-amber-100/70 dark:hover:bg-amber-900/50 border border-amber-200 dark:border-amber-800/60 text-amber-900 dark:text-amber-200 text-xs font-semibold flex items-center justify-between transition-colors cursor-pointer"
           >
             <span className="flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+              <Sparkles className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
               <span>Development Code Available</span>
             </span>
-            <span className="font-mono bg-white px-2 py-0.5 rounded-lg border border-amber-300 text-amber-900 font-bold">
+            <span className="font-mono bg-white dark:bg-stone-800 px-2 py-0.5 rounded-lg border border-amber-300 dark:border-amber-700 text-amber-900 dark:text-amber-300 font-bold">
               {devOtp} (Click to fill)
             </span>
           </button>
@@ -255,7 +255,7 @@ export default function VerifyOtp() {
 
         {/* Error Alert */}
         {error && (
-          <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm font-medium flex items-center gap-2 animate-shake">
+          <div className="p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 text-sm font-medium flex items-center gap-2 animate-shake">
             <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
             <span>{error}</span>
           </div>
@@ -265,12 +265,12 @@ export default function VerifyOtp() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <div className="flex justify-between items-center mb-3">
-              <label className="text-xs font-bold uppercase tracking-wider text-stone-700">
+              <label className="text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300">
                 Enter 6-Digit Code
               </label>
-              <div className="flex items-center gap-1 text-xs font-semibold text-stone-500">
-                <Clock className="w-3.5 h-3.5 text-amber-600" />
-                <span className={expireSeconds < 60 ? 'text-rose-600 font-bold' : ''}>
+              <div className="flex items-center gap-1 text-xs font-semibold text-stone-500 dark:text-stone-400">
+                <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                <span className={expireSeconds < 60 ? 'text-rose-600 dark:text-rose-400 font-bold' : ''}>
                   {expireSeconds > 0 ? formatTimer(expireSeconds) : 'Expired'}
                 </span>
               </div>
@@ -290,8 +290,8 @@ export default function VerifyOtp() {
                   disabled={submitting}
                   className={`w-full aspect-square text-center text-xl sm:text-2xl font-black rounded-2xl border transition-all outline-hidden ${
                     digit
-                      ? 'border-amber-500 bg-amber-50/50 text-amber-950 ring-2 ring-amber-500/20 shadow-xs'
-                      : 'border-stone-200 bg-stone-50 text-stone-900 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
+                      ? 'border-amber-500 dark:border-amber-500 bg-amber-50/50 dark:bg-amber-950/50 text-amber-950 dark:text-amber-200 ring-2 ring-amber-500/20 shadow-xs'
+                      : 'border-stone-200 dark:border-stone-700 bg-stone-50 dark:bg-stone-800 text-stone-900 dark:text-stone-100 focus:bg-white dark:focus:bg-stone-750 focus:border-amber-500 dark:focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
                   }`}
                 />
               ))}
@@ -318,13 +318,13 @@ export default function VerifyOtp() {
         </form>
 
         {/* Resend OTP Section with 60s countdown */}
-        <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200 text-center space-y-1 text-xs">
-          <p className="text-stone-500">Didn't receive the verification email?</p>
+        <div className="p-4 rounded-2xl bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-800 text-center space-y-1 text-xs">
+          <p className="text-stone-500 dark:text-stone-400">Didn't receive the verification email?</p>
           <button
             type="button"
             onClick={handleResend}
             disabled={cooldownSeconds > 0 || resending}
-            className="inline-flex items-center gap-1.5 font-bold text-amber-700 hover:text-amber-800 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transition-colors"
+            className="inline-flex items-center gap-1.5 font-bold text-amber-700 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transition-colors"
           >
             {resending ? (
               <>
@@ -346,10 +346,10 @@ export default function VerifyOtp() {
         </div>
 
         {/* Navigation Footer */}
-        <div className="pt-2 border-t border-stone-100 flex items-center justify-between text-xs">
+        <div className="pt-2 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between text-xs">
           <Link
             to="/forgot-password"
-            className="inline-flex items-center gap-1 font-bold text-stone-600 hover:text-amber-700"
+            className="inline-flex items-center gap-1 font-bold text-stone-600 dark:text-stone-400 hover:text-amber-700 dark:hover:text-amber-400"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Change Email</span>
@@ -357,7 +357,7 @@ export default function VerifyOtp() {
 
           <Link
             to="/login"
-            className="font-semibold text-stone-500 hover:text-stone-800"
+            className="font-semibold text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200"
           >
             Return to Sign In
           </Link>

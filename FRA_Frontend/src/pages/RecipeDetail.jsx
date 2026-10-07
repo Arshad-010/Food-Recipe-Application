@@ -645,14 +645,14 @@ export default function RecipeDetail() {
       {/* Back button */}
       <Link
         to="/recipes"
-        className="inline-flex items-center gap-1.5 text-sm font-semibold text-stone-500 hover:text-stone-900 mb-6 transition-colors"
+        className="inline-flex items-center gap-1.5 text-sm font-semibold text-stone-500 hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100 mb-6 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         <span>Back to All Recipes</span>
       </Link>
 
       {/* Main Recipe Card Container */}
-      <div className="bg-white rounded-3xl border border-stone-200/90 shadow-sm overflow-hidden mb-12">
+      <div className="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/90 dark:border-stone-800 shadow-sm overflow-hidden mb-12">
         {/* Hero Image / Video Section */}
         <div className="relative aspect-video sm:aspect-[21/9] w-full overflow-hidden bg-stone-950">
           <img
@@ -664,7 +664,7 @@ export default function RecipeDetail() {
 
           {/* Badges on Hero */}
           <div className="absolute top-4 left-4 flex flex-wrap gap-2">
-            <span className="px-3 py-1 rounded-xl bg-white/90 backdrop-blur-md text-xs font-bold text-stone-900 shadow-sm">
+            <span className="px-3 py-1 rounded-xl bg-white/90 dark:bg-stone-900/90 backdrop-blur-md text-xs font-bold text-stone-900 dark:text-stone-100 shadow-sm">
               {recipe.cuisine}
             </span>
             <span className="px-3 py-1 rounded-xl bg-amber-500 text-white text-xs font-bold shadow-sm">
@@ -683,7 +683,7 @@ export default function RecipeDetail() {
               className={`p-2.5 rounded-2xl backdrop-blur-md transition-all shadow-md cursor-pointer ${
                 isFavorited
                   ? 'bg-rose-500 text-white scale-105'
-                  : 'bg-white/90 text-stone-700 hover:bg-white hover:text-rose-500'
+                  : 'bg-white/90 dark:bg-stone-900/90 text-stone-700 dark:text-stone-200 hover:bg-white dark:hover:bg-stone-800 hover:text-rose-500'
               }`}
             >
               <Heart className={`w-5 h-5 ${isFavorited ? 'fill-current' : ''}`} />
@@ -694,7 +694,7 @@ export default function RecipeDetail() {
               className={`p-2.5 rounded-2xl backdrop-blur-md transition-all shadow-md cursor-pointer ${
                 isBookmarked
                   ? 'bg-amber-500 text-white scale-105'
-                  : 'bg-white/90 text-stone-700 hover:bg-white hover:text-amber-500'
+                  : 'bg-white/90 dark:bg-stone-900/90 text-stone-700 dark:text-stone-200 hover:bg-white dark:hover:bg-stone-800 hover:text-amber-500'
               }`}
             >
               <Bookmark className={`w-5 h-5 ${isBookmarked ? 'fill-current' : ''}`} />
@@ -702,7 +702,7 @@ export default function RecipeDetail() {
             <button
               type="button"
               onClick={() => setShareModalOpen(true)}
-              className="p-2.5 rounded-2xl bg-white/90 backdrop-blur-md text-stone-700 hover:bg-white hover:text-amber-600 transition-all shadow-md cursor-pointer"
+              className="p-2.5 rounded-2xl bg-white/90 dark:bg-stone-900/90 backdrop-blur-md text-stone-700 dark:text-stone-200 hover:bg-white dark:hover:bg-stone-800 hover:text-amber-600 transition-all shadow-md cursor-pointer"
             >
               <Share2 className="w-5 h-5" />
             </button>
@@ -730,30 +730,30 @@ export default function RecipeDetail() {
         {/* Content Body */}
         <div className="p-6 sm:p-8 lg:p-10 space-y-8">
           {/* Metadata Row: Prep, Cook, Total Time, Calories, Rating */}
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 p-4 sm:p-5 rounded-2xl bg-amber-50/60 border border-amber-200/60 text-center">
+          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 p-4 sm:p-5 rounded-2xl bg-amber-50/60 dark:bg-amber-950/20 border border-amber-200/60 dark:border-amber-800/40 text-center">
             <div className="flex flex-col items-center justify-center p-2">
-              <span className="text-xs text-stone-500 font-semibold uppercase tracking-wider">Prep Time</span>
-              <span className="text-lg font-extrabold text-stone-900 mt-0.5">{recipe.prepTime || 10}m</span>
+              <span className="text-xs text-stone-500 dark:text-stone-400 font-semibold uppercase tracking-wider">Prep Time</span>
+              <span className="text-lg font-extrabold text-stone-900 dark:text-stone-100 mt-0.5">{recipe.prepTime || 10}m</span>
             </div>
             <div className="flex flex-col items-center justify-center p-2">
-              <span className="text-xs text-stone-500 font-semibold uppercase tracking-wider">Cook Time</span>
-              <span className="text-lg font-extrabold text-stone-900 mt-0.5">{recipe.cookTime || 15}m</span>
+              <span className="text-xs text-stone-500 dark:text-stone-400 font-semibold uppercase tracking-wider">Cook Time</span>
+              <span className="text-lg font-extrabold text-stone-900 dark:text-stone-100 mt-0.5">{recipe.cookTime || 15}m</span>
             </div>
             <div className="flex flex-col items-center justify-center p-2">
-              <span className="text-xs text-stone-500 font-semibold uppercase tracking-wider">Total Time</span>
-              <span className="text-lg font-extrabold text-amber-700 mt-0.5">
+              <span className="text-xs text-stone-500 dark:text-stone-400 font-semibold uppercase tracking-wider">Total Time</span>
+              <span className="text-lg font-extrabold text-amber-700 dark:text-amber-400 mt-0.5">
                 {(recipe.prepTime || 0) + (recipe.cookTime || 0)}m
               </span>
             </div>
             <div className="flex flex-col items-center justify-center p-2">
-              <span className="text-xs text-stone-500 font-semibold uppercase tracking-wider">Calories</span>
-              <span className="text-lg font-extrabold text-stone-900 mt-0.5">
+              <span className="text-xs text-stone-500 dark:text-stone-400 font-semibold uppercase tracking-wider">Calories</span>
+              <span className="text-lg font-extrabold text-stone-900 dark:text-stone-100 mt-0.5">
                 {recipe.caloriesPerServing ? `${recipe.caloriesPerServing} kcal` : 'Fresh'}
               </span>
             </div>
-            <div className="col-span-2 sm:col-span-1 flex flex-col items-center justify-center p-2 border-t sm:border-t-0 sm:border-l border-amber-200">
-              <span className="text-xs text-stone-500 font-semibold uppercase tracking-wider">Community</span>
-              <div className="flex items-center gap-1 mt-0.5 text-amber-600 font-extrabold text-lg">
+            <div className="col-span-2 sm:col-span-1 flex flex-col items-center justify-center p-2 border-t sm:border-t-0 sm:border-l border-amber-200 dark:border-amber-800/40">
+              <span className="text-xs text-stone-500 dark:text-stone-400 font-semibold uppercase tracking-wider">Community</span>
+              <div className="flex items-center gap-1 mt-0.5 text-amber-600 dark:text-amber-400 font-extrabold text-lg">
                 <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
                 <span>{recipe.averageRating ? recipe.averageRating.toFixed(1) : '5.0'}</span>
                 <span className="text-xs text-stone-400 font-normal">({recipe.ratingsCount || 1})</span>
@@ -762,9 +762,9 @@ export default function RecipeDetail() {
           </div>
 
           {/* Description & Author info */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-stone-100">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-stone-100 dark:border-stone-800">
             <div className="space-y-3 max-w-2xl">
-              <p className="text-base sm:text-lg text-stone-700 leading-relaxed font-normal">
+              <p className="text-base sm:text-lg text-stone-700 dark:text-stone-300 leading-relaxed font-normal">
                 {recipe.description}
               </p>
               {recipe.dietaryTags && recipe.dietaryTags.length > 0 && (
@@ -772,7 +772,7 @@ export default function RecipeDetail() {
                   {recipe.dietaryTags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-2.5 py-1 rounded-xl bg-stone-100 text-stone-700 text-xs font-semibold"
+                      className="px-2.5 py-1 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs font-semibold"
                     >
                       🌱 {tag}
                     </span>
@@ -782,7 +782,7 @@ export default function RecipeDetail() {
             </div>
 
             {/* Author Profile */}
-            <div className="flex items-center gap-3 p-3 rounded-2xl bg-stone-50 border border-stone-200 shrink-0">
+            <div className="flex items-center gap-3 p-3 rounded-2xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700 shrink-0">
               <img
                 src={chefAvatar}
                 alt={chefName}
@@ -793,12 +793,12 @@ export default function RecipeDetail() {
                 className="w-12 h-12 rounded-xl object-cover"
               />
               <div>
-                <p className="text-xs text-stone-500 font-medium">Recipe created by</p>
-                <p className="font-bold text-stone-900 text-sm">{chefName}</p>
-                <span className="text-[11px] text-amber-700 font-semibold">Master Culinary Contributor</span>
+                <p className="text-xs text-stone-500 dark:text-stone-400 font-medium">Recipe created by</p>
+                <p className="font-bold text-stone-900 dark:text-stone-100 text-sm">{chefName}</p>
+                <span className="text-[11px] text-amber-700 dark:text-amber-400 font-semibold">Master Culinary Contributor</span>
               </div>
 
-              <div className="ml-2 pl-3 border-l border-stone-200 flex items-center gap-1.5">
+              <div className="ml-2 pl-3 border-l border-stone-200 dark:border-stone-700 flex items-center gap-1.5">
                 <button
                   type="button"
                   onClick={() => {
@@ -806,10 +806,10 @@ export default function RecipeDetail() {
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                     else setContactModalOpen(true);
                   }}
-                  className="px-2.5 py-1.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-xs inline-flex items-center gap-1 transition-colors cursor-pointer"
+                  className="px-2.5 py-1.5 rounded-xl bg-amber-100 dark:bg-amber-900/40 hover:bg-amber-200 dark:hover:bg-amber-900/60 text-amber-900 dark:text-amber-300 font-bold text-xs inline-flex items-center gap-1 transition-colors cursor-pointer"
                   title="Contact Chef"
                 >
-                  <Mail className="w-3.5 h-3.5 text-amber-700" />
+                  <Mail className="w-3.5 h-3.5 text-amber-700 dark:text-amber-400" />
                   <span className="hidden sm:inline">Contact</span>
                 </button>
 
@@ -817,7 +817,7 @@ export default function RecipeDetail() {
                   <>
                     <Link
                       to={`/edit-recipe/${recipe._id}`}
-                      className="p-1.5 text-stone-600 hover:text-amber-600 hover:bg-white rounded-xl transition-colors"
+                      className="p-1.5 text-stone-600 dark:text-stone-400 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-white dark:hover:bg-stone-700 rounded-xl transition-colors"
                       title="Edit Recipe"
                     >
                       <Edit className="w-4 h-4" />
@@ -825,7 +825,7 @@ export default function RecipeDetail() {
                     <button
                       type="button"
                       onClick={handleDeleteRecipe}
-                      className="p-1.5 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer"
+                      className="p-1.5 text-rose-500 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-xl transition-colors cursor-pointer"
                       title="Delete Recipe"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -895,34 +895,34 @@ export default function RecipeDetail() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 pt-4">
             {/* Left Column: Ingredients with Servings Adjuster */}
             <div className="lg:col-span-5 space-y-6">
-              <div className="p-6 rounded-3xl bg-stone-50/80 border border-stone-200/90 shadow-2xs space-y-6">
+              <div className="p-6 rounded-3xl bg-stone-50/80 dark:bg-stone-950/40 border border-stone-200/90 dark:border-stone-800 shadow-2xs space-y-6">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xl font-bold text-stone-900">Ingredients</h3>
-                  <span className="text-xs font-semibold text-stone-500">
+                  <h3 className="text-xl font-bold text-stone-900 dark:text-stone-100">Ingredients</h3>
+                  <span className="text-xs font-semibold text-stone-500 dark:text-stone-400">
                     {recipe.ingredients.length} items
                   </span>
                 </div>
 
                 {/* Servings Adjuster */}
-                <div className="flex items-center justify-between p-3 rounded-2xl bg-white border border-stone-200">
-                  <span className="text-xs font-bold text-stone-700 uppercase tracking-wider">
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800">
+                  <span className="text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider">
                     Adjust Servings:
                   </span>
                   <div className="flex items-center gap-3">
                     <button
                       type="button"
                       onClick={() => setServings((s) => Math.max(1, s - 1))}
-                      className="w-8 h-8 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 flex items-center justify-center font-bold transition-colors cursor-pointer"
+                      className="w-8 h-8 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 flex items-center justify-center font-bold transition-colors cursor-pointer"
                     >
                       <Minus className="w-3.5 h-3.5" />
                     </button>
-                    <span className="font-extrabold text-base text-amber-700 min-w-8 text-center">
+                    <span className="font-extrabold text-base text-amber-700 dark:text-amber-400 min-w-8 text-center">
                       {servings}
                     </span>
                     <button
                       type="button"
                       onClick={() => setServings((s) => Math.min(24, s + 1))}
-                      className="w-8 h-8 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 flex items-center justify-center font-bold transition-colors cursor-pointer"
+                      className="w-8 h-8 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 flex items-center justify-center font-bold transition-colors cursor-pointer"
                     >
                       <Plus className="w-3.5 h-3.5" />
                     </button>
@@ -930,7 +930,7 @@ export default function RecipeDetail() {
                 </div>
 
                 {/* Ingredients Checklist */}
-                <ul className="divide-y divide-stone-200/80 space-y-1">
+                <ul className="divide-y divide-stone-200/80 dark:divide-stone-800 space-y-1">
                   {recipe.ingredients.map((ing, idx) => {
                     const scaledQty = ing.quantity
                       ? (ing.quantity * scale).toFixed(1).replace(/\.0$/, '')
@@ -943,16 +943,16 @@ export default function RecipeDetail() {
                         <div className="flex items-start gap-2.5">
                           <span className="w-2 h-2 rounded-full bg-amber-500 mt-2 shrink-0" />
                           <div>
-                            <span className="text-sm font-semibold text-stone-900">
+                            <span className="text-sm font-semibold text-stone-900 dark:text-stone-100">
                               {scaledQty && (
-                                <span className="font-bold text-amber-800 mr-1.5">
+                                <span className="font-bold text-amber-800 dark:text-amber-400 mr-1.5">
                                   {scaledQty} {ing.unit}
                                 </span>
                               )}
                               {ing.name}
                             </span>
                             {ing.notes && (
-                              <p className="text-xs text-stone-500 italic mt-0.5">{ing.notes}</p>
+                              <p className="text-xs text-stone-500 dark:text-stone-400 italic mt-0.5">{ing.notes}</p>
                             )}
                           </div>
                         </div>
@@ -962,7 +962,7 @@ export default function RecipeDetail() {
                           type="button"
                           onClick={() => handleAddSingleIngredient(ing)}
                           title="Add to Shopping List"
-                          className="p-1.5 rounded-lg text-stone-400 hover:text-emerald-700 hover:bg-emerald-50 transition-colors cursor-pointer shrink-0"
+                          className="p-1.5 rounded-lg text-stone-400 dark:text-stone-500 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 transition-colors cursor-pointer shrink-0"
                         >
                           <Plus className="w-4 h-4" />
                         </button>
@@ -986,17 +986,17 @@ export default function RecipeDetail() {
             {/* Right Column: Step-by-Step Cooking Instructions */}
             <div className="lg:col-span-7 space-y-6">
               {/* YouTube Video Banner for Step-by-Step Instructions */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-red-50/70 border border-red-200/80 shadow-2xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-red-50/70 dark:bg-red-950/20 border border-red-200/80 dark:border-red-900/40 shadow-2xs">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-red-600 text-white flex items-center justify-center shrink-0 shadow-xs">
                     <YouTubeIcon className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-stone-900 uppercase tracking-wider flex items-center gap-1.5">
+                    <h4 className="text-xs font-bold text-stone-900 dark:text-stone-100 uppercase tracking-wider flex items-center gap-1.5">
                       <span>Step-by-Step YouTube Process</span>
                       <span className="bg-red-600 text-white text-[9px] px-1.5 py-0.2 rounded font-extrabold uppercase">Video</span>
                     </h4>
-                    <p className="text-xs text-stone-600 mt-0.5">
+                    <p className="text-xs text-stone-600 dark:text-stone-400 mt-0.5">
                       Follow the visual chef techniques step-by-step
                     </p>
                   </div>
@@ -1010,7 +1010,7 @@ export default function RecipeDetail() {
                         const el = document.getElementById('recipe-video');
                         if (el) el.scrollIntoView({ behavior: 'smooth' });
                       }}
-                      className="px-3 py-1.5 rounded-xl bg-white hover:bg-stone-100 text-stone-800 text-xs font-bold border border-stone-200 transition-colors shadow-2xs cursor-pointer"
+                      className="px-3 py-1.5 rounded-xl bg-white dark:bg-stone-800 hover:bg-stone-100 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 text-xs font-bold border border-stone-200 dark:border-stone-700 transition-colors shadow-2xs cursor-pointer"
                     >
                       Jump to Video
                     </button>
@@ -1028,12 +1028,12 @@ export default function RecipeDetail() {
               </div>
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-xl font-bold text-stone-900">Cooking Instructions</h3>
-                  <p className="text-xs text-stone-500 mt-0.5">
+                  <h3 className="text-xl font-bold text-stone-900 dark:text-stone-100">Cooking Instructions</h3>
+                  <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
                     Click checkboxes to mark steps completed as you cook
                   </p>
                 </div>
-                <span className="text-xs font-bold text-amber-800 bg-amber-100 px-3 py-1 rounded-full">
+                <span className="text-xs font-bold text-amber-800 dark:text-amber-300 bg-amber-100 dark:bg-amber-950/60 px-3 py-1 rounded-full">
                   {completedSteps.size} of {recipe.instructions.length} Done
                 </span>
               </div>
@@ -1049,8 +1049,8 @@ export default function RecipeDetail() {
                       key={idx}
                       className={`p-5 rounded-3xl border transition-all ${
                         isDone
-                          ? 'bg-stone-50/70 border-stone-200 opacity-60'
-                          : 'bg-white border-stone-200/90 shadow-xs hover:border-amber-300'
+                          ? 'bg-stone-50/70 dark:bg-stone-900/40 border-stone-200 dark:border-stone-800 opacity-60'
+                          : 'bg-white dark:bg-stone-900 border-stone-200/90 dark:border-stone-800 shadow-xs hover:border-amber-300 dark:hover:border-amber-600/60'
                       }`}
                     >
                       <div className="flex items-start justify-between gap-4">
@@ -1062,19 +1062,19 @@ export default function RecipeDetail() {
                             className={`w-7 h-7 rounded-xl flex items-center justify-center shrink-0 mt-0.5 transition-all cursor-pointer ${
                               isDone
                                 ? 'bg-emerald-500 text-white'
-                                : 'border-2 border-stone-300 hover:border-amber-500 text-transparent'
+                                : 'border-2 border-stone-300 dark:border-stone-600 hover:border-amber-500 text-transparent'
                             }`}
                           >
                             <Check className="w-4 h-4 stroke-[3]" />
                           </button>
 
                           <div className="space-y-1">
-                            <span className="text-xs font-bold text-amber-700 uppercase tracking-wider">
+                            <span className="text-xs font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider">
                               Step {step.stepNumber || idx + 1}: {step.title}
                             </span>
                             <p
                               className={`text-sm leading-relaxed ${
-                                isDone ? 'line-through text-stone-500' : 'text-stone-800'
+                                isDone ? 'line-through text-stone-500 dark:text-stone-500' : 'text-stone-800 dark:text-stone-200'
                               }`}
                             >
                               {step.instruction}
@@ -1085,16 +1085,16 @@ export default function RecipeDetail() {
 
                       {/* Interactive Step Timer (if minutes configured) */}
                       {hasTimer && (
-                        <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between bg-amber-50/50 p-3 rounded-2xl">
-                          <div className="flex items-center gap-2 text-stone-700 text-xs font-semibold">
-                            <TimerIcon className="w-4 h-4 text-amber-600" />
+                        <div className="mt-4 pt-3 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between bg-amber-50/50 dark:bg-amber-950/30 p-3 rounded-2xl">
+                          <div className="flex items-center gap-2 text-stone-700 dark:text-stone-300 text-xs font-semibold">
+                            <TimerIcon className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                             <span>Recommended Timer: {step.timerMinutes} mins</span>
                             {timer?.secondsLeft !== undefined && (
                               <span
                                 className={`font-mono text-sm font-bold ml-2 ${
                                   timer.done
-                                    ? 'text-emerald-700 animate-pulse'
-                                    : 'text-amber-800'
+                                    ? 'text-emerald-700 dark:text-emerald-400 animate-pulse'
+                                    : 'text-amber-800 dark:text-amber-400'
                                 }`}
                               >
                                 {Math.floor(timer.secondsLeft / 60)}:
@@ -1126,7 +1126,7 @@ export default function RecipeDetail() {
                               <button
                                 type="button"
                                 onClick={() => handleResetTimer(idx, step.timerMinutes)}
-                                className="p-1 rounded-xl text-stone-500 hover:text-stone-800 cursor-pointer"
+                                className="p-1 rounded-xl text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 cursor-pointer"
                                 title="Reset Timer"
                               >
                                 <RotateCcw className="w-3.5 h-3.5" />
@@ -1143,9 +1143,9 @@ export default function RecipeDetail() {
           </div>
 
           {/* Meet & Contact the Chef Section */}
-          <div id="chef-contact" className="pt-10 border-t border-stone-200/80">
-            <div className="bg-gradient-to-br from-white via-amber-50/20 to-orange-50/30 rounded-3xl p-6 sm:p-8 border border-amber-200/70 shadow-sm relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-amber-200/30 to-transparent rounded-full -mr-28 -mt-28 pointer-events-none" />
+          <div id="chef-contact" className="pt-10 border-t border-stone-200/80 dark:border-stone-800">
+            <div className="bg-gradient-to-br from-white via-amber-50/20 to-orange-50/30 dark:from-stone-900 dark:via-stone-900/90 dark:to-stone-950 rounded-3xl p-6 sm:p-8 border border-amber-200/70 dark:border-stone-800 shadow-sm relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-bl from-amber-200/30 dark:from-amber-600/10 to-transparent rounded-full -mr-28 -mt-28 pointer-events-none" />
 
               <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 relative z-10">
                 {/* Left: Chef Avatar and Bio Details */}
@@ -1158,10 +1158,10 @@ export default function RecipeDetail() {
                       onError={(e) => {
                         e.target.src = 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=200&q=80';
                       }}
-                      className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border-4 border-amber-100 shadow-md"
+                      className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border-4 border-amber-100 dark:border-amber-900/50 shadow-md"
                     />
                     <span
-                      className="absolute -bottom-2 -right-2 bg-gradient-to-r from-amber-600 to-orange-500 text-white p-1.5 rounded-xl shadow-md border-2 border-white"
+                      className="absolute -bottom-2 -right-2 bg-gradient-to-r from-amber-600 to-orange-500 text-white p-1.5 rounded-xl shadow-md border-2 border-white dark:border-stone-900"
                       title="Verified Culinary Creator"
                     >
                       <ChefHat className="w-4 h-4" />
@@ -1170,36 +1170,36 @@ export default function RecipeDetail() {
 
                   <div className="space-y-1.5 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-amber-800 bg-amber-100/80 px-2.5 py-0.5 rounded-full border border-amber-200/60">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-amber-800 dark:text-amber-300 bg-amber-100/80 dark:bg-amber-950/60 px-2.5 py-0.5 rounded-full border border-amber-200/60 dark:border-amber-800/40">
                         Recipe Creator & Chef
                       </span>
                       {chefLocation && (
-                        <span className="text-xs text-stone-500 flex items-center gap-1 font-medium">
-                          <MapPin className="w-3.5 h-3.5 text-amber-600" />
+                        <span className="text-xs text-stone-500 dark:text-stone-400 flex items-center gap-1 font-medium">
+                          <MapPin className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                           <span>{chefLocation}</span>
                         </span>
                       )}
                     </div>
 
-                    <h3 className="text-xl sm:text-2xl font-extrabold text-stone-900 tracking-tight">
+                    <h3 className="text-xl sm:text-2xl font-extrabold text-stone-900 dark:text-stone-100 tracking-tight">
                       {chefName}
                     </h3>
 
-                    <p className="text-xs sm:text-sm text-stone-600 max-w-xl leading-relaxed">
+                    <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 max-w-xl leading-relaxed">
                       {chefBio}
                     </p>
 
                     {/* Contact Badges & Handles */}
-                    <div className="flex flex-wrap items-center gap-3 pt-1 text-xs text-stone-600">
+                    <div className="flex flex-wrap items-center gap-3 pt-1 text-xs text-stone-600 dark:text-stone-300">
                       {chefEmail && (
                         <a
                           href={`mailto:${chefEmail}?subject=${encodeURIComponent(
                             `Inquiry about recipe: ${recipe.title}`
                           )}`}
-                          className="inline-flex items-center gap-1.5 text-stone-700 hover:text-amber-700 font-medium transition-colors"
+                          className="inline-flex items-center gap-1.5 text-stone-700 dark:text-stone-300 hover:text-amber-700 dark:hover:text-amber-400 font-medium transition-colors"
                           title="Send Email"
                         >
-                          <Mail className="w-3.5 h-3.5 text-amber-600" />
+                          <Mail className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                           <span>{chefEmail}</span>
                         </a>
                       )}
@@ -1207,10 +1207,10 @@ export default function RecipeDetail() {
                       {chefPhone && (
                         <a
                           href={`tel:${chefPhone}`}
-                          className="inline-flex items-center gap-1.5 text-stone-700 hover:text-amber-700 font-medium transition-colors"
+                          className="inline-flex items-center gap-1.5 text-stone-700 dark:text-stone-300 hover:text-amber-700 dark:hover:text-amber-400 font-medium transition-colors"
                           title="Call or WhatsApp"
                         >
-                          <Phone className="w-3.5 h-3.5 text-emerald-600" />
+                          <Phone className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                           <span>{chefPhone}</span>
                         </a>
                       )}
@@ -1220,7 +1220,7 @@ export default function RecipeDetail() {
                           href={`https://instagram.com/${chefInstagram.replace('@', '')}`}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1 text-stone-700 hover:text-amber-700 font-medium transition-colors"
+                          className="inline-flex items-center gap-1 text-stone-700 dark:text-stone-300 hover:text-amber-700 dark:hover:text-amber-400 font-medium transition-colors"
                         >
                           <InstagramIcon className="w-3.5 h-3.5 text-rose-500" />
                           <span>{chefInstagram.startsWith('@') ? chefInstagram : `@${chefInstagram}`}</span>
@@ -1232,9 +1232,9 @@ export default function RecipeDetail() {
                           href={chefWebsite.startsWith('http') ? chefWebsite : `https://${chefWebsite}`}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1 text-stone-700 hover:text-amber-700 font-medium transition-colors"
+                          className="inline-flex items-center gap-1 text-stone-700 dark:text-stone-300 hover:text-amber-700 dark:hover:text-amber-400 font-medium transition-colors"
                         >
-                          <Globe className="w-3.5 h-3.5 text-sky-600" />
+                          <Globe className="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" />
                           <span>Portfolio / Website</span>
                         </a>
                       )}
@@ -1260,17 +1260,17 @@ export default function RecipeDetail() {
                       )}&body=${encodeURIComponent(
                         `Hi ${chefName},\n\nI was looking at your "${recipe.title}" recipe on RecipeHaven and wanted to get in touch!\n\nBest regards,\n${user?.name || ''}`
                       )}`}
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-stone-50 text-stone-800 border border-stone-200/90 font-semibold text-xs transition-colors shadow-2xs"
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-white dark:bg-stone-800 hover:bg-stone-50 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 border border-stone-200/90 dark:border-stone-700 font-semibold text-xs transition-colors shadow-2xs"
                       title="Open default email application"
                     >
-                      <Mail className="w-3.5 h-3.5 text-amber-600" />
+                      <Mail className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                       <span>Email Client</span>
                     </a>
 
                     <button
                       type="button"
                       onClick={copyChefContact}
-                      className="inline-flex items-center justify-center gap-1 px-3 py-2 rounded-xl bg-white hover:bg-stone-50 text-stone-700 border border-stone-200/90 text-xs font-semibold transition-colors cursor-pointer shadow-2xs"
+                      className="inline-flex items-center justify-center gap-1 px-3 py-2 rounded-xl bg-white dark:bg-stone-800 hover:bg-stone-50 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-200 border border-stone-200/90 dark:border-stone-700 text-xs font-semibold transition-colors cursor-pointer shadow-2xs"
                       title="Copy contact details to clipboard"
                     >
                       <Copy className="w-3.5 h-3.5" />
@@ -1283,10 +1283,10 @@ export default function RecipeDetail() {
           </div>
 
           {/* Ratings & Reviews Section */}
-          <div className="pt-10 border-t border-stone-200/80 space-y-8">
+          <div className="pt-10 border-t border-stone-200/80 dark:border-stone-800 space-y-8">
             <div>
-              <h3 className="text-2xl font-bold text-stone-900">Ratings & Community Reviews</h3>
-              <p className="text-sm text-stone-500 mt-1">
+              <h3 className="text-2xl font-bold text-stone-900 dark:text-stone-100">Ratings & Community Reviews</h3>
+              <p className="text-sm text-stone-500 dark:text-stone-400 mt-1">
                 Share your cooking experience and tips with other home chefs.
               </p>
             </div>
@@ -1294,11 +1294,11 @@ export default function RecipeDetail() {
             {/* Leave a review form */}
             <form
               onSubmit={handleReviewSubmit}
-              className="p-6 rounded-3xl bg-amber-50/40 border border-amber-200/80 space-y-4"
+              className="p-6 rounded-3xl bg-amber-50/40 dark:bg-amber-950/20 border border-amber-200/80 dark:border-amber-800/40 space-y-4"
             >
-              <h4 className="font-bold text-stone-900 text-sm">Leave a Rating & Review</h4>
+              <h4 className="font-bold text-stone-900 dark:text-stone-100 text-sm">Leave a Rating & Review</h4>
               <div className="flex items-center gap-2">
-                <span className="text-xs font-semibold text-stone-600">Your Rating:</span>
+                <span className="text-xs font-semibold text-stone-600 dark:text-stone-400">Your Rating:</span>
                 <div className="flex items-center gap-1">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
@@ -1311,13 +1311,13 @@ export default function RecipeDetail() {
                         className={`w-6 h-6 ${
                           star <= userRating
                             ? 'fill-amber-400 text-amber-400'
-                            : 'text-stone-300'
+                            : 'text-stone-300 dark:text-stone-600'
                         }`}
                       />
                     </button>
                   ))}
                 </div>
-                <span className="text-xs font-bold text-amber-700 ml-2">
+                <span className="text-xs font-bold text-amber-700 dark:text-amber-400 ml-2">
                   {userRating} / 5 Stars
                 </span>
               </div>
@@ -1327,7 +1327,7 @@ export default function RecipeDetail() {
                 onChange={(e) => setReviewComment(e.target.value)}
                 placeholder="What did you think of this recipe? Did you make any fun substitutions? How was the texture?"
                 rows={3}
-                className="w-full p-3.5 rounded-2xl bg-white border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500"
+                className="w-full p-3.5 rounded-2xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-100 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500"
               />
 
               <button
@@ -1345,7 +1345,7 @@ export default function RecipeDetail() {
                 recipe.reviews.map((rev) => (
                   <div
                     key={rev._id}
-                    className="p-5 rounded-2xl bg-white border border-stone-200/80 shadow-2xs space-y-2"
+                    className="p-5 rounded-2xl bg-white dark:bg-stone-850 border border-stone-200/80 dark:border-stone-800 shadow-2xs space-y-2"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2.5">
@@ -1355,7 +1355,7 @@ export default function RecipeDetail() {
                           className="w-8 h-8 rounded-full object-cover"
                         />
                         <div>
-                          <p className="font-bold text-xs text-stone-900">{rev.userName}</p>
+                          <p className="font-bold text-xs text-stone-900 dark:text-stone-100">{rev.userName}</p>
                           <p className="text-[10px] text-stone-400">
                             {new Date(rev.createdAt).toLocaleDateString()}
                           </p>
@@ -1369,7 +1369,7 @@ export default function RecipeDetail() {
                               className={`w-3.5 h-3.5 ${
                                 s <= rev.rating
                                   ? 'fill-amber-400 text-amber-400'
-                                  : 'text-stone-200'
+                                  : 'text-stone-200 dark:text-stone-700'
                               }`}
                             />
                           ))}
@@ -1386,7 +1386,7 @@ export default function RecipeDetail() {
                         )}
                       </div>
                     </div>
-                    <p className="text-sm text-stone-700 leading-relaxed font-normal">
+                    <p className="text-sm text-stone-700 dark:text-stone-300 leading-relaxed font-normal">
                       {rev.comment}
                     </p>
                   </div>
@@ -1398,10 +1398,10 @@ export default function RecipeDetail() {
           </div>
 
           {/* Comments & Discussions with Nested Replies */}
-          <div className="pt-8 border-t border-stone-200/80 space-y-6">
+          <div className="pt-8 border-t border-stone-200/80 dark:border-stone-800 space-y-6">
             <div className="flex items-center gap-2">
-              <MessageSquare className="w-5 h-5 text-amber-600" />
-              <h3 className="text-xl font-bold text-stone-900">Questions & Discussions</h3>
+              <MessageSquare className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+              <h3 className="text-xl font-bold text-stone-900 dark:text-stone-100">Questions & Discussions</h3>
             </div>
 
             <form onSubmit={handleCommentSubmit} className="flex gap-2">
@@ -1410,12 +1410,12 @@ export default function RecipeDetail() {
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
                 placeholder="Ask a question or share a tip about this recipe..."
-                className="flex-1 px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                className="flex-1 px-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-100 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20"
               />
               <button
                 type="submit"
                 disabled={submittingComment}
-                className="px-5 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-900 text-white text-xs font-bold transition-colors cursor-pointer"
+                className="px-5 py-2.5 rounded-xl bg-stone-800 dark:bg-amber-600 hover:bg-stone-900 dark:hover:bg-amber-700 text-white text-xs font-bold transition-colors cursor-pointer"
               >
                 Post
               </button>
@@ -1426,7 +1426,7 @@ export default function RecipeDetail() {
                 recipe.comments.map((comm) => (
                   <div
                     key={comm._id}
-                    className="p-4 rounded-2xl bg-stone-50 border border-stone-200 space-y-3"
+                    className="p-4 rounded-2xl bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-800 space-y-3"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex items-start gap-2.5">
@@ -1436,11 +1436,11 @@ export default function RecipeDetail() {
                           className="w-7 h-7 rounded-full object-cover shrink-0 mt-0.5"
                         />
                         <div>
-                          <span className="font-bold text-xs text-stone-900 mr-2">{comm.userName}</span>
+                          <span className="font-bold text-xs text-stone-900 dark:text-stone-100 mr-2">{comm.userName}</span>
                           <span className="text-[10px] text-stone-400">
                             {new Date(comm.createdAt).toLocaleDateString()}
                           </span>
-                          <p className="text-xs text-stone-700 mt-1">{comm.text}</p>
+                          <p className="text-xs text-stone-700 dark:text-stone-300 mt-1">{comm.text}</p>
                         </div>
                       </div>
 
@@ -1448,7 +1448,7 @@ export default function RecipeDetail() {
                         <button
                           type="button"
                           onClick={() => setActiveReplyId(activeReplyId === comm._id ? null : comm._id)}
-                          className="text-xs text-amber-700 hover:text-amber-900 font-bold px-2 py-1 rounded-lg hover:bg-amber-100/60 transition-colors cursor-pointer"
+                          className="text-xs text-amber-700 dark:text-amber-400 hover:text-amber-900 dark:hover:text-amber-300 font-bold px-2 py-1 rounded-lg hover:bg-amber-100/60 dark:hover:bg-amber-950/40 transition-colors cursor-pointer"
                         >
                           Reply
                         </button>
@@ -1467,13 +1467,13 @@ export default function RecipeDetail() {
 
                     {/* Inline Reply Form */}
                     {activeReplyId === comm._id && (
-                      <div className="pl-6 sm:pl-8 flex items-center gap-2 pt-2 border-t border-stone-200">
+                      <div className="pl-6 sm:pl-8 flex items-center gap-2 pt-2 border-t border-stone-200 dark:border-stone-700">
                         <input
                           type="text"
                           value={replyText}
                           onChange={(e) => setReplyText(e.target.value)}
                           placeholder={`Reply to ${comm.userName}...`}
-                          className="flex-1 px-3 py-1.5 rounded-xl bg-white border border-stone-200 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                          className="flex-1 px-3 py-1.5 rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-100 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500/20"
                           autoFocus
                         />
                         <button
@@ -1490,7 +1490,7 @@ export default function RecipeDetail() {
                             setActiveReplyId(null);
                             setReplyText('');
                           }}
-                          className="px-2 py-1.5 text-stone-400 hover:text-stone-600 text-xs font-medium cursor-pointer"
+                          className="px-2 py-1.5 text-stone-400 hover:text-stone-600 dark:hover:text-stone-300 text-xs font-medium cursor-pointer"
                         >
                           Cancel
                         </button>
@@ -1499,25 +1499,25 @@ export default function RecipeDetail() {
 
                     {/* Nested Replies List */}
                     {comm.replies && comm.replies.length > 0 && (
-                      <div className="pl-6 sm:pl-9 space-y-2 pt-1 border-t border-stone-150">
+                      <div className="pl-6 sm:pl-9 space-y-2 pt-1 border-t border-stone-150 dark:border-stone-700/60">
                         {comm.replies.map((rep) => (
                           <div
                             key={rep._id}
-                            className="p-2.5 rounded-xl bg-white border border-stone-200 flex items-start justify-between gap-2 shadow-2xs"
+                            className="p-2.5 rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 flex items-start justify-between gap-2 shadow-2xs"
                           >
                             <div className="flex items-start gap-2">
-                              <CornerDownRight className="w-3.5 h-3.5 text-amber-600 shrink-0 mt-0.5" />
+                              <CornerDownRight className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
                               <img
                                 src={rep.userAvatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'}
                                 alt={rep.userName}
                                 className="w-5 h-5 rounded-full object-cover shrink-0 mt-0.5"
                               />
                               <div>
-                                <span className="font-bold text-[11px] text-stone-900 mr-2">{rep.userName}</span>
+                                <span className="font-bold text-[11px] text-stone-900 dark:text-stone-100 mr-2">{rep.userName}</span>
                                 <span className="text-[9px] text-stone-400">
                                   {new Date(rep.createdAt).toLocaleDateString()}
                                 </span>
-                                <p className="text-xs text-stone-700 mt-0.5">{rep.text}</p>
+                                <p className="text-xs text-stone-700 dark:text-stone-300 mt-0.5">{rep.text}</p>
                               </div>
                             </div>
 
@@ -1550,12 +1550,12 @@ export default function RecipeDetail() {
         <div className="space-y-6 pt-4 mb-10">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-2xl font-extrabold text-stone-900">Similar Recipes You'll Love</h3>
-              <p className="text-xs text-stone-500 mt-0.5">Dishes matching this cuisine, meal type, and dietary profile.</p>
+              <h3 className="text-2xl font-extrabold text-stone-900 dark:text-stone-100">Similar Recipes You'll Love</h3>
+              <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">Dishes matching this cuisine, meal type, and dietary profile.</p>
             </div>
             <Link
               to="/recipes"
-              className="text-sm font-bold text-amber-700 hover:text-amber-800"
+              className="text-sm font-bold text-amber-700 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300"
             >
               Explore All &rarr;
             </Link>
@@ -1573,12 +1573,12 @@ export default function RecipeDetail() {
         <div className="space-y-6 pt-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-2xl font-extrabold text-stone-900">Recommended for You</h3>
-              <p className="text-xs text-stone-500 mt-0.5">Handpicked chef creations based on community ratings.</p>
+              <h3 className="text-2xl font-extrabold text-stone-900 dark:text-stone-100">Recommended for You</h3>
+              <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">Handpicked chef creations based on community ratings.</p>
             </div>
             <Link
               to="/recipes"
-              className="text-sm font-bold text-amber-700 hover:text-amber-800"
+              className="text-sm font-bold text-amber-700 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300"
             >
               Explore More &rarr;
             </Link>
@@ -1594,19 +1594,19 @@ export default function RecipeDetail() {
       {/* Share Recipe Modal */}
       {shareModalOpen && (
         <div className="fixed inset-0 z-50 bg-stone-950/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-6 max-w-md w-full border border-stone-200 shadow-2xl space-y-5 animate-scale-up">
+          <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 max-w-md w-full border border-stone-200 dark:border-stone-800 shadow-2xl space-y-5 animate-scale-up">
             <div className="flex items-center justify-between">
-              <h3 className="font-extrabold text-lg text-stone-900">Share This Recipe</h3>
+              <h3 className="font-extrabold text-lg text-stone-900 dark:text-stone-100">Share This Recipe</h3>
               <button
                 type="button"
                 onClick={() => setShareModalOpen(false)}
-                className="text-stone-400 hover:text-stone-600 p-1 cursor-pointer"
+                className="text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 p-1 cursor-pointer text-xl leading-none"
               >
                 &times;
               </button>
             </div>
 
-            <p className="text-xs text-stone-500">
+            <p className="text-xs text-stone-500 dark:text-stone-400">
               Share "{recipe.title}" with your friends, family, or social media!
             </p>
 
@@ -1617,7 +1617,7 @@ export default function RecipeDetail() {
                 )}`}
                 target="_blank"
                 rel="noreferrer"
-                className="p-3 rounded-2xl bg-emerald-50 text-emerald-800 hover:bg-emerald-100 flex items-center justify-center gap-2 transition-colors"
+                className="p-3 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-950/70 flex items-center justify-center gap-2 transition-colors"
               >
                 WhatsApp
               </a>
@@ -1627,7 +1627,7 @@ export default function RecipeDetail() {
                 )}&url=${encodeURIComponent(window.location.href)}`}
                 target="_blank"
                 rel="noreferrer"
-                className="p-3 rounded-2xl bg-sky-50 text-sky-800 hover:bg-sky-100 flex items-center justify-center gap-2 transition-colors"
+                className="p-3 rounded-2xl bg-sky-50 dark:bg-sky-950/40 text-sky-800 dark:text-sky-300 hover:bg-sky-100 dark:hover:bg-sky-950/70 flex items-center justify-center gap-2 transition-colors"
               >
                 Twitter / X
               </a>
@@ -1637,7 +1637,7 @@ export default function RecipeDetail() {
                 )}`}
                 target="_blank"
                 rel="noreferrer"
-                className="p-3 rounded-2xl bg-blue-50 text-blue-800 hover:bg-blue-100 flex items-center justify-center gap-2 transition-colors"
+                className="p-3 rounded-2xl bg-blue-50 dark:bg-blue-950/40 text-blue-800 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-950/70 flex items-center justify-center gap-2 transition-colors"
               >
                 Facebook
               </a>
@@ -1647,19 +1647,19 @@ export default function RecipeDetail() {
                 )}&body=${encodeURIComponent(
                   `Hey, check out this great recipe for ${recipe.title} on RecipeHaven:\n\n${window.location.href}`
                 )}`}
-                className="p-3 rounded-2xl bg-amber-50 text-amber-900 hover:bg-amber-100 flex items-center justify-center gap-2 transition-colors"
+                className="p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/40 text-amber-900 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-950/70 flex items-center justify-center gap-2 transition-colors"
               >
                 Email
               </a>
             </div>
 
             <div className="pt-2">
-              <div className="flex items-center gap-2 p-2 rounded-2xl bg-stone-50 border border-stone-200">
+              <div className="flex items-center gap-2 p-2 rounded-2xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700">
                 <input
                   type="text"
                   readOnly
                   value={window.location.href}
-                  className="w-full bg-transparent text-xs text-stone-600 focus:outline-none"
+                  className="w-full bg-transparent text-xs text-stone-600 dark:text-stone-300 focus:outline-none"
                 />
                 <button
                   type="button"
@@ -1678,28 +1678,28 @@ export default function RecipeDetail() {
       {/* Contact Chef Inquiry Modal */}
       {contactModalOpen && (
         <div className="fixed inset-0 z-50 bg-stone-950/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl p-6 sm:p-7 max-w-lg w-full border border-stone-200 shadow-2xl space-y-5 animate-scale-up">
+          <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 sm:p-7 max-w-lg w-full border border-stone-200 dark:border-stone-800 shadow-2xl space-y-5 animate-scale-up">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
                 <img
                   src={chefAvatar}
                   alt={chefName}
                   referrerPolicy="no-referrer"
-                  className="w-12 h-12 rounded-xl object-cover border-2 border-amber-200"
+                  className="w-12 h-12 rounded-xl object-cover border-2 border-amber-200 dark:border-amber-800"
                 />
                 <div>
-                  <h3 className="font-extrabold text-lg text-stone-900 leading-tight">
+                  <h3 className="font-extrabold text-lg text-stone-900 dark:text-stone-100 leading-tight">
                     Contact Chef {chefName}
                   </h3>
-                  <p className="text-xs text-stone-500">
-                    Regarding: <span className="font-semibold text-amber-800">"{recipe.title}"</span>
+                  <p className="text-xs text-stone-500 dark:text-stone-400">
+                    Regarding: <span className="font-semibold text-amber-800 dark:text-amber-400">"{recipe.title}"</span>
                   </p>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setContactModalOpen(false)}
-                className="text-stone-400 hover:text-stone-600 p-1 rounded-lg text-xl leading-none cursor-pointer"
+                className="text-stone-400 hover:text-stone-600 dark:hover:text-stone-200 p-1 rounded-lg text-xl leading-none cursor-pointer"
               >
                 &times;
               </button>
@@ -1708,7 +1708,7 @@ export default function RecipeDetail() {
             <form onSubmit={handleSendChefMessage} className="space-y-3.5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1">
                     Your Name
                   </label>
                   <input
@@ -1717,11 +1717,11 @@ export default function RecipeDetail() {
                     value={contactForm.senderName}
                     onChange={(e) => setContactForm({ ...contactForm, senderName: e.target.value })}
                     placeholder="Your Name"
-                    className="w-full px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-900 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-hidden"
+                    className="w-full px-3.5 py-2 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs text-stone-900 dark:text-stone-100 focus:bg-white dark:focus:bg-stone-750 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-hidden"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1">
                     Your Email
                   </label>
                   <input
@@ -1730,19 +1730,19 @@ export default function RecipeDetail() {
                     value={contactForm.senderEmail}
                     onChange={(e) => setContactForm({ ...contactForm, senderEmail: e.target.value })}
                     placeholder="your@email.com"
-                    className="w-full px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-900 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-hidden"
+                    className="w-full px-3.5 py-2 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs text-stone-900 dark:text-stone-100 focus:bg-white dark:focus:bg-stone-750 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-hidden"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">
+                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1">
                   Inquiry Topic
                 </label>
                 <select
                   value={contactForm.inquiryType}
                   onChange={(e) => setContactForm({ ...contactForm, inquiryType: e.target.value })}
-                  className="w-full px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-900 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-hidden"
+                  className="w-full px-3.5 py-2 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs text-stone-900 dark:text-stone-100 focus:bg-white dark:focus:bg-stone-750 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-hidden"
                 >
                   <option value="Recipe Question">Recipe Question & Ingredient Substitutions</option>
                   <option value="Cooking Class">Private Cooking Class / Mentorship</option>
@@ -1753,7 +1753,7 @@ export default function RecipeDetail() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1">
+                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1">
                   Message
                 </label>
                 <textarea
@@ -1762,7 +1762,7 @@ export default function RecipeDetail() {
                   value={contactForm.message}
                   onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                   placeholder={`Write your message for Chef ${chefName}...`}
-                  className="w-full px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-200 text-xs text-stone-900 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-hidden"
+                  className="w-full px-3.5 py-2 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs text-stone-900 dark:text-stone-100 focus:bg-white dark:focus:bg-stone-750 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-hidden"
                 />
               </div>
 
@@ -1771,7 +1771,7 @@ export default function RecipeDetail() {
                   href={`mailto:${chefEmail}?subject=${encodeURIComponent(
                     `[${contactForm.inquiryType}] ${recipe.title}`
                   )}&body=${encodeURIComponent(contactForm.message)}`}
-                  className="text-xs text-stone-500 hover:text-amber-700 font-medium inline-flex items-center gap-1"
+                  className="text-xs text-stone-500 dark:text-stone-400 hover:text-amber-700 dark:hover:text-amber-400 font-medium inline-flex items-center gap-1"
                 >
                   <Mail className="w-3.5 h-3.5" />
                   <span>Open via Mail App</span>
@@ -1781,7 +1781,7 @@ export default function RecipeDetail() {
                   <button
                     type="button"
                     onClick={() => setContactModalOpen(false)}
-                    className="px-4 py-2 rounded-xl text-stone-600 hover:bg-stone-100 font-bold text-xs cursor-pointer transition-colors"
+                    className="px-4 py-2 rounded-xl text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 font-bold text-xs cursor-pointer transition-colors"
                   >
                     Cancel
                   </button>

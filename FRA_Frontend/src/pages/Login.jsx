@@ -103,8 +103,8 @@ export default function Login() {
   };
 
   return (
-    <div className="flex-1 flex items-center justify-center py-6 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-amber-50/60 via-stone-50 to-orange-50/40 min-h-[calc(100vh-4rem)]">
-      <div className="max-w-5xl w-full bg-white rounded-3xl shadow-2xl shadow-stone-300/50 border border-stone-200/80 overflow-hidden grid grid-cols-1 md:grid-cols-12">
+    <div className="flex-1 flex items-center justify-center py-6 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-amber-50/60 via-stone-50 to-orange-50/40 dark:from-stone-950 dark:via-stone-900 dark:to-stone-950 min-h-[calc(100vh-4rem)] transition-colors">
+      <div className="max-w-5xl w-full bg-white dark:bg-stone-900 rounded-3xl shadow-2xl shadow-stone-300/50 dark:shadow-none border border-stone-200/80 dark:border-stone-800 overflow-hidden grid grid-cols-1 md:grid-cols-12 transition-colors">
         {/* Left Visual & Features Column */}
         <div className="hidden md:flex md:col-span-5 bg-gradient-to-br from-stone-900 via-stone-800 to-stone-900 text-white p-8 lg:p-10 flex-col justify-between relative">
           <div className="space-y-6">
@@ -198,17 +198,17 @@ export default function Login() {
         <div className="md:col-span-7 p-7 sm:p-9 lg:p-10 flex flex-col justify-between space-y-4">
           <div>
             {/* Dual Role Selector Tabs */}
-            <div className="p-1 rounded-2xl bg-stone-100 border border-stone-200 grid grid-cols-2 gap-1 mb-5">
+            <div className="p-1 rounded-2xl bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 grid grid-cols-2 gap-1 mb-5">
               <button
                 type="button"
                 onClick={() => handleTabChange('user')}
                 className={`py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
                   activeRoleTab === 'user'
-                    ? 'bg-white text-stone-900 shadow-sm'
-                    : 'text-stone-500 hover:text-stone-900'
+                    ? 'bg-white dark:bg-stone-700 text-stone-900 dark:text-white shadow-sm'
+                    : 'text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white'
                 }`}
               >
-                <User className={`w-4 h-4 ${activeRoleTab === 'user' ? 'text-amber-600' : ''}`} />
+                <User className={`w-4 h-4 ${activeRoleTab === 'user' ? 'text-amber-600 dark:text-amber-400' : ''}`} />
                 <span>Regular User</span>
               </button>
 
@@ -217,20 +217,20 @@ export default function Login() {
                 onClick={() => handleTabChange('admin')}
                 className={`py-2.5 px-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer ${
                   activeRoleTab === 'admin'
-                    ? 'bg-white text-orange-700 shadow-sm'
-                    : 'text-stone-500 hover:text-stone-900'
+                    ? 'bg-white dark:bg-stone-700 text-orange-700 dark:text-orange-400 shadow-sm'
+                    : 'text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white'
                 }`}
               >
-                <Shield className={`w-4 h-4 ${activeRoleTab === 'admin' ? 'text-orange-600' : ''}`} />
+                <Shield className={`w-4 h-4 ${activeRoleTab === 'admin' ? 'text-orange-600 dark:text-orange-400' : ''}`} />
                 <span>Admin Portal</span>
               </button>
             </div>
 
             <div className="mb-4">
-              <h2 className="text-2xl font-black text-stone-900 tracking-tight">
+              <h2 className="text-2xl font-black text-stone-900 dark:text-white tracking-tight">
                 {activeRoleTab === 'admin' ? 'Administrator Login' : 'Sign In to RecipeHaven'}
               </h2>
-              <p className="text-xs sm:text-sm text-stone-500 mt-1">
+              <p className="text-xs sm:text-sm text-stone-500 dark:text-stone-400 mt-1">
                 {activeRoleTab === 'admin'
                   ? 'Enter admin credentials to access the moderation console.'
                   : 'Enter your credentials or continue with Google.'}
@@ -239,7 +239,7 @@ export default function Login() {
 
             {/* Error Alert */}
             {error && (
-              <div className="mb-3 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs sm:text-sm font-medium animate-shake">
+              <div className="mb-3 p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 text-xs sm:text-sm font-medium animate-shake">
                 {error}
               </div>
             )}
@@ -247,11 +247,11 @@ export default function Login() {
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-3.5">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5">
                   Email Address
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400 dark:text-stone-500">
                     <Mail className="w-4 h-4" />
                   </div>
                   <input
@@ -260,25 +260,25 @@ export default function Login() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@example.com"
-                    className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-stone-50/80 border border-stone-200 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 text-sm transition-all outline-hidden"
+                    className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-stone-50/80 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 focus:bg-white dark:focus:bg-stone-750 focus:border-amber-500 dark:focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 text-sm transition-all outline-hidden"
                   />
                 </div>
               </div>
 
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300">
                     Password
                   </label>
                   <Link
                     to="/forgot-password"
-                    className="text-xs font-semibold text-amber-600 hover:text-amber-700 hover:underline"
+                    className="text-xs font-semibold text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 hover:underline"
                   >
                     Forgot Password?
                   </Link>
                 </div>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400 dark:text-stone-500">
                     <Lock className="w-4 h-4" />
                   </div>
                   <input
@@ -287,12 +287,12 @@ export default function Login() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter password..."
-                    className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-stone-50/80 border border-stone-200 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 text-sm transition-all outline-hidden"
+                    className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-stone-50/80 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 focus:bg-white dark:focus:bg-stone-750 focus:border-amber-500 dark:focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 text-sm transition-all outline-hidden"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-stone-400 hover:text-stone-600 transition-colors cursor-pointer"
+                    className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 transition-colors cursor-pointer"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -326,28 +326,28 @@ export default function Login() {
 
             {/* Google OAuth & Social Sign-In */}
             <div className="relative flex py-2.5 items-center">
-              <div className="grow border-t border-stone-200"></div>
-              <span className="shrink mx-3 text-stone-400 text-xs font-semibold uppercase tracking-wider">
+              <div className="grow border-t border-stone-200 dark:border-stone-800"></div>
+              <span className="shrink mx-3 text-stone-400 dark:text-stone-500 text-xs font-semibold uppercase tracking-wider">
                 Or continue with
               </span>
-              <div className="grow border-t border-stone-200"></div>
+              <div className="grow border-t border-stone-200 dark:border-stone-800"></div>
             </div>
 
             <GoogleSignInButton redirectPath={from} label="Continue with Google" />
           </div>
 
           {/* Footer links inside card */}
-          <div className="pt-3 border-t border-stone-100 flex items-center justify-between text-xs sm:text-sm text-stone-500">
+          <div className="pt-3 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between text-xs sm:text-sm text-stone-500 dark:text-stone-400">
             <button
               type="button"
               onClick={() => handleTabChange(activeRoleTab === 'admin' ? 'user' : 'admin')}
-              className="font-bold text-amber-700 hover:text-amber-800 hover:underline cursor-pointer"
+              className="font-bold text-amber-700 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300 hover:underline cursor-pointer"
             >
               Switch to {activeRoleTab === 'admin' ? 'User Login' : 'Admin Login'}
             </button>
             <p>
               New here?{' '}
-              <Link to="/register" className="font-bold text-amber-600 hover:underline">
+              <Link to="/register" className="font-bold text-amber-600 dark:text-amber-400 hover:underline">
                 Create account
               </Link>
             </p>

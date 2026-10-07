@@ -8,6 +8,19 @@ const {
   sendPasswordChangedEmail,
 } = require('../utils/emailService');
 const { OAuth2Client } = require('google-auth-library');
+const { initializeApp, getApps } = require('firebase-admin/app');
+const { getAuth } = require('firebase-admin/auth');
+
+let firebaseAuth = null;
+try {
+  const firebaseApp =
+    getApps().length === 0
+      ? initializeApp({ projectId: process.env.FIREBASE_PROJECT_ID || 'recipehaven-b101c' })
+      : getApps()[0];
+  firebaseAuth = getAuth(firebaseApp);
+} catch (err) {
+  console.warn('[Firebase Admin Warning]: Could not initialize Firebase Admin SDK:', err.message);
+}
 
 /**
  * Helper to build consistent user auth payload
@@ -308,47 +321,60 @@ const googleLogin = async (req, res, next) => {
       });
     }
 
-    const clientId = process.env.GOOGLE_CLIENT_ID;
-    if (!clientId) {
-      return res.status(500).json({
-        success: false,
-        message: 'Google authentication is not configured on the server. Please configure GOOGLE_CLIENT_ID in the backend environment.',
-      });
+    let googleSub;
+    let normalizedEmail;
+    let userName;
+    let userAvatar;
+    let verificationError = null;
+
+    // 1. Try Firebase Admin token verification first (Firebase Google Auth)
+    if (firebaseAuth) {
+      try {
+        const decoded = await firebaseAuth.verifyIdToken(credential);
+        if (decoded && decoded.email) {
+          googleSub = decoded.uid;
+          normalizedEmail = decoded.email.toLowerCase().trim();
+          userName = decoded.name || normalizedEmail.split('@')[0];
+          userAvatar =
+            decoded.picture ||
+            'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80';
+        }
+      } catch (fbErr) {
+        verificationError = fbErr.message;
+      }
     }
 
-    const client = new OAuth2Client(clientId);
-    let ticket;
-    try {
-      ticket = await client.verifyIdToken({
-        idToken: credential,
-        audience: clientId,
-      });
-    } catch (verifyError) {
+    // 2. Fallback to Google OAuth2Client token verification if not resolved via Firebase
+    if (!googleSub) {
+      const clientId = process.env.GOOGLE_CLIENT_ID;
+      if (clientId) {
+        try {
+          const client = new OAuth2Client(clientId);
+          const ticket = await client.verifyIdToken({
+            idToken: credential,
+            audience: clientId,
+          });
+          const payload = ticket.getPayload();
+          if (payload && payload.email) {
+            googleSub = payload.sub;
+            normalizedEmail = payload.email.toLowerCase().trim();
+            userName = payload.name || payload.given_name || normalizedEmail.split('@')[0];
+            userAvatar =
+              payload.picture ||
+              'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80';
+          }
+        } catch (oauthErr) {
+          verificationError = oauthErr.message;
+        }
+      }
+    }
+
+    if (!googleSub || !normalizedEmail) {
       return res.status(401).json({
         success: false,
-        message: `Google token verification failed: ${verifyError.message || 'Invalid or expired Google credential'}.`,
+        message: `Google authentication failed: ${verificationError || 'Invalid Google credential'}.`,
       });
     }
-
-    const payload = ticket.getPayload();
-    if (!payload || !payload.email) {
-      return res.status(400).json({
-        success: false,
-        message: 'Unable to extract user identity from Google credential.',
-      });
-    }
-
-    if (payload.email_verified === false) {
-      return res.status(400).json({
-        success: false,
-        message: 'Your Google email address is not verified by Google.',
-      });
-    }
-
-    const googleSub = payload.sub;
-    const normalizedEmail = payload.email.toLowerCase().trim();
-    const userName = payload.name || payload.given_name || normalizedEmail.split('@')[0];
-    const userAvatar = payload.picture || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80';
 
     // Find existing user by Google sub ID or verified email
     let user = await User.findOne({

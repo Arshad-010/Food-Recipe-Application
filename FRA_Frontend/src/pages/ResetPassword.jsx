@@ -113,8 +113,8 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-amber-50/60 via-stone-50 to-orange-50/40">
-      <div className="max-w-md w-full space-y-6 bg-white p-6 sm:p-8 rounded-3xl shadow-xl shadow-stone-200/50 border border-stone-200/80">
+    <div className="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-amber-50/60 via-stone-50 to-orange-50/40 dark:from-stone-950 dark:via-stone-900 dark:to-stone-950 transition-colors">
+      <div className="max-w-md w-full space-y-6 bg-white dark:bg-stone-900 p-6 sm:p-8 rounded-3xl shadow-xl shadow-stone-200/50 dark:shadow-none border border-stone-200/80 dark:border-stone-800 transition-colors">
         {/* Step Indicator */}
         <div className="flex items-center justify-center gap-2 mb-2">
           <span className="w-8 h-8 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
@@ -135,28 +135,28 @@ export default function ResetPassword() {
           <div className="inline-flex w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-600 to-orange-500 items-center justify-center text-white shadow-lg shadow-orange-500/25 mb-2">
             <Lock className="w-7 h-7" />
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tracking-tight">
             Create a new password
           </h2>
-          <p className="text-xs sm:text-sm text-stone-500 max-w-xs mx-auto">
+          <p className="text-xs sm:text-sm text-stone-500 dark:text-stone-400 max-w-xs mx-auto">
             Choose a new, strong password for <br />
-            <strong className="text-stone-800 font-semibold">{email || 'your account'}</strong>
+            <strong className="text-stone-800 dark:text-stone-200 font-semibold">{email || 'your account'}</strong>
           </p>
         </div>
 
         {/* Error Alert */}
         {error && (
-          <div className="p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm font-medium flex items-center gap-2 animate-shake">
+          <div className="p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 text-sm font-medium flex items-center gap-2 animate-shake">
             <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
             <span>{error}</span>
           </div>
         )}
 
         {success ? (
-          <div className="p-6 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-950 text-center space-y-3">
-            <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
-            <h3 className="font-bold text-lg">Password changed successfully.</h3>
-            <p className="text-xs text-emerald-800">
+          <div className="p-6 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-emerald-950 dark:text-emerald-200 text-center space-y-3">
+            <CheckCircle2 className="w-12 h-12 text-emerald-600 dark:text-emerald-400 mx-auto" />
+            <h3 className="font-bold text-lg text-emerald-900 dark:text-emerald-100">Password changed successfully.</h3>
+            <p className="text-xs text-emerald-800 dark:text-emerald-300">
               Your password has been securely reset. Redirecting you to the sign-in page...
             </p>
             <div className="pt-2">
@@ -172,11 +172,11 @@ export default function ResetPassword() {
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5">
                 New Password
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400 dark:text-stone-500">
                   <Lock className="w-4 h-4" />
                 </div>
                 <input
@@ -185,12 +185,12 @@ export default function ResetPassword() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Min. 8 chars, 1 uppercase, 1 number"
-                  className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-stone-50/80 border border-stone-200 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 text-sm transition-all outline-hidden"
+                  className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-stone-50/80 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 focus:bg-white dark:focus:bg-stone-750 focus:border-amber-500 dark:focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 text-sm transition-all outline-hidden"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-stone-400 hover:text-stone-600 transition-colors cursor-pointer"
+                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 transition-colors cursor-pointer"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -200,32 +200,32 @@ export default function ResetPassword() {
               {password && (
                 <div className="mt-2.5 space-y-1.5">
                   <div className="flex items-center justify-between text-[11px]">
-                    <span className="text-stone-500">Strength:</span>
+                    <span className="text-stone-500 dark:text-stone-400">Strength:</span>
                     <span className={`font-bold ${strength.text}`}>{strength.label}</span>
                   </div>
                   <div className="grid grid-cols-4 gap-1 h-1.5">
-                    <div className={`rounded-full transition-all ${strengthScore >= 1 ? strength.color : 'bg-stone-200'}`} />
-                    <div className={`rounded-full transition-all ${strengthScore >= 2 ? strength.color : 'bg-stone-200'}`} />
-                    <div className={`rounded-full transition-all ${strengthScore >= 3 ? strength.color : 'bg-stone-200'}`} />
-                    <div className={`rounded-full transition-all ${strengthScore >= 4 ? strength.color : 'bg-stone-200'}`} />
+                    <div className={`rounded-full transition-all ${strengthScore >= 1 ? strength.color : 'bg-stone-200 dark:bg-stone-700'}`} />
+                    <div className={`rounded-full transition-all ${strengthScore >= 2 ? strength.color : 'bg-stone-200 dark:bg-stone-700'}`} />
+                    <div className={`rounded-full transition-all ${strengthScore >= 3 ? strength.color : 'bg-stone-200 dark:bg-stone-700'}`} />
+                    <div className={`rounded-full transition-all ${strengthScore >= 4 ? strength.color : 'bg-stone-200 dark:bg-stone-700'}`} />
                   </div>
 
                   {/* Checklist */}
-                  <div className="grid grid-cols-2 gap-1 pt-1 text-[11px] text-stone-500">
-                    <span className={`flex items-center gap-1 ${hasMinLength ? 'text-emerald-700 font-semibold' : ''}`}>
-                      {hasMinLength ? <Check className="w-3 h-3 text-emerald-600" /> : <X className="w-3 h-3 text-stone-300" />}
+                  <div className="grid grid-cols-2 gap-1 pt-1 text-[11px] text-stone-500 dark:text-stone-400">
+                    <span className={`flex items-center gap-1 ${hasMinLength ? 'text-emerald-700 dark:text-emerald-400 font-semibold' : ''}`}>
+                      {hasMinLength ? <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> : <X className="w-3 h-3 text-stone-300 dark:text-stone-600" />}
                       8+ Characters
                     </span>
-                    <span className={`flex items-center gap-1 ${hasUpper ? 'text-emerald-700 font-semibold' : ''}`}>
-                      {hasUpper ? <Check className="w-3 h-3 text-emerald-600" /> : <X className="w-3 h-3 text-stone-300" />}
+                    <span className={`flex items-center gap-1 ${hasUpper ? 'text-emerald-700 dark:text-emerald-400 font-semibold' : ''}`}>
+                      {hasUpper ? <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> : <X className="w-3 h-3 text-stone-300 dark:text-stone-600" />}
                       1 Uppercase Letter
                     </span>
-                    <span className={`flex items-center gap-1 ${hasLower ? 'text-emerald-700 font-semibold' : ''}`}>
-                      {hasLower ? <Check className="w-3 h-3 text-emerald-600" /> : <X className="w-3 h-3 text-stone-300" />}
+                    <span className={`flex items-center gap-1 ${hasLower ? 'text-emerald-700 dark:text-emerald-400 font-semibold' : ''}`}>
+                      {hasLower ? <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> : <X className="w-3 h-3 text-stone-300 dark:text-stone-600" />}
                       1 Lowercase Letter
                     </span>
-                    <span className={`flex items-center gap-1 ${hasNumber ? 'text-emerald-700 font-semibold' : ''}`}>
-                      {hasNumber ? <Check className="w-3 h-3 text-emerald-600" /> : <X className="w-3 h-3 text-stone-300" />}
+                    <span className={`flex items-center gap-1 ${hasNumber ? 'text-emerald-700 dark:text-emerald-400 font-semibold' : ''}`}>
+                      {hasNumber ? <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" /> : <X className="w-3 h-3 text-stone-300 dark:text-stone-600" />}
                       1 Number (0-9)
                     </span>
                   </div>
@@ -234,11 +234,11 @@ export default function ResetPassword() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5">
                 Confirm New Password
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-stone-400 dark:text-stone-500">
                   <Lock className="w-4 h-4" />
                 </div>
                 <input
@@ -247,22 +247,22 @@ export default function ResetPassword() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Re-enter your new password"
-                  className={`w-full pl-10 pr-10 py-2.5 rounded-xl bg-stone-50/80 border text-stone-900 text-sm transition-all outline-hidden ${
+                  className={`w-full pl-10 pr-10 py-2.5 rounded-xl bg-stone-50/80 dark:bg-stone-800 border text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 text-sm transition-all outline-hidden ${
                     confirmPassword && !passwordsMatch
-                      ? 'border-rose-400 focus:border-rose-500 focus:ring-2 focus:ring-rose-200'
-                      : 'border-stone-200 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
+                      ? 'border-rose-400 dark:border-rose-500 focus:border-rose-500 focus:ring-2 focus:ring-rose-200 dark:focus:ring-rose-900/50'
+                      : 'border-stone-200 dark:border-stone-700 focus:bg-white dark:focus:bg-stone-750 focus:border-amber-500 dark:focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20'
                   }`}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-stone-400 hover:text-stone-600 transition-colors cursor-pointer"
+                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 transition-colors cursor-pointer"
                 >
                   {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
               {confirmPassword && !passwordsMatch && (
-                <p className="text-xs text-rose-600 mt-1 font-medium">Passwords do not match.</p>
+                <p className="text-xs text-rose-600 dark:text-rose-400 mt-1 font-medium">Passwords do not match.</p>
               )}
             </div>
 
@@ -287,7 +287,7 @@ export default function ResetPassword() {
             <div className="pt-2 text-center">
               <Link
                 to="/login"
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-stone-600 hover:text-amber-700"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-stone-600 dark:text-stone-400 hover:text-amber-700 dark:hover:text-amber-400"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Cancel and Return to Sign In</span>

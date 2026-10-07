@@ -69,14 +69,14 @@ export default function Dashboard() {
 
   // Preset categories for quick filtering
   const standardCategories = [
-    { name: 'Breakfast', emoji: '🍳', tag: 'Breakfast', bg: 'bg-amber-50 hover:bg-amber-100 text-amber-900 border-amber-200' },
-    { name: 'Lunch', emoji: '🥪', tag: 'Lunch', bg: 'bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border-emerald-200' },
-    { name: 'Dinner', emoji: '🍲', tag: 'Dinner', bg: 'bg-orange-50 hover:bg-orange-100 text-orange-900 border-orange-200' },
-    { name: 'Desserts', emoji: '🍰', tag: 'Desserts', bg: 'bg-rose-50 hover:bg-rose-100 text-rose-900 border-rose-200' },
-    { name: 'Vegetarian', emoji: '🥗', tag: 'Vegetarian', bg: 'bg-green-50 hover:bg-green-100 text-green-900 border-green-200' },
-    { name: 'Non-Vegetarian', emoji: '🍗', tag: 'Non-Vegetarian', bg: 'bg-red-50 hover:bg-red-100 text-red-900 border-red-200' },
-    { name: 'Healthy', emoji: '🥑', tag: 'Healthy', bg: 'bg-teal-50 hover:bg-teal-100 text-teal-900 border-teal-200' },
-    { name: 'Quick Meals', emoji: '⚡', tag: 'Quick Meals', bg: 'bg-yellow-50 hover:bg-yellow-100 text-yellow-900 border-yellow-200' },
+    { name: 'Breakfast', emoji: '🍳', tag: 'Breakfast', bg: 'bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/40 dark:hover:bg-amber-900/60 text-amber-900 dark:text-amber-200 border-amber-200 dark:border-amber-800' },
+    { name: 'Lunch', emoji: '🥪', tag: 'Lunch', bg: 'bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/60 text-emerald-900 dark:text-emerald-200 border-emerald-200 dark:border-emerald-800' },
+    { name: 'Dinner', emoji: '🍲', tag: 'Dinner', bg: 'bg-orange-50 hover:bg-orange-100 dark:bg-orange-950/40 dark:hover:bg-orange-900/60 text-orange-900 dark:text-orange-200 border-orange-200 dark:border-orange-800' },
+    { name: 'Desserts', emoji: '🍰', tag: 'Desserts', bg: 'bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 text-rose-900 dark:text-rose-200 border-rose-200 dark:border-rose-800' },
+    { name: 'Vegetarian', emoji: '🥗', tag: 'Vegetarian', bg: 'bg-green-50 hover:bg-green-100 dark:bg-green-950/40 dark:hover:bg-green-900/60 text-green-900 dark:text-green-200 border-green-200 dark:border-green-800' },
+    { name: 'Non-Vegetarian', emoji: '🍗', tag: 'Non-Vegetarian', bg: 'bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/60 text-red-900 dark:text-red-200 border-red-200 dark:border-red-800' },
+    { name: 'Healthy', emoji: '🥑', tag: 'Healthy', bg: 'bg-teal-50 hover:bg-teal-100 dark:bg-teal-950/40 dark:hover:bg-teal-900/60 text-teal-900 dark:text-teal-200 border-teal-200 dark:border-teal-800' },
+    { name: 'Quick Meals', emoji: '⚡', tag: 'Quick Meals', bg: 'bg-yellow-50 hover:bg-yellow-100 dark:bg-yellow-950/40 dark:hover:bg-yellow-900/60 text-yellow-900 dark:text-yellow-200 border-yellow-200 dark:border-yellow-800' },
   ];
 
   const fetchDashboardData = async () => {
@@ -181,29 +181,29 @@ export default function Dashboard() {
 
   // Skeleton Card Component
   const SkeletonCard = () => (
-    <div className="bg-white rounded-3xl border border-stone-200/80 p-3 space-y-3 animate-pulse">
-      <div className="w-full aspect-[4/3] bg-stone-200 rounded-2xl" />
+    <div className="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 p-3 space-y-3 animate-pulse">
+      <div className="w-full aspect-[4/3] bg-stone-200 dark:bg-stone-800 rounded-2xl" />
       <div className="space-y-2 p-1">
-        <div className="h-4 bg-stone-200 rounded-md w-3/4" />
+        <div className="h-4 bg-stone-200 dark:bg-stone-800 rounded-md w-3/4" />
         <div className="flex gap-2">
-          <div className="h-3 bg-stone-100 rounded-md w-1/4" />
-          <div className="h-3 bg-stone-100 rounded-md w-1/4" />
+          <div className="h-3 bg-stone-100 dark:bg-stone-800 rounded-md w-1/4" />
+          <div className="h-3 bg-stone-100 dark:bg-stone-800 rounded-md w-1/4" />
         </div>
       </div>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-stone-50/60 flex flex-col">
+    <div className="min-h-screen bg-stone-50/60 dark:bg-stone-950 flex flex-col transition-colors">
       {/* Mobile Sidebar Quick Opener */}
       <div className="lg:hidden max-w-7xl mx-auto px-4 sm:px-6 pt-3 w-full flex items-center justify-between">
         <button
           type="button"
           onClick={() => setMobileSidebarOpen(true)}
-          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white border border-stone-200 text-stone-700 text-xs font-bold shadow-2xs hover:bg-stone-50 transition-colors"
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-700 dark:text-stone-300 text-xs font-bold shadow-2xs hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors"
           aria-label="Toggle Dashboard Menu"
         >
-          <Menu className="w-4 h-4 text-amber-600" />
+          <Menu className="w-4 h-4 text-amber-600 dark:text-amber-500" />
           <span>Dashboard Menu</span>
         </button>
       </div>
@@ -212,14 +212,14 @@ export default function Dashboard() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 w-full flex-1 flex gap-8">
         {/* 2. Sidebar Navigation (Desktop) */}
         <aside className="hidden lg:flex flex-col w-60 shrink-0 gap-6">
-          <nav className="bg-white rounded-3xl border border-stone-200/80 p-3 space-y-1 shadow-xs">
+          <nav className="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 p-3 space-y-1 shadow-xs">
             <button
               type="button"
               onClick={() => setActiveTab('dashboard')}
               className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer ${
                 activeTab === 'dashboard'
                   ? 'bg-amber-500 text-white shadow-xs shadow-amber-500/25'
-                  : 'text-stone-600 hover:text-stone-900 hover:bg-stone-100'
+                  : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800'
               }`}
             >
               <Grid className="w-4 h-4" />
@@ -228,7 +228,7 @@ export default function Dashboard() {
 
             <Link
               to="/recipes"
-              className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-stone-600 hover:text-stone-900 hover:bg-stone-100 transition-all"
+              className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all"
             >
               <Compass className="w-4 h-4 text-stone-400" />
               <span>Discover Recipes</span>
@@ -236,12 +236,12 @@ export default function Dashboard() {
 
             <Link
               to="/favorites"
-              className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-stone-600 hover:text-stone-900 hover:bg-stone-100 transition-all"
+              className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all"
             >
               <Heart className="w-4 h-4 text-rose-500" />
               <span>Favorites</span>
               {favoriteRecipes.length > 0 && (
-                <span className="ml-auto bg-stone-100 text-stone-600 text-[10px] px-2 py-0.5 rounded-full font-mono">
+                <span className="ml-auto bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 text-[10px] px-2 py-0.5 rounded-full font-mono">
                   {favoriteRecipes.length}
                 </span>
               )}
@@ -249,24 +249,24 @@ export default function Dashboard() {
 
             <Link
               to="/favorites?tab=myRecipes"
-              className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-stone-600 hover:text-stone-900 hover:bg-stone-100 transition-all"
+              className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all"
             >
-              <Utensils className="w-4 h-4 text-amber-600" />
+              <Utensils className="w-4 h-4 text-amber-600 dark:text-amber-500" />
               <span>My Recipes</span>
             </Link>
 
             <Link
               to="/recipes"
-              className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-stone-600 hover:text-stone-900 hover:bg-stone-100 transition-all"
+              className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all"
             >
               <Sparkles className="w-4 h-4 text-indigo-500" />
               <span>Categories</span>
             </Link>
 
-            <div className="pt-2 border-t border-stone-100 my-1">
+            <div className="pt-2 border-t border-stone-100 dark:border-stone-800 my-1">
               <Link
                 to="/profile"
-                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-stone-600 hover:text-stone-900 hover:bg-stone-100 transition-all"
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all"
               >
                 <User className="w-4 h-4 text-stone-400" />
                 <span>Profile</span>
@@ -274,7 +274,7 @@ export default function Dashboard() {
 
               <Link
                 to="/profile"
-                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-stone-600 hover:text-stone-900 hover:bg-stone-100 transition-all"
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all"
               >
                 <Settings className="w-4 h-4 text-stone-400" />
                 <span>Settings</span>
@@ -283,9 +283,9 @@ export default function Dashboard() {
               {isAdmin && (
                 <Link
                   to="/admin/dashboard"
-                  className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-orange-700 bg-orange-50 hover:bg-orange-100 transition-all mt-1"
+                  className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-orange-700 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/40 hover:bg-orange-100 dark:hover:bg-orange-900/60 transition-all mt-1"
                 >
-                  <Shield className="w-4 h-4 text-orange-600" />
+                  <Shield className="w-4 h-4 text-orange-600 dark:text-orange-400" />
                   <span>Admin Portal</span>
                 </Link>
               )}
@@ -293,7 +293,7 @@ export default function Dashboard() {
               <button
                 type="button"
                 onClick={handleLogout}
-                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-rose-600 hover:bg-rose-50 transition-all cursor-pointer mt-1"
+                className="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-xs font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-all cursor-pointer mt-1"
               >
                 <LogOut className="w-4 h-4" />
                 <span>Logout</span>
@@ -320,17 +320,17 @@ export default function Dashboard() {
               className="fixed inset-0 bg-stone-900/60 backdrop-blur-xs"
               onClick={() => setMobileSidebarOpen(false)}
             />
-            <div className="relative w-72 bg-white h-full shadow-2xl p-6 flex flex-col justify-between z-10 animate-slide-in">
+            <div className="relative w-72 bg-white dark:bg-stone-900 h-full shadow-2xl p-6 flex flex-col justify-between z-10 animate-slide-in">
               <div className="space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-stone-100">
+                <div className="flex items-center justify-between pb-3 border-b border-stone-100 dark:border-stone-800">
                   <div className="flex items-center gap-2">
-                    <ChefHat className="w-6 h-6 text-amber-600" />
-                    <span className="font-extrabold text-stone-900">Navigation</span>
+                    <ChefHat className="w-6 h-6 text-amber-600 dark:text-amber-500" />
+                    <span className="font-extrabold text-stone-900 dark:text-stone-100">Navigation</span>
                   </div>
                   <button
                     type="button"
                     onClick={() => setMobileSidebarOpen(false)}
-                    className="p-1.5 rounded-lg text-stone-400 hover:text-stone-700 hover:bg-stone-100"
+                    className="p-1.5 rounded-lg text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -340,15 +340,15 @@ export default function Dashboard() {
                   <Link
                     to="/dashboard"
                     onClick={() => setMobileSidebarOpen(false)}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-bold text-sm bg-amber-50 text-amber-800"
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-bold text-sm bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300"
                   >
-                    <Grid className="w-4 h-4 text-amber-600" />
+                    <Grid className="w-4 h-4 text-amber-600 dark:text-amber-500" />
                     <span>Dashboard</span>
                   </Link>
                   <Link
                     to="/recipes"
                     onClick={() => setMobileSidebarOpen(false)}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm text-stone-700 hover:bg-stone-50"
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800"
                   >
                     <Compass className="w-4 h-4" />
                     <span>Discover Recipes</span>
@@ -356,7 +356,7 @@ export default function Dashboard() {
                   <Link
                     to="/favorites"
                     onClick={() => setMobileSidebarOpen(false)}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm text-stone-700 hover:bg-stone-50"
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800"
                   >
                     <Heart className="w-4 h-4 text-rose-500" />
                     <span>Favorites</span>
@@ -364,7 +364,7 @@ export default function Dashboard() {
                   <Link
                     to="/favorites?tab=myRecipes"
                     onClick={() => setMobileSidebarOpen(false)}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm text-stone-700 hover:bg-stone-50"
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800"
                   >
                     <Utensils className="w-4 h-4" />
                     <span>My Recipes</span>
@@ -372,7 +372,7 @@ export default function Dashboard() {
                   <Link
                     to="/profile"
                     onClick={() => setMobileSidebarOpen(false)}
-                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm text-stone-700 hover:bg-stone-50"
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-sm text-stone-700 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-800"
                   >
                     <User className="w-4 h-4" />
                     <span>Profile & Preferences</span>
@@ -381,7 +381,7 @@ export default function Dashboard() {
                     <Link
                       to="/admin/dashboard"
                       onClick={() => setMobileSidebarOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-bold text-sm text-orange-700 bg-orange-50"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl font-bold text-sm text-orange-700 dark:text-orange-400 bg-orange-50 dark:bg-orange-950/40"
                     >
                       <Shield className="w-4 h-4 text-orange-600" />
                       <span>Admin Portal</span>
@@ -390,11 +390,11 @@ export default function Dashboard() {
                 </nav>
               </div>
 
-              <div className="pt-4 border-t border-stone-100">
+              <div className="pt-4 border-t border-stone-100 dark:border-stone-800">
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-rose-600 bg-rose-50 font-bold text-sm"
+                  className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 font-bold text-sm"
                 >
                   <LogOut className="w-4 h-4" />
                   <span>Sign Out</span>
@@ -408,9 +408,9 @@ export default function Dashboard() {
         <main className="flex-1 min-w-0 space-y-8">
           {/* Error Banner with Retry */}
           {error && (
-            <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 flex items-center justify-between gap-4">
+            <div className="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-200 flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
+                <AlertCircle className="w-5 h-5 text-rose-600 dark:text-rose-400 shrink-0" />
                 <p className="text-sm font-semibold">{error}</p>
               </div>
               <button
@@ -449,7 +449,7 @@ export default function Dashboard() {
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
                     placeholder="Search by recipe name, pasta, curry, salmon..."
-                    className="w-full pl-10 pr-4 py-3 bg-white rounded-2xl text-stone-900 placeholder:text-stone-400 text-xs sm:text-sm shadow-md focus:ring-2 focus:ring-amber-300 outline-hidden"
+                    className="w-full pl-10 pr-4 py-3 bg-white text-stone-900 placeholder:text-stone-400 text-xs sm:text-sm shadow-md focus:ring-2 focus:ring-amber-300 outline-hidden rounded-2xl"
                   />
                 </div>
                 <button
@@ -470,13 +470,13 @@ export default function Dashboard() {
           {/* Section 7: Categories Quick Filter Bar */}
           <section className="space-y-3">
             <div className="flex items-center justify-between">
-              <h2 className="text-base sm:text-lg font-bold text-stone-900 flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-amber-600" />
+              <h2 className="text-base sm:text-lg font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-500" />
                 <span>Explore by Category</span>
               </h2>
               <Link
                 to="/recipes"
-                className="text-xs font-semibold text-amber-600 hover:text-amber-700 flex items-center gap-1"
+                className="text-xs font-semibold text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 flex items-center gap-1"
               >
                 <span>View All</span>
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -502,15 +502,15 @@ export default function Dashboard() {
           <section className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-lg sm:text-xl font-bold text-stone-900 flex items-center gap-2">
-                  <TrendingUp className="w-5 h-5 text-orange-600" />
+                <h2 className="text-lg sm:text-xl font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
+                  <TrendingUp className="w-5 h-5 text-orange-600 dark:text-orange-500" />
                   <span>Popular Recipes</span>
                 </h2>
-                <p className="text-xs text-stone-500">Trending dishes loved by our community</p>
+                <p className="text-xs text-stone-500 dark:text-stone-400">Trending dishes loved by our community</p>
               </div>
               <Link
                 to="/recipes?sort=popular"
-                className="text-xs font-semibold text-amber-600 hover:text-amber-700 flex items-center gap-1"
+                className="text-xs font-semibold text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 flex items-center gap-1"
               >
                 <span>Browse All</span>
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -534,9 +534,9 @@ export default function Dashboard() {
                 ))}
               </div>
             ) : (
-              <div className="bg-white rounded-3xl border border-stone-200 p-8 text-center space-y-3">
-                <ChefHat className="w-10 h-10 text-stone-300 mx-auto" />
-                <p className="text-sm font-semibold text-stone-700">No popular recipes found yet.</p>
+              <div className="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200 dark:border-stone-800 p-8 text-center space-y-3">
+                <ChefHat className="w-10 h-10 text-stone-300 dark:text-stone-600 mx-auto" />
+                <p className="text-sm font-semibold text-stone-700 dark:text-stone-300">No popular recipes found yet.</p>
                 <Link
                   to="/create-recipe"
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-600 text-white text-xs font-bold shadow-xs hover:bg-amber-700"
@@ -551,11 +551,11 @@ export default function Dashboard() {
           <section className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-lg sm:text-xl font-bold text-stone-900 flex items-center gap-2">
+                <h2 className="text-lg sm:text-xl font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
                   <Sparkles className="w-5 h-5 text-amber-500" />
                   <span>Recommended for You</span>
                 </h2>
-                <p className="text-xs text-stone-500">
+                <p className="text-xs text-stone-500 dark:text-stone-400">
                   {user?.preferences?.cuisines?.length > 0
                     ? `Tailored to your preferences: ${user.preferences.cuisines.join(', ')}`
                     : 'Handpicked culinary masterpieces for your taste'}
@@ -563,7 +563,7 @@ export default function Dashboard() {
               </div>
               <Link
                 to="/recipes"
-                className="text-xs font-semibold text-amber-600 hover:text-amber-700 flex items-center gap-1"
+                className="text-xs font-semibold text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 flex items-center gap-1"
               >
                 <span>Discover More</span>
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -587,12 +587,12 @@ export default function Dashboard() {
                 ))}
               </div>
             ) : (
-              <div className="bg-white rounded-3xl border border-stone-200 p-8 text-center space-y-3">
+              <div className="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200 dark:border-stone-800 p-8 text-center space-y-3">
                 <Sparkles className="w-10 h-10 text-amber-400 mx-auto" />
-                <p className="text-sm font-semibold text-stone-700">Set your taste preferences for tailored recommendations!</p>
+                <p className="text-sm font-semibold text-stone-700 dark:text-stone-300">Set your taste preferences for tailored recommendations!</p>
                 <Link
                   to="/profile"
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-bold hover:bg-amber-100"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300 text-xs font-bold hover:bg-amber-100 dark:hover:bg-amber-900/60"
                 >
                   Configure Profile & Preferences
                 </Link>
@@ -605,11 +605,11 @@ export default function Dashboard() {
             <section className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-lg sm:text-xl font-bold text-stone-900 flex items-center gap-2">
+                  <h2 className="text-lg sm:text-xl font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
                     <Clock className="w-5 h-5 text-indigo-500" />
                     <span>Recently Viewed</span>
                   </h2>
-                  <p className="text-xs text-stone-500">Pick up right where you left off</p>
+                  <p className="text-xs text-stone-500 dark:text-stone-400">Pick up right where you left off</p>
                 </div>
               </div>
 
@@ -629,15 +629,15 @@ export default function Dashboard() {
           <section className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="text-lg sm:text-xl font-bold text-stone-900 flex items-center gap-2">
+                <h2 className="text-lg sm:text-xl font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
                   <Heart className="w-5 h-5 text-rose-500" />
                   <span>Favorite Recipes</span>
                 </h2>
-                <p className="text-xs text-stone-500">Your personal saved favorites</p>
+                <p className="text-xs text-stone-500 dark:text-stone-400">Your personal saved favorites</p>
               </div>
               <Link
                 to="/favorites"
-                className="text-xs font-semibold text-amber-600 hover:text-amber-700 flex items-center gap-1"
+                className="text-xs font-semibold text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 flex items-center gap-1"
               >
                 <span>View All ({favoriteRecipes.length})</span>
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -661,10 +661,10 @@ export default function Dashboard() {
                 ))}
               </div>
             ) : (
-              <div className="bg-white rounded-3xl border border-dashed border-stone-300 p-8 text-center space-y-3">
-                <Heart className="w-10 h-10 text-stone-300 mx-auto" />
-                <p className="text-sm font-semibold text-stone-700">You haven't added any favorite recipes yet.</p>
-                <p className="text-xs text-stone-500 max-w-sm mx-auto">
+              <div className="bg-white dark:bg-stone-900 rounded-3xl border border-dashed border-stone-300 dark:border-stone-800 p-8 text-center space-y-3">
+                <Heart className="w-10 h-10 text-stone-300 dark:text-stone-600 mx-auto" />
+                <p className="text-sm font-semibold text-stone-700 dark:text-stone-300">You haven't added any favorite recipes yet.</p>
+                <p className="text-xs text-stone-500 dark:text-stone-400 max-w-sm mx-auto">
                   Click the heart icon on any recipe to save it to your personal favorites collection!
                 </p>
                 <Link

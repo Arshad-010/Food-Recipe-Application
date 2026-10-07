@@ -283,11 +283,11 @@ export default function Profile() {
   };
 
   return (
-    <div className="flex-1 bg-stone-50/70 py-10 px-4 sm:px-6 lg:px-8">
+    <div className="flex-1 bg-stone-50/70 dark:bg-stone-950 py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto space-y-8">
         {/* Top User Hero Card */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/90 shadow-sm flex flex-col sm:flex-row items-center sm:items-start gap-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-amber-100/50 to-transparent rounded-full -mr-20 -mt-20 pointer-events-none" />
+        <div className="bg-white dark:bg-stone-900 rounded-3xl p-6 sm:p-8 border border-stone-200/90 dark:border-stone-800 shadow-sm flex flex-col sm:flex-row items-center sm:items-start gap-6 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-amber-100/50 dark:from-amber-600/10 to-transparent rounded-full -mr-20 -mt-20 pointer-events-none" />
 
           {/* Avatar Preview & Direct Upload Button */}
           <div className="relative group shrink-0">
@@ -302,7 +302,7 @@ export default function Profile() {
 
             <div
               onClick={() => fileInputRef.current?.click()}
-              className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-4 border-amber-100 shadow-md cursor-pointer group/avatar"
+              className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden border-4 border-amber-100 dark:border-amber-900/40 shadow-md cursor-pointer group/avatar"
               title="Click to change profile picture"
             >
               <img
@@ -336,13 +336,13 @@ export default function Profile() {
               onClick={() => fileInputRef.current?.click()}
               disabled={uploadingImage}
               title="Upload new profile picture"
-              className="absolute -bottom-2 -right-2 p-2 bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-700 hover:to-orange-600 text-white rounded-xl shadow-md border-2 border-white transition-all transform hover:scale-110 cursor-pointer disabled:opacity-50"
+              className="absolute -bottom-2 -right-2 p-2 bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-700 hover:to-orange-600 text-white rounded-xl shadow-md border-2 border-white dark:border-stone-900 transition-all transform hover:scale-110 cursor-pointer disabled:opacity-50"
             >
               <Camera className="w-3.5 h-3.5" />
             </button>
 
             {user?.role === 'admin' && (
-              <span className="absolute -top-2 -right-2 bg-gradient-to-r from-amber-600 to-orange-500 text-white p-1 rounded-lg shadow-md border-2 border-white" title="Administrator">
+              <span className="absolute -top-2 -right-2 bg-gradient-to-r from-amber-600 to-orange-500 text-white p-1 rounded-lg shadow-md border-2 border-white dark:border-stone-900" title="Administrator">
                 <Shield className="w-3.5 h-3.5" />
               </span>
             )}
@@ -351,47 +351,47 @@ export default function Profile() {
           {/* Info & Stats */}
           <div className="flex-1 text-center sm:text-left space-y-2">
             <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-stone-100 tracking-tight">
                 {user?.name}
               </h1>
               <span
                 className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold self-center sm:self-auto uppercase tracking-wider ${
                   user?.role === 'admin'
-                    ? 'bg-amber-100 text-amber-900 border border-amber-200'
-                    : 'bg-stone-100 text-stone-700 border border-stone-200'
+                    ? 'bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 border border-amber-200 dark:border-amber-800/40'
+                    : 'bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700'
                 }`}
               >
                 {user?.role === 'admin' ? 'Administrator' : 'Home Chef'}
               </span>
             </div>
 
-            <p className="text-sm text-stone-500 flex items-center justify-center sm:justify-start gap-1.5">
-              <Mail className="w-3.5 h-3.5 text-stone-400" />
+            <p className="text-sm text-stone-500 dark:text-stone-400 flex items-center justify-center sm:justify-start gap-1.5">
+              <Mail className="w-3.5 h-3.5 text-stone-400 dark:text-stone-500" />
               <span>{user?.email}</span>
             </p>
 
             {user?.bio ? (
-              <p className="text-sm text-stone-700 italic max-w-xl pt-1">
+              <p className="text-sm text-stone-700 dark:text-stone-300 italic max-w-xl pt-1">
                 "{user.bio}"
               </p>
             ) : (
-              <p className="text-xs text-stone-400 italic pt-1">
+              <p className="text-xs text-stone-400 dark:text-stone-500 italic pt-1">
                 No bio added yet. Click edit below to share your culinary story and cooking philosophy.
               </p>
             )}
 
             {/* Quick Stats Badges */}
             <div className="pt-3 flex flex-wrap items-center justify-center sm:justify-start gap-3">
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-100 text-xs font-semibold text-amber-900">
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-100 dark:border-amber-900/40 text-xs font-semibold text-amber-900 dark:text-amber-300">
                 <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
                 <span>{user?.favorites?.length || 0} Favorites</span>
               </div>
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-50 border border-orange-100 text-xs font-semibold text-orange-900">
-                <Bookmark className="w-3.5 h-3.5 text-amber-600 fill-amber-600" />
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-orange-50 dark:bg-orange-950/40 border border-orange-100 dark:border-orange-900/40 text-xs font-semibold text-orange-900 dark:text-orange-300">
+                <Bookmark className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400 fill-amber-600 dark:fill-amber-400" />
                 <span>{user?.bookmarks?.length || 0} Saved</span>
               </div>
-              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-100 border border-stone-200 text-xs text-stone-600">
-                <Calendar className="w-3.5 h-3.5 text-stone-500" />
+              <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs text-stone-600 dark:text-stone-300">
+                <Calendar className="w-3.5 h-3.5 text-stone-500 dark:text-stone-400" />
                 <span>Joined {user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Recently'}</span>
               </div>
             </div>
@@ -399,13 +399,13 @@ export default function Profile() {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex border-b border-stone-200 space-x-8">
+        <div className="flex border-b border-stone-200 dark:border-stone-800 space-x-8">
           <button
             onClick={() => setActiveTab('profile')}
             className={`pb-4 text-sm font-semibold transition-all relative ${
               activeTab === 'profile'
-                ? 'text-amber-600'
-                : 'text-stone-500 hover:text-stone-800'
+                ? 'text-amber-600 dark:text-amber-400'
+                : 'text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200'
             }`}
           >
             <span className="flex items-center gap-2">
@@ -413,7 +413,7 @@ export default function Profile() {
               Profile Details
             </span>
             {activeTab === 'profile' && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-600 rounded-full" />
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-600 dark:bg-amber-400 rounded-full" />
             )}
           </button>
 
@@ -421,8 +421,8 @@ export default function Profile() {
             onClick={() => setActiveTab('preferences')}
             className={`pb-4 text-sm font-semibold transition-all relative ${
               activeTab === 'preferences'
-                ? 'text-amber-600'
-                : 'text-stone-500 hover:text-stone-800'
+                ? 'text-amber-600 dark:text-amber-400'
+                : 'text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200'
             }`}
           >
             <span className="flex items-center gap-2">
@@ -430,7 +430,7 @@ export default function Profile() {
               Cooking Preferences
             </span>
             {activeTab === 'preferences' && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-600 rounded-full" />
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-600 dark:bg-amber-400 rounded-full" />
             )}
           </button>
 
@@ -438,8 +438,8 @@ export default function Profile() {
             onClick={() => setActiveTab('security')}
             className={`pb-4 text-sm font-semibold transition-all relative ${
               activeTab === 'security'
-                ? 'text-amber-600'
-                : 'text-stone-500 hover:text-stone-800'
+                ? 'text-amber-600 dark:text-amber-400'
+                : 'text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200'
             }`}
           >
             <span className="flex items-center gap-2">
@@ -447,22 +447,22 @@ export default function Profile() {
               Account Security
             </span>
             {activeTab === 'security' && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-600 rounded-full" />
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-600 dark:bg-amber-400 rounded-full" />
             )}
           </button>
         </div>
 
         {/* TAB 1: Profile Details Form */}
         {activeTab === 'profile' && (
-          <form onSubmit={handleSaveProfile} className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/90 shadow-sm space-y-6">
+          <form onSubmit={handleSaveProfile} className="bg-white dark:bg-stone-900 rounded-3xl p-6 sm:p-8 border border-stone-200/90 dark:border-stone-800 shadow-sm space-y-6">
             <div>
-              <h3 className="text-lg font-bold text-stone-900">Personal Information</h3>
-              <p className="text-xs text-stone-500">Update your public profile display name, avatar, and chef bio.</p>
+              <h3 className="text-lg font-bold text-stone-900 dark:text-stone-100">Personal Information</h3>
+              <p className="text-xs text-stone-500 dark:text-stone-400">Update your public profile display name, avatar, and chef bio.</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5">
                   Display Name
                 </label>
                 <input
@@ -470,31 +470,31 @@ export default function Profile() {
                   required
                   value={profileForm.name}
                   onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 text-sm outline-hidden transition-all"
+                  className="w-full px-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 focus:bg-white dark:focus:bg-stone-750 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 dark:text-stone-100 text-sm outline-hidden transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5">
                   Email Address
                 </label>
                 <input
                   type="email"
                   disabled
                   value={user?.email || ''}
-                  className="w-full px-4 py-2.5 rounded-xl bg-stone-100 border border-stone-200 text-stone-500 text-sm cursor-not-allowed"
+                  className="w-full px-4 py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700 text-stone-500 dark:text-stone-400 text-sm cursor-not-allowed"
                 />
               </div>
             </div>
 
             {/* Profile Picture Management */}
-            <div className="bg-stone-50/70 border border-stone-200/80 rounded-2xl p-4 sm:p-5 space-y-4">
+            <div className="bg-stone-50/70 dark:bg-stone-850/60 border border-stone-200/80 dark:border-stone-800 rounded-2xl p-4 sm:p-5 space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700">
+                  <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300">
                     Profile Photo & Avatar
                   </label>
-                  <p className="text-xs text-stone-500 mt-0.5">
+                  <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
                     Upload a custom photo from your device or select a chef avatar below.
                   </p>
                 </div>
@@ -502,16 +502,16 @@ export default function Profile() {
                   type="button"
                   disabled={uploadingImage}
                   onClick={() => fileInputRef.current?.click()}
-                  className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-amber-900 bg-amber-100 hover:bg-amber-200 transition-colors border border-amber-200/60 shadow-xs cursor-pointer disabled:opacity-50"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-amber-900 dark:text-amber-300 bg-amber-100 dark:bg-amber-900/40 hover:bg-amber-200 dark:hover:bg-amber-900/60 transition-colors border border-amber-200/60 dark:border-amber-800/40 shadow-xs cursor-pointer disabled:opacity-50"
                 >
                   {uploadingImage ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin text-amber-700" />
+                      <Loader2 className="w-4 h-4 animate-spin text-amber-700 dark:text-amber-400" />
                       <span>Uploading...</span>
                     </>
                   ) : (
                     <>
-                      <UploadCloud className="w-4 h-4 text-amber-700" />
+                      <UploadCloud className="w-4 h-4 text-amber-700 dark:text-amber-400" />
                       <span>Upload from Device</span>
                     </>
                   )}
@@ -520,7 +520,7 @@ export default function Profile() {
 
               {/* Preset Avatars Selection */}
               <div>
-                <span className="text-xs font-semibold text-stone-600 block mb-2">
+                <span className="text-xs font-semibold text-stone-600 dark:text-stone-400 block mb-2">
                   Chef Avatars
                 </span>
                 <div className="grid grid-cols-4 sm:grid-cols-8 gap-2.5">
@@ -558,8 +558,8 @@ export default function Profile() {
               </div>
 
               {/* Optional Custom Image URL */}
-              <div className="pt-2 border-t border-stone-200/60">
-                <label className="block text-[11px] font-semibold text-stone-500 uppercase tracking-wider mb-1.5">
+              <div className="pt-2 border-t border-stone-200/60 dark:border-stone-800">
+                <label className="block text-[11px] font-semibold text-stone-500 dark:text-stone-400 uppercase tracking-wider mb-1.5">
                   Or Paste an Image URL
                 </label>
                 <div className="flex gap-2">
@@ -569,15 +569,15 @@ export default function Profile() {
                       value={profileForm.avatar}
                       onChange={(e) => setProfileForm({ ...profileForm, avatar: e.target.value })}
                       placeholder="https://example.com/photo.jpg"
-                      className="w-full pl-9 pr-4 py-2 rounded-xl bg-white border border-stone-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 text-xs outline-hidden transition-all"
+                      className="w-full pl-9 pr-4 py-2 rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 dark:text-stone-100 text-xs outline-hidden transition-all"
                     />
-                    <Image className="w-4 h-4 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <Image className="w-4 h-4 text-stone-400 dark:text-stone-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                   </div>
                   {profileForm.avatar && (
                     <button
                       type="button"
                       onClick={() => setProfileForm({ ...profileForm, avatar: PRESET_AVATARS[0] })}
-                      className="px-3 py-2 text-xs font-medium text-stone-600 hover:text-red-600 hover:bg-stone-100 rounded-xl transition-colors border border-stone-200/80"
+                      className="px-3 py-2 text-xs font-medium text-stone-600 dark:text-stone-300 hover:text-red-600 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-xl transition-colors border border-stone-200/80 dark:border-stone-700"
                       title="Reset to default avatar"
                     >
                       Reset
@@ -589,7 +589,7 @@ export default function Profile() {
 
             {/* Chef Bio */}
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5">
                 Chef Bio / Cooking Philosophy
               </label>
               <textarea
@@ -597,27 +597,27 @@ export default function Profile() {
                 value={profileForm.bio}
                 onChange={(e) => setProfileForm({ ...profileForm, bio: e.target.value })}
                 placeholder="Share a short culinary background or what dishes you love crafting..."
-                className="w-full px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 text-sm outline-hidden transition-all"
+                className="w-full px-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 focus:bg-white dark:focus:bg-stone-750 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 dark:text-stone-100 text-sm outline-hidden transition-all"
               />
             </div>
 
             {/* Public Chef Contact Details */}
-            <div className="p-5 rounded-2xl bg-amber-50/40 border border-amber-200/70 space-y-4">
+            <div className="p-5 rounded-2xl bg-amber-50/40 dark:bg-amber-950/20 border border-amber-200/70 dark:border-amber-800/40 space-y-4">
               <div>
                 <div className="flex items-center gap-2">
-                  <ChefHat className="w-4 h-4 text-amber-700" />
-                  <h4 className="text-sm font-bold text-stone-900">
+                  <ChefHat className="w-4 h-4 text-amber-700 dark:text-amber-400" />
+                  <h4 className="text-sm font-bold text-stone-900 dark:text-stone-100">
                     Chef Contact Information
                   </h4>
                 </div>
-                <p className="text-xs text-stone-500 mt-0.5">
+                <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
                   These details appear under your published recipes so foodies, collaborators, and clients can reach you.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-stone-700 mb-1">
+                  <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
                     Contact / Inquiries Email
                   </label>
                   <div className="relative">
@@ -626,14 +626,14 @@ export default function Profile() {
                       value={profileForm.contactEmail}
                       onChange={(e) => setProfileForm({ ...profileForm, contactEmail: e.target.value })}
                       placeholder={user?.email || 'chef@recipehaven.com'}
-                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 outline-hidden transition-all"
+                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 dark:text-stone-100 outline-hidden transition-all"
                     />
-                    <Mail className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <Mail className="w-3.5 h-3.5 text-stone-400 dark:text-stone-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-stone-700 mb-1">
+                  <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
                     Phone / WhatsApp Number
                   </label>
                   <div className="relative">
@@ -642,14 +642,14 @@ export default function Profile() {
                       value={profileForm.phoneNumber}
                       onChange={(e) => setProfileForm({ ...profileForm, phoneNumber: e.target.value })}
                       placeholder="+1 (555) 234-5678"
-                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 outline-hidden transition-all"
+                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 dark:text-stone-100 outline-hidden transition-all"
                     />
-                    <Phone className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <Phone className="w-3.5 h-3.5 text-stone-400 dark:text-stone-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-stone-700 mb-1">
+                  <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
                     Kitchen / Studio Location
                   </label>
                   <div className="relative">
@@ -658,14 +658,14 @@ export default function Profile() {
                       value={profileForm.location}
                       onChange={(e) => setProfileForm({ ...profileForm, location: e.target.value })}
                       placeholder="e.g. San Francisco, CA or Rome, Italy"
-                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 outline-hidden transition-all"
+                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 dark:text-stone-100 outline-hidden transition-all"
                     />
-                    <MapPin className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <MapPin className="w-3.5 h-3.5 text-stone-400 dark:text-stone-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-stone-700 mb-1">
+                  <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
                     Instagram Handle
                   </label>
                   <div className="relative">
@@ -674,14 +674,14 @@ export default function Profile() {
                       value={profileForm.instagram}
                       onChange={(e) => setProfileForm({ ...profileForm, instagram: e.target.value })}
                       placeholder="@culinary_chef"
-                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 outline-hidden transition-all"
+                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 dark:text-stone-100 outline-hidden transition-all"
                     />
-                    <InstagramIcon className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <InstagramIcon className="w-3.5 h-3.5 text-stone-400 dark:text-stone-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                   </div>
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-semibold text-stone-700 mb-1">
+                  <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
                     Website or Culinary Portfolio
                   </label>
                   <div className="relative">
@@ -690,9 +690,9 @@ export default function Profile() {
                       value={profileForm.website}
                       onChange={(e) => setProfileForm({ ...profileForm, website: e.target.value })}
                       placeholder="https://chefkitchen.com"
-                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 outline-hidden transition-all"
+                      className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 dark:text-stone-100 outline-hidden transition-all"
                     />
-                    <Globe className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <Globe className="w-3.5 h-3.5 text-stone-400 dark:text-stone-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                   </div>
                 </div>
               </div>
@@ -722,13 +722,13 @@ export default function Profile() {
 
         {/* TAB 2: Cooking Preferences Form */}
         {activeTab === 'preferences' && (
-          <form onSubmit={handleSavePreferences} className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/90 shadow-sm space-y-8">
+          <form onSubmit={handleSavePreferences} className="bg-white dark:bg-stone-900 rounded-3xl p-6 sm:p-8 border border-stone-200/90 dark:border-stone-800 shadow-sm space-y-8">
             <div>
               <div className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-amber-600" />
-                <h3 className="text-lg font-bold text-stone-900">Personalize Your Cooking Experience</h3>
+                <Sparkles className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                <h3 className="text-lg font-bold text-stone-900 dark:text-stone-100">Personalize Your Cooking Experience</h3>
               </div>
-              <p className="text-xs text-stone-500 mt-0.5">
+              <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
                 We use these preferences to tailor the "Recommended for You" feed on your home page.
               </p>
             </div>
@@ -736,17 +736,17 @@ export default function Profile() {
             {/* Cuisines */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700">
+                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300">
                   Favorite Cuisines (Select all you enjoy)
                 </label>
-                <span className="text-xs font-semibold text-amber-700">
+                <span className="text-xs font-semibold text-amber-700 dark:text-amber-400">
                   {preferences.cuisines.length} selected
                 </span>
               </div>
 
               {preferences.cuisines.length === 0 && (
-                <div className="p-3 rounded-2xl bg-amber-50/70 border border-amber-200/80 text-xs text-amber-800 flex items-center gap-2 mb-3">
-                  <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
+                <div className="p-3 rounded-2xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/40 text-xs text-amber-800 dark:text-amber-300 flex items-center gap-2 mb-3">
+                  <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
                   <span>No favorite cuisines selected yet. Choose any cuisines you enjoy below to receive tailored recipe recommendations.</span>
                 </div>
               )}
@@ -761,7 +761,7 @@ export default function Profile() {
                       className={`px-3.5 py-1.5 rounded-xl text-sm font-medium transition-all flex items-center gap-1.5 cursor-pointer ${
                         isSelected
                           ? 'bg-amber-600 text-white shadow-sm shadow-amber-600/20'
-                          : 'bg-stone-100 hover:bg-stone-200 text-stone-700'
+                          : 'bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300'
                       }`}
                     >
                       {isSelected && <Check className="w-3.5 h-3.5" />}
@@ -774,7 +774,7 @@ export default function Profile() {
 
             {/* Dietary Type */}
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-2.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-2.5">
                 Dietary Preference / Restrictions
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
@@ -787,8 +787,8 @@ export default function Profile() {
                       onClick={() => setPreferences({ ...preferences, dietType: diet })}
                       className={`p-3 rounded-xl text-sm font-medium border text-center transition-all cursor-pointer ${
                         isSelected
-                          ? 'bg-amber-50 border-amber-600 text-amber-900 shadow-xs'
-                          : 'bg-white border-stone-200 hover:border-stone-300 text-stone-700'
+                          ? 'bg-amber-50 dark:bg-amber-950/50 border-amber-600 dark:border-amber-500 text-amber-900 dark:text-amber-300 shadow-xs'
+                          : 'bg-white dark:bg-stone-800 border-stone-200 dark:border-stone-700 hover:border-stone-300 dark:hover:border-stone-600 text-stone-700 dark:text-stone-300'
                       }`}
                     >
                       {diet}
@@ -801,10 +801,10 @@ export default function Profile() {
             {/* Preferred Meal Types */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700">
+                <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300">
                   Preferred Meal Types
                 </label>
-                <span className="text-xs font-semibold text-orange-700">
+                <span className="text-xs font-semibold text-orange-700 dark:text-orange-400">
                   {preferences.mealTypes.length} selected
                 </span>
               </div>
@@ -819,7 +819,7 @@ export default function Profile() {
                       className={`px-3.5 py-1.5 rounded-xl text-sm font-medium transition-all flex items-center gap-1.5 cursor-pointer ${
                         isSelected
                           ? 'bg-orange-600 text-white shadow-sm shadow-orange-600/20'
-                          : 'bg-stone-100 hover:bg-stone-200 text-stone-700'
+                          : 'bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300'
                       }`}
                     >
                       {isSelected && <Check className="w-3.5 h-3.5" />}
@@ -854,14 +854,14 @@ export default function Profile() {
 
         {/* TAB 3: Security & Password */}
         {activeTab === 'security' && (
-          <form onSubmit={handleChangePassword} className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/90 shadow-sm space-y-6 max-w-2xl">
+          <form onSubmit={handleChangePassword} className="bg-white dark:bg-stone-900 rounded-3xl p-6 sm:p-8 border border-stone-200/90 dark:border-stone-800 shadow-sm space-y-6 max-w-2xl">
             <div>
-              <h3 className="text-lg font-bold text-stone-900">Change Password</h3>
-              <p className="text-xs text-stone-500">Ensure your account is using a long, secure password.</p>
+              <h3 className="text-lg font-bold text-stone-900 dark:text-stone-100">Change Password</h3>
+              <p className="text-xs text-stone-500 dark:text-stone-400">Ensure your account is using a long, secure password.</p>
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5">
                 Current Password
               </label>
               <input
@@ -869,12 +869,12 @@ export default function Profile() {
                 required
                 value={passwordForm.currentPassword}
                 onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 text-sm outline-hidden transition-all"
+                className="w-full px-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 focus:bg-white dark:focus:bg-stone-750 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 dark:text-stone-100 text-sm outline-hidden transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5">
                 New Password (minimum 6 characters)
               </label>
               <input
@@ -882,12 +882,12 @@ export default function Profile() {
                 required
                 value={passwordForm.newPassword}
                 onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 text-sm outline-hidden transition-all"
+                className="w-full px-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 focus:bg-white dark:focus:bg-stone-750 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 dark:text-stone-100 text-sm outline-hidden transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 mb-1.5">
+              <label className="block text-xs font-bold uppercase tracking-wider text-stone-700 dark:text-stone-300 mb-1.5">
                 Confirm New Password
               </label>
               <input
@@ -895,7 +895,7 @@ export default function Profile() {
                 required
                 value={passwordForm.confirmNewPassword}
                 onChange={(e) => setPasswordForm({ ...passwordForm, confirmNewPassword: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 text-sm outline-hidden transition-all"
+                className="w-full px-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 focus:bg-white dark:focus:bg-stone-750 focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 text-stone-900 dark:text-stone-100 text-sm outline-hidden transition-all"
               />
             </div>
 

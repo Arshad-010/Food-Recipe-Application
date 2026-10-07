@@ -82,10 +82,10 @@ export default function Favorites() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-stone-100 tracking-tight">
             My Culinary Collections
           </h1>
-          <p className="text-stone-500 text-sm mt-1">
+          <p className="text-stone-500 dark:text-stone-400 text-sm mt-1">
             Access your liked recipes, saved bookmarks, and custom creations in one place.
           </p>
         </div>
@@ -100,14 +100,14 @@ export default function Favorites() {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-stone-200 mb-8 space-x-2 sm:space-x-4">
+      <div className="flex border-b border-stone-200 dark:border-stone-800 mb-8 space-x-2 sm:space-x-4">
         <button
           type="button"
           onClick={() => handleTabChange('favorites')}
           className={`pb-3.5 px-3 sm:px-4 font-bold text-sm transition-all border-b-2 flex items-center gap-2 cursor-pointer ${
             activeTab === 'favorites'
-              ? 'border-rose-500 text-rose-600'
-              : 'border-transparent text-stone-500 hover:text-stone-900'
+              ? 'border-rose-500 text-rose-600 dark:text-rose-400'
+              : 'border-transparent text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100'
           }`}
         >
           <Heart className="w-4 h-4 fill-current" />
@@ -119,8 +119,8 @@ export default function Favorites() {
           onClick={() => handleTabChange('bookmarks')}
           className={`pb-3.5 px-3 sm:px-4 font-bold text-sm transition-all border-b-2 flex items-center gap-2 cursor-pointer ${
             activeTab === 'bookmarks'
-              ? 'border-amber-500 text-amber-600'
-              : 'border-transparent text-stone-500 hover:text-stone-900'
+              ? 'border-amber-500 text-amber-600 dark:text-amber-400'
+              : 'border-transparent text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100'
           }`}
         >
           <Bookmark className="w-4 h-4 fill-current" />
@@ -132,8 +132,8 @@ export default function Favorites() {
           onClick={() => handleTabChange('my-recipes')}
           className={`pb-3.5 px-3 sm:px-4 font-bold text-sm transition-all border-b-2 flex items-center gap-2 cursor-pointer ${
             activeTab === 'my-recipes'
-              ? 'border-stone-900 text-stone-900'
-              : 'border-transparent text-stone-500 hover:text-stone-900'
+              ? 'border-amber-600 text-amber-600 dark:border-amber-400 dark:text-amber-400'
+              : 'border-transparent text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100'
           }`}
         >
           <Utensils className="w-4 h-4" />
@@ -145,7 +145,7 @@ export default function Favorites() {
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[1, 2, 3, 4].map((n) => (
-            <div key={n} className="h-80 rounded-3xl bg-stone-200/70 animate-pulse" />
+            <div key={n} className="h-80 rounded-3xl bg-stone-200/70 dark:bg-stone-800 animate-pulse" />
           ))}
         </div>
       ) : activeTab === 'favorites' ? (
@@ -160,10 +160,10 @@ export default function Favorites() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 bg-white rounded-3xl border border-stone-200/80 p-8 shadow-xs">
-            <Heart className="w-16 h-16 text-rose-200 mx-auto mb-3" />
-            <h3 className="text-lg font-bold text-stone-800">No favorite recipes yet</h3>
-            <p className="text-sm text-stone-500 mt-1 max-w-sm mx-auto">
+          <div className="text-center py-20 bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 p-8 shadow-xs">
+            <Heart className="w-16 h-16 text-rose-200 dark:text-rose-900/60 mx-auto mb-3" />
+            <h3 className="text-lg font-bold text-stone-800 dark:text-stone-100">No favorite recipes yet</h3>
+            <p className="text-sm text-stone-500 dark:text-stone-400 mt-1 max-w-sm mx-auto">
               Click the heart icon on any recipe card to save it here for quick access.
             </p>
             <Link
@@ -186,10 +186,10 @@ export default function Favorites() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 bg-white rounded-3xl border border-stone-200/80 p-8 shadow-xs">
-            <Bookmark className="w-16 h-16 text-amber-200 mx-auto mb-3" />
-            <h3 className="text-lg font-bold text-stone-800">No saved bookmarks yet</h3>
-            <p className="text-sm text-stone-500 mt-1 max-w-sm mx-auto">
+          <div className="text-center py-20 bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 p-8 shadow-xs">
+            <Bookmark className="w-16 h-16 text-amber-200 dark:text-amber-900/60 mx-auto mb-3" />
+            <h3 className="text-lg font-bold text-stone-800 dark:text-stone-100">No saved bookmarks yet</h3>
+            <p className="text-sm text-stone-500 dark:text-stone-400 mt-1 max-w-sm mx-auto">
               Save recipes to your bookmarks to plan your upcoming meals and dinner parties.
             </p>
             <Link
@@ -207,43 +207,43 @@ export default function Favorites() {
             {myRecipes.map((recipe) => (
               <div
                 key={recipe._id}
-                className="bg-white rounded-3xl border border-stone-200/80 shadow-xs overflow-hidden flex flex-col justify-between"
+                className="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 shadow-xs overflow-hidden flex flex-col justify-between"
               >
                 <div>
-                  <div className="relative aspect-video overflow-hidden bg-stone-100">
+                  <div className="relative aspect-video overflow-hidden bg-stone-100 dark:bg-stone-950">
                     <img
                       src={recipe.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80'}
                       alt={recipe.title}
                       className="w-full h-full object-cover"
                     />
-                    <span className="absolute top-3 left-3 px-2.5 py-1 rounded-xl bg-white/90 backdrop-blur-md text-[11px] font-bold text-stone-900 shadow-xs">
+                    <span className="absolute top-3 left-3 px-2.5 py-1 rounded-xl bg-white/90 dark:bg-stone-900/90 backdrop-blur-md text-[11px] font-bold text-stone-900 dark:text-stone-100 shadow-xs">
                       {recipe.cuisine}
                     </span>
                   </div>
                   <div className="p-5">
-                    <h3 className="font-bold text-lg text-stone-900 line-clamp-1">{recipe.title}</h3>
-                    <p className="text-xs text-stone-500 line-clamp-2 mt-1">{recipe.description}</p>
-                    <div className="flex items-center gap-3 text-xs text-stone-500 mt-3">
+                    <h3 className="font-bold text-lg text-stone-900 dark:text-stone-100 line-clamp-1">{recipe.title}</h3>
+                    <p className="text-xs text-stone-500 dark:text-stone-400 line-clamp-2 mt-1">{recipe.description}</p>
+                    <div className="flex items-center gap-3 text-xs text-stone-500 dark:text-stone-400 mt-3">
                       <span>{recipe.prepTime + recipe.cookTime} mins</span>
                       <span>•</span>
                       <span>{recipe.ingredients?.length || 0} ingredients</span>
                       <span>•</span>
-                      <span className="text-amber-700 font-bold">★ {recipe.averageRating?.toFixed(1) || '5.0'}</span>
+                      <span className="text-amber-700 dark:text-amber-400 font-bold">★ {recipe.averageRating?.toFixed(1) || '5.0'}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-4 bg-stone-50 border-t border-stone-100 flex items-center justify-between">
+                <div className="p-4 bg-stone-50 dark:bg-stone-850 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between">
                   <Link
                     to={`/recipes/${recipe._id}`}
-                    className="text-xs font-bold text-amber-700 hover:text-amber-800"
+                    className="text-xs font-bold text-amber-700 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-300"
                   >
                     View Dish &rarr;
                   </Link>
                   <div className="flex items-center gap-1">
                     <Link
                       to={`/edit-recipe/${recipe._id}`}
-                      className="p-1.5 rounded-lg text-stone-600 hover:text-amber-700 hover:bg-white transition-colors"
+                      className="p-1.5 rounded-lg text-stone-600 dark:text-stone-400 hover:text-amber-700 dark:hover:text-amber-400 hover:bg-white dark:hover:bg-stone-750 transition-colors"
                       title="Edit"
                     >
                       <Edit className="w-4 h-4" />
@@ -251,7 +251,7 @@ export default function Favorites() {
                     <button
                       type="button"
                       onClick={() => handleDeleteMyRecipe(recipe._id)}
-                      className="p-1.5 rounded-lg text-rose-500 hover:text-rose-700 hover:bg-rose-50 transition-colors cursor-pointer"
+                      className="p-1.5 rounded-lg text-rose-500 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer"
                       title="Delete"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -262,10 +262,10 @@ export default function Favorites() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 bg-white rounded-3xl border border-stone-200/80 p-8 shadow-xs">
-            <ChefHat className="w-16 h-16 text-stone-300 mx-auto mb-3" />
-            <h3 className="text-lg font-bold text-stone-800">You haven't authored any recipes yet</h3>
-            <p className="text-sm text-stone-500 mt-1 max-w-sm mx-auto">
+          <div className="text-center py-20 bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 p-8 shadow-xs">
+            <ChefHat className="w-16 h-16 text-stone-300 dark:text-stone-700 mx-auto mb-3" />
+            <h3 className="text-lg font-bold text-stone-800 dark:text-stone-100">You haven't authored any recipes yet</h3>
+            <p className="text-sm text-stone-500 dark:text-stone-400 mt-1 max-w-sm mx-auto">
               Share your own signature cooking recipes and food photos with the community.
             </p>
             <Link

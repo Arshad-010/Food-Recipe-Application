@@ -337,24 +337,24 @@ export default function CreateEditRecipe() {
       <div className="mb-6 flex items-center justify-between">
         <Link
           to="/recipes"
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-stone-500 hover:text-stone-900 transition-colors"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Cancel & Return</span>
         </Link>
 
-        <span className="text-xs font-bold text-amber-700 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full">
+        <span className="text-xs font-bold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800/60 px-3 py-1 rounded-full">
           {isEditing ? 'Editing Recipe' : 'New Creation'}
         </span>
       </div>
 
-      <div className="bg-white rounded-3xl border border-stone-200/90 shadow-sm p-6 sm:p-10 space-y-8">
-        <div className="border-b border-stone-100 pb-5">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight flex items-center gap-2.5">
-            <ChefHat className="w-7 h-7 text-amber-600" />
+      <div className="bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/90 dark:border-stone-800 shadow-sm p-6 sm:p-10 space-y-8 transition-colors">
+        <div className="border-b border-stone-100 dark:border-stone-800 pb-5">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white tracking-tight flex items-center gap-2.5">
+            <ChefHat className="w-7 h-7 text-amber-600 dark:text-amber-500" />
             {isEditing ? 'Update Your Recipe' : 'Create & Publish Recipe'}
           </h1>
-          <p className="text-sm text-stone-500 mt-1">
+          <p className="text-sm text-stone-500 dark:text-stone-400 mt-1">
             Fill in the ingredients, measurements, and cooking instructions for other food lovers.
           </p>
         </div>
@@ -362,10 +362,10 @@ export default function CreateEditRecipe() {
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* General Information */}
           <div className="space-y-4">
-            <h3 className="text-base font-bold text-stone-900">Basic Information</h3>
+            <h3 className="text-base font-bold text-stone-900 dark:text-stone-100">Basic Information</h3>
 
             <div>
-              <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
                 Recipe Title *
               </label>
               <input
@@ -375,12 +375,12 @@ export default function CreateEditRecipe() {
                 value={formData.title}
                 onChange={handleChange}
                 placeholder="e.g., Authentic Roman Spaghetti Carbonara"
-                className="w-full px-4 py-3 rounded-2xl bg-stone-50 border border-stone-200 text-stone-900 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:bg-white transition-all"
+                className="w-full px-4 py-3 rounded-2xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-100 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:bg-white dark:focus:bg-stone-750 placeholder-stone-400 dark:placeholder-stone-500 transition-all"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
                 Short Description *
               </label>
               <textarea
@@ -390,25 +390,25 @@ export default function CreateEditRecipe() {
                 value={formData.description}
                 onChange={handleChange}
                 placeholder="Describe the flavors, aromas, and story behind this dish..."
-                className="w-full p-4 rounded-2xl bg-stone-50 border border-stone-200 text-stone-900 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:bg-white transition-all"
+                className="w-full p-4 rounded-2xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-100 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:bg-white dark:focus:bg-stone-750 placeholder-stone-400 dark:placeholder-stone-500 transition-all"
               />
             </div>
 
             {/* Selects: Cuisine, Meal Type, Difficulty */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
               <div>
-                <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
                   Cuisine *
                 </label>
                 <select
                   name="cuisine"
                   value={formData.cuisine}
                   onChange={handleChange}
-                  className="w-full px-3 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-sm font-semibold text-stone-800 focus:outline-none cursor-pointer"
+                  className="w-full px-3 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-sm font-semibold text-stone-800 dark:text-stone-200 focus:outline-none cursor-pointer"
                 >
                   {['Italian', 'Indian', 'Mexican', 'Japanese', 'Mediterranean', 'American', 'French', 'Thai', 'Chinese', 'Other'].map(
                     (c) => (
-                      <option key={c} value={c}>
+                      <option key={c} value={c} className="bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100">
                         {c}
                       </option>
                     )
@@ -417,17 +417,17 @@ export default function CreateEditRecipe() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
                   Meal Type *
                 </label>
                 <select
                   name="mealType"
                   value={formData.mealType}
                   onChange={handleChange}
-                  className="w-full px-3 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-sm font-semibold text-stone-800 focus:outline-none cursor-pointer"
+                  className="w-full px-3 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-sm font-semibold text-stone-800 dark:text-stone-200 focus:outline-none cursor-pointer"
                 >
                   {['Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snack', 'Beverages'].map((m) => (
-                    <option key={m} value={m}>
+                    <option key={m} value={m} className="bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100">
                       {m}
                     </option>
                   ))}
@@ -435,17 +435,17 @@ export default function CreateEditRecipe() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
                   Difficulty Level *
                 </label>
                 <select
                   name="difficulty"
                   value={formData.difficulty}
                   onChange={handleChange}
-                  className="w-full px-3 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-sm font-semibold text-stone-800 focus:outline-none cursor-pointer"
+                  className="w-full px-3 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-sm font-semibold text-stone-800 dark:text-stone-200 focus:outline-none cursor-pointer"
                 >
                   {['Easy', 'Medium', 'Hard'].map((d) => (
-                    <option key={d} value={d}>
+                    <option key={d} value={d} className="bg-white dark:bg-stone-800 text-stone-900 dark:text-stone-100">
                       {d}
                     </option>
                   ))}
@@ -456,7 +456,7 @@ export default function CreateEditRecipe() {
             {/* Timings, Servings, Calories */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
               <div>
-                <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
                   Prep Time (min) *
                 </label>
                 <input
@@ -466,12 +466,12 @@ export default function CreateEditRecipe() {
                   required
                   value={formData.prepTime}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 rounded-xl bg-stone-50 border border-stone-200 text-sm font-semibold text-stone-900 focus:outline-none"
+                  className="w-full px-3 py-2 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-sm font-semibold text-stone-900 dark:text-stone-100 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
                   Cook Time (min) *
                 </label>
                 <input
@@ -481,12 +481,12 @@ export default function CreateEditRecipe() {
                   required
                   value={formData.cookTime}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 rounded-xl bg-stone-50 border border-stone-200 text-sm font-semibold text-stone-900 focus:outline-none"
+                  className="w-full px-3 py-2 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-sm font-semibold text-stone-900 dark:text-stone-100 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
                   Servings *
                 </label>
                 <input
@@ -496,12 +496,12 @@ export default function CreateEditRecipe() {
                   required
                   value={formData.servings}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 rounded-xl bg-stone-50 border border-stone-200 text-sm font-semibold text-stone-900 focus:outline-none"
+                  className="w-full px-3 py-2 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-sm font-semibold text-stone-900 dark:text-stone-100 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
+                <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
                   Calories / Serving
                 </label>
                 <input
@@ -510,18 +510,18 @@ export default function CreateEditRecipe() {
                   min="0"
                   value={formData.caloriesPerServing}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 rounded-xl bg-stone-50 border border-stone-200 text-sm font-semibold text-stone-900 focus:outline-none"
+                  className="w-full px-3 py-2 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-sm font-semibold text-stone-900 dark:text-stone-100 focus:outline-none"
                 />
               </div>
             </div>
           </div>
 
           {/* Media Section: Image & Video */}
-          <div className="space-y-4 pt-6 border-t border-stone-100">
-            <h3 className="text-base font-bold text-stone-900">Food Photography & Video</h3>
+          <div className="space-y-4 pt-6 border-t border-stone-100 dark:border-stone-800">
+            <h3 className="text-base font-bold text-stone-900 dark:text-stone-100">Food Photography & Video</h3>
 
             <div>
-              <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
                 Food Image URL *
               </label>
               <div className="flex flex-col sm:flex-row gap-2">
@@ -532,7 +532,7 @@ export default function CreateEditRecipe() {
                   value={formData.image}
                   onChange={handleChange}
                   placeholder="https://images.unsplash.com/..."
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-sm font-mono text-stone-800 focus:outline-none"
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-sm font-mono text-stone-800 dark:text-stone-200 focus:outline-none"
                 />
                 <label className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-semibold shadow-xs cursor-pointer transition-colors shrink-0">
                   {uploadingImage ? (
@@ -558,7 +558,7 @@ export default function CreateEditRecipe() {
 
               {/* Presets Gallery Picker */}
               <div className="mt-3">
-                <span className="text-xs text-stone-500 font-semibold">Or pick from curated food photo presets:</span>
+                <span className="text-xs text-stone-500 dark:text-stone-400 font-semibold">Or pick from curated food photo presets:</span>
                 <div className="flex flex-wrap gap-2 mt-2">
                   {PHOTO_PRESETS.map((preset) => (
                     <button
@@ -567,8 +567,8 @@ export default function CreateEditRecipe() {
                       onClick={() => setFormData((p) => ({ ...p, image: preset.url }))}
                       className={`px-3 py-1 rounded-xl text-xs font-medium border transition-colors cursor-pointer ${
                         formData.image === preset.url
-                          ? 'bg-amber-100 border-amber-400 text-amber-900 font-bold'
-                          : 'bg-stone-50 border-stone-200 text-stone-600 hover:bg-stone-100'
+                          ? 'bg-amber-100 dark:bg-amber-950/70 border-amber-400 dark:border-amber-600 text-amber-900 dark:text-amber-200 font-bold'
+                          : 'bg-stone-50 dark:bg-stone-800 border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-750'
                       }`}
                     >
                       {preset.label}
@@ -579,7 +579,7 @@ export default function CreateEditRecipe() {
 
               {/* Image Preview Box */}
               {formData.image && (
-                <div className="mt-3 aspect-video sm:aspect-[21/9] rounded-2xl overflow-hidden bg-stone-100 border border-stone-200 relative">
+                <div className="mt-3 aspect-video sm:aspect-[21/9] rounded-2xl overflow-hidden bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 relative">
                   <img
                     src={formData.image}
                     alt="Recipe preview"
@@ -588,7 +588,7 @@ export default function CreateEditRecipe() {
                       e.target.src = 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=800&q=80';
                     }}
                   />
-                  <span className="absolute bottom-2 right-2 px-2.5 py-1 rounded-lg bg-stone-900/70 text-white text-[10px] font-bold">
+                  <span className="absolute bottom-2 right-2 px-2.5 py-1 rounded-lg bg-stone-900/80 text-white text-[10px] font-bold">
                     Live Photo Preview
                   </span>
                 </div>
@@ -596,7 +596,7 @@ export default function CreateEditRecipe() {
             </div>
 
             <div className="pt-2">
-              <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
                 Recipe Video URL (Optional - YouTube or MP4)
               </label>
               <div className="flex flex-col sm:flex-row gap-2">
@@ -606,9 +606,9 @@ export default function CreateEditRecipe() {
                   value={formData.videoUrl}
                   onChange={handleChange}
                   placeholder="e.g., https://www.youtube.com/watch?v=... or upload video"
-                  className="flex-1 px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-sm text-stone-800 focus:outline-none"
+                  className="flex-1 px-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-sm text-stone-800 dark:text-stone-200 focus:outline-none"
                 />
-                <label className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-stone-800 hover:bg-stone-900 text-white rounded-xl text-xs font-semibold shadow-xs cursor-pointer transition-colors shrink-0">
+                <label className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-stone-800 dark:bg-stone-700 hover:bg-stone-900 dark:hover:bg-stone-600 text-white rounded-xl text-xs font-semibold shadow-xs cursor-pointer transition-colors shrink-0">
                   {uploadingVideo ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
@@ -633,9 +633,9 @@ export default function CreateEditRecipe() {
           </div>
 
           {/* Dietary Tags */}
-          <div className="space-y-3 pt-6 border-t border-stone-100">
-            <h3 className="text-base font-bold text-stone-900">Dietary Badges</h3>
-            <p className="text-xs text-stone-500">Select any that apply to help users find this recipe:</p>
+          <div className="space-y-3 pt-6 border-t border-stone-100 dark:border-stone-800">
+            <h3 className="text-base font-bold text-stone-900 dark:text-stone-100">Dietary Badges</h3>
+            <p className="text-xs text-stone-500 dark:text-stone-400">Select any that apply to help users find this recipe:</p>
             <div className="flex flex-wrap gap-2">
               {availableTags.map((tag) => {
                 const selected = formData.dietaryTags.includes(tag);
@@ -646,8 +646,8 @@ export default function CreateEditRecipe() {
                     onClick={() => toggleDietaryTag(tag)}
                     className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-colors cursor-pointer ${
                       selected
-                        ? 'bg-emerald-100 text-emerald-900 border-emerald-300'
-                        : 'bg-stone-50 text-stone-600 border-stone-200 hover:bg-stone-100'
+                        ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-900 dark:text-emerald-300 border-emerald-300 dark:border-emerald-700'
+                        : 'bg-stone-50 dark:bg-stone-800 text-stone-600 dark:text-stone-300 border-stone-200 dark:border-stone-700 hover:bg-stone-100 dark:hover:bg-stone-750'
                     }`}
                   >
                     {selected ? '✓ ' : ''}{tag}
@@ -658,18 +658,18 @@ export default function CreateEditRecipe() {
           </div>
 
           {/* Ingredients Builder */}
-          <div className="space-y-4 pt-6 border-t border-stone-100">
+          <div className="space-y-4 pt-6 border-t border-stone-100 dark:border-stone-800">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-base font-bold text-stone-900">Ingredients List *</h3>
-                <p className="text-xs text-stone-500 mt-0.5">
+                <h3 className="text-base font-bold text-stone-900 dark:text-stone-100">Ingredients List *</h3>
+                <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
                   Specify ingredient names, amounts, and units (e.g., 400 g Spaghetti)
                 </p>
               </div>
               <button
                 type="button"
                 onClick={addIngredientRow}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 text-xs font-bold transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/50 hover:bg-amber-100 dark:hover:bg-amber-900/60 text-amber-800 dark:text-amber-300 text-xs font-bold transition-colors cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>Add Ingredient</span>
@@ -678,14 +678,14 @@ export default function CreateEditRecipe() {
 
             <div className="space-y-2.5">
               {formData.ingredients.map((ing, idx) => (
-                <div key={idx} className="flex items-center gap-2 p-2 rounded-2xl bg-stone-50 border border-stone-200">
+                <div key={idx} className="flex items-center gap-2 p-2 rounded-2xl bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-800">
                   <input
                     type="text"
                     required
                     value={ing.name}
                     onChange={(e) => handleIngredientChange(idx, 'name', e.target.value)}
                     placeholder="Ingredient name (e.g. Olive Oil)"
-                    className="flex-3 px-3 py-2 rounded-xl bg-white border border-stone-200 text-xs font-semibold text-stone-900 focus:outline-none"
+                    className="flex-3 px-3 py-2 rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs font-semibold text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none"
                   />
                   <input
                     type="number"
@@ -695,26 +695,26 @@ export default function CreateEditRecipe() {
                     value={ing.quantity}
                     onChange={(e) => handleIngredientChange(idx, 'quantity', e.target.value)}
                     placeholder="Qty"
-                    className="w-20 px-2 py-2 rounded-xl bg-white border border-stone-200 text-xs font-semibold text-stone-900 focus:outline-none text-center"
+                    className="w-20 px-2 py-2 rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs font-semibold text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none text-center"
                   />
                   <input
                     type="text"
                     value={ing.unit}
                     onChange={(e) => handleIngredientChange(idx, 'unit', e.target.value)}
                     placeholder="Unit (g, tbsp, cups)"
-                    className="w-28 px-2 py-2 rounded-xl bg-white border border-stone-200 text-xs font-semibold text-stone-900 focus:outline-none text-center"
+                    className="w-28 px-2 py-2 rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs font-semibold text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none text-center"
                   />
                   <input
                     type="text"
                     value={ing.notes}
                     onChange={(e) => handleIngredientChange(idx, 'notes', e.target.value)}
                     placeholder="Notes (optional)"
-                    className="hidden sm:block flex-2 px-3 py-2 rounded-xl bg-white border border-stone-200 text-xs text-stone-600 focus:outline-none"
+                    className="hidden sm:block flex-2 px-3 py-2 rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs text-stone-600 dark:text-stone-300 placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none"
                   />
                   <button
                     type="button"
                     onClick={() => removeIngredientRow(idx)}
-                    className="p-2 text-stone-400 hover:text-rose-600 cursor-pointer"
+                    className="p-2 text-stone-400 dark:text-stone-500 hover:text-rose-600 dark:hover:text-rose-400 cursor-pointer transition-colors"
                     title="Remove item"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -725,18 +725,18 @@ export default function CreateEditRecipe() {
           </div>
 
           {/* Instructions Builder */}
-          <div className="space-y-4 pt-6 border-t border-stone-100">
+          <div className="space-y-4 pt-6 border-t border-stone-100 dark:border-stone-800">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-base font-bold text-stone-900">Step-by-Step Instructions *</h3>
-                <p className="text-xs text-stone-500 mt-0.5">
+                <h3 className="text-base font-bold text-stone-900 dark:text-stone-100">Step-by-Step Instructions *</h3>
+                <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
                   Add clear steps and optional timer durations (in minutes) for countdowns
                 </p>
               </div>
               <button
                 type="button"
                 onClick={addInstructionRow}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 text-xs font-bold transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/50 hover:bg-amber-100 dark:hover:bg-amber-900/60 text-amber-800 dark:text-amber-300 text-xs font-bold transition-colors cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>Add Step</span>
@@ -745,28 +745,28 @@ export default function CreateEditRecipe() {
 
             <div className="space-y-3">
               {formData.instructions.map((inst, idx) => (
-                <div key={idx} className="p-4 rounded-2xl bg-stone-50 border border-stone-200 space-y-2.5">
+                <div key={idx} className="p-4 rounded-2xl bg-stone-50 dark:bg-stone-850 border border-stone-200 dark:border-stone-800 space-y-2.5">
                   <div className="flex items-center justify-between gap-3">
-                    <span className="font-extrabold text-xs text-amber-800 uppercase tracking-wider">
+                    <span className="font-extrabold text-xs text-amber-800 dark:text-amber-400 uppercase tracking-wider">
                       Step {idx + 1}
                     </span>
                     <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-1.5 bg-white px-2.5 py-1 rounded-xl border border-stone-200">
-                        <Clock className="w-3.5 h-3.5 text-amber-600" />
-                        <span className="text-[11px] text-stone-600 font-semibold">Timer:</span>
+                      <div className="flex items-center gap-1.5 bg-white dark:bg-stone-800 px-2.5 py-1 rounded-xl border border-stone-200 dark:border-stone-700">
+                        <Clock className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                        <span className="text-[11px] text-stone-600 dark:text-stone-400 font-semibold">Timer:</span>
                         <input
                           type="number"
                           min="0"
                           value={inst.timerMinutes || 0}
                           onChange={(e) => handleInstructionChange(idx, 'timerMinutes', e.target.value)}
-                          className="w-12 text-center text-xs font-bold text-amber-800 focus:outline-none"
+                          className="w-12 text-center text-xs font-bold text-amber-800 dark:text-amber-300 focus:outline-none"
                         />
-                        <span className="text-[11px] text-stone-500">min</span>
+                        <span className="text-[11px] text-stone-500 dark:text-stone-400">min</span>
                       </div>
                       <button
                         type="button"
                         onClick={() => removeInstructionRow(idx)}
-                        className="p-1.5 text-stone-400 hover:text-rose-600 cursor-pointer"
+                        className="p-1.5 text-stone-400 dark:text-stone-500 hover:text-rose-600 dark:hover:text-rose-400 cursor-pointer transition-colors"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -778,7 +778,7 @@ export default function CreateEditRecipe() {
                     value={inst.title}
                     onChange={(e) => handleInstructionChange(idx, 'title', e.target.value)}
                     placeholder="Step Title (e.g. Crisp the Bacon)"
-                    className="w-full px-3 py-2 rounded-xl bg-white border border-stone-200 text-xs font-bold text-stone-900 focus:outline-none"
+                    className="w-full px-3 py-2 rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs font-bold text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none"
                   />
 
                   <textarea
@@ -787,7 +787,7 @@ export default function CreateEditRecipe() {
                     value={inst.instruction}
                     onChange={(e) => handleInstructionChange(idx, 'instruction', e.target.value)}
                     placeholder="Explain exactly what the cook needs to do in this step..."
-                    className="w-full p-3 rounded-xl bg-white border border-stone-200 text-xs text-stone-800 focus:outline-none"
+                    className="w-full p-3 rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-xs text-stone-800 dark:text-stone-200 placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none"
                   />
                 </div>
               ))}
@@ -795,20 +795,20 @@ export default function CreateEditRecipe() {
           </div>
 
           {/* Chef Contact Details for this Recipe */}
-          <div className="space-y-4 pt-6 border-t border-stone-100">
+          <div className="space-y-4 pt-6 border-t border-stone-100 dark:border-stone-800">
             <div>
               <div className="flex items-center gap-2">
-                <ChefHat className="w-4 h-4 text-amber-700" />
-                <h3 className="text-base font-bold text-stone-900">Chef Contact Details (Displayed Under Recipe)</h3>
+                <ChefHat className="w-4 h-4 text-amber-700 dark:text-amber-400" />
+                <h3 className="text-base font-bold text-stone-900 dark:text-stone-100">Chef Contact Details (Displayed Under Recipe)</h3>
               </div>
-              <p className="text-xs text-stone-500 mt-0.5">
+              <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
                 These contact details are shown under this recipe so food lovers can reach out for questions, private dining, or catering.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5 rounded-2xl bg-amber-50/40 border border-amber-200/60">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5 rounded-2xl bg-amber-50/40 dark:bg-amber-950/20 border border-amber-200/60 dark:border-amber-800/40">
               <div>
-                <label className="block text-xs font-semibold text-stone-700 mb-1">
+                <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
                   Contact Email
                 </label>
                 <div className="relative">
@@ -822,14 +822,14 @@ export default function CreateEditRecipe() {
                       }))
                     }
                     placeholder={user?.email || 'chef@recipehaven.com'}
-                    className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                    className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
                   />
-                  <Mail className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <Mail className="w-3.5 h-3.5 text-stone-400 dark:text-stone-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-stone-700 mb-1">
+                <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
                   Phone / WhatsApp (Optional)
                 </label>
                 <div className="relative">
@@ -843,14 +843,14 @@ export default function CreateEditRecipe() {
                       }))
                     }
                     placeholder="+1 (555) 234-5678"
-                    className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                    className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
                   />
-                  <Phone className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <Phone className="w-3.5 h-3.5 text-stone-400 dark:text-stone-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-stone-700 mb-1">
+                <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
                   Studio Location (Optional)
                 </label>
                 <div className="relative">
@@ -864,14 +864,14 @@ export default function CreateEditRecipe() {
                       }))
                     }
                     placeholder="e.g. San Francisco, CA"
-                    className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                    className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
                   />
-                  <MapPin className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <MapPin className="w-3.5 h-3.5 text-stone-400 dark:text-stone-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-stone-700 mb-1">
+                <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
                   Instagram / Social (Optional)
                 </label>
                 <input
@@ -884,12 +884,12 @@ export default function CreateEditRecipe() {
                     }))
                   }
                   placeholder="@culinary_chef"
-                  className="w-full px-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                  className="w-full px-3 py-2 text-xs rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
                 />
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block text-xs font-semibold text-stone-700 mb-1">
+                <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1">
                   Website / Portfolio (Optional)
                 </label>
                 <div className="relative">
@@ -903,19 +903,19 @@ export default function CreateEditRecipe() {
                       }))
                     }
                     placeholder="https://chefkitchen.com"
-                    className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white border border-stone-200 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
+                    className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-amber-500/20"
                   />
-                  <Globe className="w-3.5 h-3.5 text-stone-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <Globe className="w-3.5 h-3.5 text-stone-400 dark:text-stone-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
               </div>
             </div>
           </div>
 
           {/* Submit Actions */}
-          <div className="pt-8 border-t border-stone-200 flex items-center justify-end gap-3">
+          <div className="pt-8 border-t border-stone-200 dark:border-stone-800 flex items-center justify-end gap-3">
             <Link
               to="/recipes"
-              className="px-5 py-3 rounded-2xl border border-stone-200 text-stone-700 font-bold text-sm hover:bg-stone-50 transition-colors"
+              className="px-5 py-3 rounded-2xl border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-300 font-bold text-sm hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors"
             >
               Cancel
             </Link>

@@ -26,9 +26,9 @@ export default function RecipeCard({ recipe, onFavoriteToggle, onBookmarkToggle 
   const totalTime = (recipe.prepTime || 0) + (recipe.cookTime || 0);
 
   const difficultyColors = {
-    Easy: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-    Medium: 'bg-amber-100 text-amber-800 border-amber-200',
-    Hard: 'bg-rose-100 text-rose-800 border-rose-200',
+    Easy: 'bg-emerald-100 dark:bg-emerald-950/70 text-emerald-800 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800',
+    Medium: 'bg-amber-100 dark:bg-amber-950/70 text-amber-800 dark:text-amber-300 border-amber-200 dark:border-amber-800',
+    Hard: 'bg-rose-100 dark:bg-rose-950/70 text-rose-800 dark:text-rose-300 border-rose-200 dark:border-rose-800',
   };
 
   const handleFavoriteClick = async (e) => {
@@ -87,9 +87,9 @@ export default function RecipeCard({ recipe, onFavoriteToggle, onBookmarkToggle 
   const fallbackImage = 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=800&q=80';
 
   return (
-    <div className="group relative bg-white rounded-3xl border border-stone-200/80 shadow-xs hover:shadow-xl hover:border-amber-200/90 transition-all duration-300 flex flex-col overflow-hidden">
+    <div className="group relative bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 shadow-xs hover:shadow-xl hover:border-amber-400 dark:hover:border-amber-600 transition-all duration-300 flex flex-col overflow-hidden">
       {/* Recipe Image & Top Overlays */}
-      <Link to={`/recipes/${recipe._id}`} className="relative block aspect-[4/3] overflow-hidden bg-stone-100">
+      <Link to={`/recipes/${recipe._id}`} className="relative block aspect-[4/3] overflow-hidden bg-stone-100 dark:bg-stone-800">
         <img
           src={imgError ? fallbackImage : recipe.image || fallbackImage}
           alt={recipe.title}
@@ -103,7 +103,7 @@ export default function RecipeCard({ recipe, onFavoriteToggle, onBookmarkToggle 
 
         {/* Top Badges */}
         <div className="absolute top-3 left-3 flex flex-wrap items-center gap-1.5 z-10">
-          <span className="px-2.5 py-1 rounded-xl bg-white/90 backdrop-blur-md text-[11px] font-bold text-stone-900 shadow-xs">
+          <span className="px-2.5 py-1 rounded-xl bg-white/90 dark:bg-stone-900/90 backdrop-blur-md text-[11px] font-bold text-stone-900 dark:text-stone-100 shadow-xs">
             {recipe.cuisine}
           </span>
           <span
@@ -142,7 +142,7 @@ export default function RecipeCard({ recipe, onFavoriteToggle, onBookmarkToggle 
             className={`p-2 rounded-2xl backdrop-blur-md transition-all duration-200 shadow-sm ${
               isFavorited
                 ? 'bg-rose-500 text-white scale-105'
-                : 'bg-white/85 text-stone-700 hover:bg-white hover:text-rose-500'
+                : 'bg-white/85 dark:bg-stone-900/85 text-stone-700 dark:text-stone-200 hover:bg-white dark:hover:bg-stone-800 hover:text-rose-500'
             }`}
           >
             <Heart className={`w-4 h-4 ${isFavorited ? 'fill-current' : ''}`} />
@@ -154,7 +154,7 @@ export default function RecipeCard({ recipe, onFavoriteToggle, onBookmarkToggle 
             className={`p-2 rounded-2xl backdrop-blur-md transition-all duration-200 shadow-sm ${
               isBookmarked
                 ? 'bg-amber-500 text-white scale-105'
-                : 'bg-white/85 text-stone-700 hover:bg-white hover:text-amber-500'
+                : 'bg-white/85 dark:bg-stone-900/85 text-stone-700 dark:text-stone-200 hover:bg-white dark:hover:bg-stone-800 hover:text-amber-500'
             }`}
           >
             <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-current' : ''}`} />
@@ -185,28 +185,28 @@ export default function RecipeCard({ recipe, onFavoriteToggle, onBookmarkToggle 
       <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
         <div>
           {/* Rating and Meal Type */}
-          <div className="flex items-center justify-between text-xs text-stone-500 mb-2">
-            <span className="font-medium text-amber-700 uppercase tracking-wider text-[10px]">
+          <div className="flex items-center justify-between text-xs text-stone-500 dark:text-stone-400 mb-2">
+            <span className="font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wider text-[10px]">
               {recipe.mealType || 'Dinner'}
             </span>
-            <div className="flex items-center gap-1 text-amber-600 font-bold">
+            <div className="flex items-center gap-1 text-amber-600 dark:text-amber-400 font-bold">
               <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
               <span>{recipe.averageRating ? recipe.averageRating.toFixed(1) : '5.0'}</span>
-              <span className="text-stone-400 text-[11px] font-normal">
+              <span className="text-stone-400 dark:text-stone-500 text-[11px] font-normal">
                 ({recipe.ratingsCount || recipe.reviews?.length || 1})
               </span>
             </div>
           </div>
 
           {/* Title */}
-          <Link to={`/recipes/${recipe._id}`} className="block group-hover:text-amber-700 transition-colors">
-            <h3 className="font-bold text-base sm:text-lg text-stone-900 line-clamp-1 leading-snug">
+          <Link to={`/recipes/${recipe._id}`} className="block group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+            <h3 className="font-bold text-base sm:text-lg text-stone-900 dark:text-stone-100 line-clamp-1 leading-snug">
               {recipe.title}
             </h3>
           </Link>
 
           {/* Description */}
-          <p className="text-xs sm:text-sm text-stone-600 line-clamp-2 mt-1.5 leading-relaxed font-normal">
+          <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 line-clamp-2 mt-1.5 leading-relaxed font-normal">
             {recipe.description}
           </p>
 
@@ -216,13 +216,13 @@ export default function RecipeCard({ recipe, onFavoriteToggle, onBookmarkToggle 
               {recipe.dietaryTags.slice(0, 3).map((tag, i) => (
                 <span
                   key={i}
-                  className="px-2 py-0.5 rounded-lg bg-stone-100 text-stone-600 text-[10px] font-medium"
+                  className="px-2 py-0.5 rounded-lg bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 text-[10px] font-medium"
                 >
                   {tag}
                 </span>
               ))}
               {recipe.dietaryTags.length > 3 && (
-                <span className="px-1.5 py-0.5 rounded-lg bg-stone-100 text-stone-500 text-[10px]">
+                <span className="px-1.5 py-0.5 rounded-lg bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 text-[10px]">
                   +{recipe.dietaryTags.length - 3}
                 </span>
               )}
@@ -231,21 +231,21 @@ export default function RecipeCard({ recipe, onFavoriteToggle, onBookmarkToggle 
         </div>
 
         {/* Footer: Author & View Recipe button */}
-        <div className="pt-4 mt-4 border-t border-stone-100 flex items-center justify-between">
+        <div className="pt-4 mt-4 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between">
           <div className="flex items-center gap-2 min-w-0">
             <img
               src={recipe.author?.avatar || recipe.authorAvatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'}
               alt={recipe.author?.name || recipe.authorName || 'Chef'}
               className="w-6 h-6 rounded-full object-cover shrink-0"
             />
-            <span className="text-xs font-medium text-stone-600 truncate">
+            <span className="text-xs font-medium text-stone-600 dark:text-stone-400 truncate">
               {recipe.author?.name || recipe.authorName || 'Chef'}
             </span>
           </div>
 
           <Link
             to={`/recipes/${recipe._id}`}
-            className="text-xs font-bold text-amber-700 hover:text-amber-800 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
+            className="text-xs font-bold text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
           >
             Cook Now &rarr;
           </Link>

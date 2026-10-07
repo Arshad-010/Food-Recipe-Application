@@ -167,11 +167,11 @@ export default function ShoppingList() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight flex items-center gap-2.5">
-            <ShoppingBag className="w-8 h-8 text-emerald-600" />
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-stone-100 tracking-tight flex items-center gap-2.5">
+            <ShoppingBag className="w-8 h-8 text-emerald-600 dark:text-emerald-500" />
             Interactive Shopping List
           </h1>
-          <p className="text-stone-500 text-sm mt-1">
+          <p className="text-stone-500 dark:text-stone-400 text-sm mt-1">
             Check off groceries as you shop. Ingredients added from recipes appear here automatically.
           </p>
         </div>
@@ -181,16 +181,16 @@ export default function ShoppingList() {
             <button
               type="button"
               onClick={handleMergeDuplicates}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-stone-200 bg-white hover:bg-stone-50 text-stone-700 font-bold text-xs transition-colors cursor-pointer shadow-2xs"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-800 hover:bg-stone-50 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-200 font-bold text-xs transition-colors cursor-pointer shadow-2xs"
               title="Combine repeated ingredients by quantity"
             >
-              <ListFilter className="w-3.5 h-3.5 text-amber-600" />
+              <ListFilter className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
               <span>Merge Duplicates</span>
             </button>
             <button
               type="button"
               onClick={copyListToClipboard}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 font-bold text-xs transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-200 font-bold text-xs transition-colors cursor-pointer"
             >
               <Copy className="w-3.5 h-3.5" />
               <span>Copy List</span>
@@ -198,7 +198,7 @@ export default function ShoppingList() {
             <button
               type="button"
               onClick={handleClearAll}
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-950/70 text-rose-700 dark:text-rose-400 font-bold text-xs transition-colors cursor-pointer"
             >
               <Trash2 className="w-3.5 h-3.5" />
               <span>Clear All</span>
@@ -210,7 +210,7 @@ export default function ShoppingList() {
       {/* Quick Add Custom Item Box */}
       <form
         onSubmit={handleAddCustomItem}
-        className="p-4 sm:p-5 rounded-3xl bg-white border border-stone-200/90 shadow-xs mb-8 flex flex-col sm:flex-row items-center gap-2.5"
+        className="p-4 sm:p-5 rounded-3xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 shadow-xs mb-8 flex flex-col sm:flex-row items-center gap-2.5"
       >
         <input
           type="text"
@@ -218,7 +218,7 @@ export default function ShoppingList() {
           value={newItemName}
           onChange={(e) => setNewItemName(e.target.value)}
           placeholder="Add custom grocery item (e.g., Organic Milk, Olive Oil)..."
-          className="flex-3 w-full px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+          className="flex-3 w-full px-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-100 placeholder:text-stone-400 dark:placeholder:text-stone-500 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
         />
         <div className="flex items-center gap-2 w-full sm:w-auto">
           <input
@@ -226,14 +226,14 @@ export default function ShoppingList() {
             value={newItemQty}
             onChange={(e) => setNewItemQty(e.target.value)}
             placeholder="Qty"
-            className="w-20 px-3 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-sm text-center focus:outline-none"
+            className="w-20 px-3 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-100 text-sm text-center focus:outline-none"
           />
           <input
             type="text"
             value={newItemUnit}
             onChange={(e) => setNewItemUnit(e.target.value)}
             placeholder="Unit"
-            className="w-24 px-3 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-sm text-center focus:outline-none"
+            className="w-24 px-3 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-900 dark:text-stone-100 text-sm text-center focus:outline-none"
           />
           <button
             type="submit"
@@ -248,20 +248,20 @@ export default function ShoppingList() {
 
       {/* Progress Counter & Clear Completed button */}
       {items.length > 0 && (
-        <div className="flex items-center justify-between pb-4 border-b border-stone-200 mb-6">
-          <div className="flex items-center gap-3 text-xs font-semibold text-stone-600">
-            <span className="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold">
+        <div className="flex items-center justify-between pb-4 border-b border-stone-200 dark:border-stone-800 mb-6">
+          <div className="flex items-center gap-3 text-xs font-semibold text-stone-600 dark:text-stone-400">
+            <span className="px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 font-bold">
               {remainingCount} To Buy
             </span>
             <span>•</span>
-            <span className="text-stone-400">{completedCount} Checked Off</span>
+            <span className="text-stone-400 dark:text-stone-500">{completedCount} Checked Off</span>
           </div>
 
           {completedCount > 0 && (
             <button
               type="button"
               onClick={handleClearCompleted}
-              className="text-xs font-bold text-stone-500 hover:text-stone-800 cursor-pointer"
+              className="text-xs font-bold text-stone-500 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200 cursor-pointer"
             >
               Clear Completed ({completedCount})
             </button>
@@ -273,7 +273,7 @@ export default function ShoppingList() {
       {loading ? (
         <div className="space-y-4">
           {[1, 2, 3].map((n) => (
-            <div key={n} className="h-20 bg-stone-100 rounded-2xl animate-pulse" />
+            <div key={n} className="h-20 bg-stone-100 dark:bg-stone-800 rounded-2xl animate-pulse" />
           ))}
         </div>
       ) : items.length > 0 ? (
@@ -281,19 +281,19 @@ export default function ShoppingList() {
           {Object.entries(groupedItems).map(([recipeTitle, groupList]) => (
             <div
               key={recipeTitle}
-              className="p-5 rounded-3xl bg-white border border-stone-200/90 shadow-2xs space-y-3"
+              className="p-5 rounded-3xl bg-white dark:bg-stone-900 border border-stone-200/90 dark:border-stone-800 shadow-2xs space-y-3"
             >
-              <div className="flex items-center justify-between border-b border-stone-100 pb-2">
-                <span className="font-extrabold text-sm text-stone-900 flex items-center gap-2">
-                  <Utensils className="w-4 h-4 text-amber-600" />
+              <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-2">
+                <span className="font-extrabold text-sm text-stone-900 dark:text-stone-100 flex items-center gap-2">
+                  <Utensils className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                   {recipeTitle}
                 </span>
-                <span className="text-xs text-stone-400 font-semibold">
+                <span className="text-xs text-stone-400 dark:text-stone-500 font-semibold">
                   {groupList.length} items
                 </span>
               </div>
 
-              <ul className="divide-y divide-stone-100">
+              <ul className="divide-y divide-stone-100 dark:divide-stone-800">
                 {groupList.map((item) => (
                   <li
                     key={item._id}
@@ -308,7 +308,7 @@ export default function ShoppingList() {
                         className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 transition-all ${
                           item.isChecked
                             ? 'bg-emerald-500 text-white'
-                            : 'border-2 border-stone-300 group-hover:border-emerald-500 text-transparent'
+                            : 'border-2 border-stone-300 dark:border-stone-600 group-hover:border-emerald-500 text-transparent'
                         }`}
                       >
                         <Check className="w-3.5 h-3.5 stroke-[3]" />
@@ -316,12 +316,12 @@ export default function ShoppingList() {
                       <span
                         className={`text-sm font-medium transition-colors ${
                           item.isChecked
-                            ? 'line-through text-stone-400'
-                            : 'text-stone-900 font-semibold'
+                            ? 'line-through text-stone-400 dark:text-stone-500'
+                            : 'text-stone-900 dark:text-stone-100 font-semibold'
                         }`}
                       >
                         {item.quantity && (
-                          <span className="font-bold text-amber-800 mr-1.5">
+                          <span className="font-bold text-amber-800 dark:text-amber-400 mr-1.5">
                             {item.quantity} {item.unit}
                           </span>
                         )}
@@ -332,7 +332,7 @@ export default function ShoppingList() {
                     <button
                       type="button"
                       onClick={() => handleRemove(item._id)}
-                      className="p-1.5 text-stone-300 hover:text-rose-500 rounded-lg transition-colors cursor-pointer"
+                      className="p-1.5 text-stone-300 dark:text-stone-600 hover:text-rose-500 dark:hover:text-rose-400 rounded-lg transition-colors cursor-pointer"
                       title="Remove item"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -344,10 +344,10 @@ export default function ShoppingList() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-20 bg-white rounded-3xl border border-stone-200/80 p-8 shadow-xs">
-          <ShoppingBag className="w-16 h-16 text-stone-200 mx-auto mb-3" />
-          <h3 className="text-lg font-bold text-stone-800">Your shopping list is empty</h3>
-          <p className="text-sm text-stone-500 mt-1 max-w-sm mx-auto">
+        <div className="text-center py-20 bg-white dark:bg-stone-900 rounded-3xl border border-stone-200/80 dark:border-stone-800 p-8 shadow-xs">
+          <ShoppingBag className="w-16 h-16 text-stone-200 dark:text-stone-700 mx-auto mb-3" />
+          <h3 className="text-lg font-bold text-stone-800 dark:text-stone-100">Your shopping list is empty</h3>
+          <p className="text-sm text-stone-500 dark:text-stone-400 mt-1 max-w-sm mx-auto">
             Browse any recipe and click "Add All to Shopping List" or type custom groceries above.
           </p>
           <Link
